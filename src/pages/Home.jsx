@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import HoduLogo from '../assets/logo-hodu.svg';
-import UserIcon from '../assets/icon-user.svg';
-import CartIcon from '../assets/icon-shopping-cart.svg';
-import SearchIcon from '../assets/icon-search.svg';
-import { HeaderWrapper } from '../components/styles/HeaderStyle';
-import Header from '../components/Header';
+import React, { useState } from 'react';
+import Header from '../components/common/header/Header';
+import Banner from '../components/common/Banner';
+import ProductList from '../components/common/ProductList';
+import Top from '../components/common/Top';
+const Home = () => {
+  return (
+    <div>
+      <Header id='top' />
+      <Banner />
+      <ProductList />
+      <Top />
+    </div>
+  );
+};
 
-export default function Home() {
-	return (
-		<div>
-			<Header />
-			<article>
-				<h2>HOME</h2>
-			</article>
-		</div>
-	);
-}
+export default Home;
