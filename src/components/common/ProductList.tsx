@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { ProductListWrap, ProductWrap, Product, NextBtn } from './ProductStyle';
 
+interface Product {
+  product_id: string;
+  image: string;
+  store_name: string;
+  product_name: string;
+  price: number;
+}
+
+interface ProductListData {
+  results: Product[];
+  next: string;
+}
+
 export default function ProductList() {
-  const [data, setData] = useState([]);
-  const [nextPage, setNextPage] = useState('');
+  const [data, setData] = useState<Product[]>([]);
+  const [nextPage, setNextPage] = useState<string>('');
 
   useEffect(() => {
     fetchData();
@@ -12,7 +25,7 @@ export default function ProductList() {
   const fetchData = async () => {
     try {
       const response = await fetch('https://openmarket.weniv.co.kr/products/');
-      const data = await response.json();
+      const data: ProductListData = await response.json();
       setData(data.results);
       setNextPage(data.next);
     } catch (error) {
@@ -23,7 +36,7 @@ export default function ProductList() {
   const fetchNextPage = async () => {
     try {
       const response = await fetch(nextPage);
-      const data = await response.json();
+      const data: ProductListData = await response.json();
       setData((prevData) => [...prevData, ...data.results]);
       setNextPage(data.next);
     } catch (error) {

@@ -6,8 +6,16 @@ import Banner2 from '../../assets/banner_2.jpg';
 import Banner3 from '../../assets/banner_3.jpg';
 import Banner1 from '../../assets/banner_1.jpg';
 
-const EventBanner = () => {
-  const images = [Banner1, Banner2, Banner3];
+interface ImageSource {
+  default: string;
+}
+
+const EventBanner: React.FC = () => {
+  const images: ImageSource[] = [
+    { default: Banner1 },
+    { default: Banner2 },
+    { default: Banner3 },
+  ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleClickPrev = () => {
@@ -24,7 +32,7 @@ const EventBanner = () => {
 
   return (
     <BannerWrap className='event-banner'>
-      <img src={images[currentIndex]} alt='Event Banner' />
+      <img src={images[currentIndex].default} alt='Event Banner' />
       <button onClick={handleClickPrev}>
         <img src={LeftSwiper} alt='배너 다음 버튼' />
       </button>

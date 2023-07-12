@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Home from './pages/Home';
-import Cart from './pages/Cart';
+import Login from './pages/Login/Login.tsx';
+import Home from './pages/Home/Home.tsx';
+import Cart from './pages/Cart/Cart.tsx';
 import GlobalStyle from './styles/GlobalStyle';
 function App() {
   return (
