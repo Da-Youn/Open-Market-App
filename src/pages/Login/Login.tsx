@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormWrap, FormChangeBtn } from '../../components/common/Form';
 import HoduLogo from '../../assets/logo-hodu.svg';
@@ -10,28 +10,30 @@ import {
   LinkWrap,
 } from './LoginStyle';
 
+interface UserInput {
+  username: string;
+  password: string;
+  login_type: 'BUYER' | 'SELLER';
+}
+
 export default function Login() {
   const navigate = useNavigate();
-  // 로그인 정보 세팅
-  const [userInput, setUserInput] = useState({
+  const [userInput, setUserInput] = useState<UserInput>({
     username: '',
     password: '',
     login_type: 'BUYER',
   });
-  // 아이디 유효 검사
   let [idError, setIdError] = useState(false);
-  // 비밀번호 유효 검사
   let [pwError, setPwError] = useState(false);
-  // 로그인 유효 검사
   let [loginError, setLoginError] = useState('');
 
-  // 구매회원, 판매회원 구분
   const handleBuyerLogin = () => {
     setUserInput({
       ...userInput,
       login_type: 'BUYER',
     });
   };
+
   const handleSellerLogin = () => {
     setUserInput({
       ...userInput,
@@ -39,7 +41,7 @@ export default function Login() {
     });
   };
 
-  const handleLoginCheck = (e) => {
+  const handleLoginCheck = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim()) {
       setUserInput({
         ...userInput,
@@ -51,7 +53,7 @@ export default function Login() {
     }
   };
 
-  const handlePassWordCheck = (e) => {
+  const handlePassWordCheck = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim()) {
       setUserInput({
         ...userInput,
@@ -63,8 +65,7 @@ export default function Login() {
     }
   };
 
-  // 로그인 버튼 입력 시 유효성 검사
-  async function handleLoginSubmit(event) {
+  async function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (idError || pwError) {
@@ -72,7 +73,6 @@ export default function Login() {
     }
 
     try {
-      // Send the form data to the specified URL using async/await
       const response = await fetch(
         'https://openmarket.weniv.co.kr/accounts/login/',
         {
@@ -88,18 +88,14 @@ export default function Login() {
 
       if (response.ok) {
         alert(`${userInput.username}님, 반갑습니다.`);
-        // const token = json.user['token'];
-        // localStorage.setItem('token', token);
         navigate('/');
       } else {
         if (
           json.FAIL_Message ===
           '로그인 정보가 없습니다. 로그인 유형을 학인해주세요.'
         ) {
-          // 로그인 회원 유형 에러
           setLoginError('로그인 정보가 없습니다. 로그인 유형을 확인해주세요.');
         } else {
-          // 로그인 오류 에러 처리
           setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
         }
       }
@@ -107,6 +103,7 @@ export default function Login() {
       console.error('Error:', error);
     }
   }
+
   return (
     <LoginWrap>
       <h1>
