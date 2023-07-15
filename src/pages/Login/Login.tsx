@@ -2,8 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormWrap } from '../../components/common/Form';
 import HoduLogo from '../../assets/logo-hodu.svg';
-import FormChange from 'src/components/common/FormChange.tsx';
-import { LoginWrap, Input, LoginButton, LinkWrap } from './LoginStyle.tsx';
+import TypeChange from 'src/components/common/TypeChange';
+import { LoginWrap, Input, LoginButton, LinkWrap } from './LoginStyle';
 
 interface UserInput {
   username: string;
@@ -11,7 +11,7 @@ interface UserInput {
   login_type: 'BUYER' | 'SELLER';
 }
 
-export default function Login() {
+const Login: React.FC = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState<UserInput>({
     username: '',
@@ -87,39 +87,44 @@ export default function Login() {
 
   return (
     <LoginWrap>
-      <h1>
-        <Link to='/'>
-          <img src={HoduLogo} alt='호두 로고 이미지' />
-        </Link>
-      </h1>
-      <FormChange userInput={userInput} setUserInput={setUserInput} />
-      <FormWrap onSubmit={handleLoginSubmit}>
-        <Input
-          type='text'
-          placeholder='아이디'
-          onBlur={handleLoginCheck}
-          idError={idError}
-        />
-        {idError && <p>아이디를 입력해 주세요.</p>}
-        <Input
-          type='password'
-          placeholder='비밀번호'
-          onBlur={handlePassWordCheck}
-          idError={idError}
-        />
-        {pwError && <p>비밀번호를 입력해 주세요.</p>}
-        {loginError && <p>{loginError}</p>}
+      <header>
+        <h1>
+          <Link to='/'>
+            <img src={HoduLogo} alt='호두 로고 이미지' />
+          </Link>
+        </h1>
+      </header>
+      <main>
+        <TypeChange userInput={userInput} setUserInput={setUserInput} />
+        <FormWrap onSubmit={handleLoginSubmit}>
+          <Input
+            type='text'
+            placeholder='아이디'
+            onBlur={handleLoginCheck}
+            error={idError}
+          />
+          {idError && <p>아이디를 입력해 주세요.</p>}
+          <Input
+            type='password'
+            placeholder='비밀번호'
+            onBlur={handlePassWordCheck}
+            error={pwError}
+          />
+          {pwError && <p>비밀번호를 입력해 주세요.</p>}
+          {loginError && <p>{loginError}</p>}
 
-        <label className='input-error hidden'></label>
-        <LoginButton className='login-btn' type='submit'>
-          로그인
-        </LoginButton>
-      </FormWrap>
-      <LinkWrap>
-        <a>회원가입</a>
-        <p>|</p>
-        <a>비밀번호 찾기</a>
-      </LinkWrap>
+          <label className='input-error hidden'></label>
+          <LoginButton className='login-btn' type='submit'>
+            로그인
+          </LoginButton>
+        </FormWrap>
+        <LinkWrap>
+          <Link to='/account/signup'>회원가입</Link>
+          <p>|</p>
+          <a>비밀번호 찾기</a>
+        </LinkWrap>
+      </main>
     </LoginWrap>
   );
-}
+};
+export default Login;

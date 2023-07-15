@@ -7,12 +7,12 @@ interface UserInput {
   login_type: 'BUYER' | 'SELLER';
 }
 
-interface FormChangeProps {
+interface TypeChangeProps {
   userInput: UserInput;
   setUserInput: React.Dispatch<React.SetStateAction<UserInput>>;
 }
 
-const FormChange: React.FC<FormChangeProps> = ({ userInput, setUserInput }) => {
+const TypeChange: React.FC<TypeChangeProps> = ({ userInput, setUserInput }) => {
   const handleBuyerLogin = () => {
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
@@ -28,41 +28,42 @@ const FormChange: React.FC<FormChangeProps> = ({ userInput, setUserInput }) => {
   };
 
   return (
-    <FormChangeWrap>
+    <TypeChangeWrap>
       <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
-      <FormChangeBtn
-        className={`form-btn ${
+      <TypeChangeBtn
+        className={`type-btn ${
           userInput.login_type === 'BUYER' ? '' : 'disable'
         }`}
         type='button'
         onClick={handleBuyerLogin}
       >
         구매회원 로그인
-      </FormChangeBtn>
-      <FormChangeBtn
-        className={`form-btn ${
+      </TypeChangeBtn>
+      <TypeChangeBtn
+        className={`type-btn ${
           userInput.login_type === 'SELLER' ? '' : 'disable'
         }`}
         type='button'
         onClick={handleSellerLogin}
       >
         판매회원 로그인
-      </FormChangeBtn>
-    </FormChangeWrap>
+      </TypeChangeBtn>
+    </TypeChangeWrap>
   );
 };
 
-const FormChangeWrap = styled.div`
+const TypeChangeWrap = styled.div`
   display: flex;
   background-color: var(--primary);
+  width: 100%;
 `;
 
-const FormChangeBtn = styled.button`
+const TypeChangeBtn = styled.button`
   font-size: var(--font-md);
   z-index: 100;
 
-  &.form-btn {
-    width: 275px;
+  &.type-btn {
+    width: 100%;
     height: 70px;
     border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
@@ -79,4 +80,4 @@ const FormChangeBtn = styled.button`
   }
 `;
 
-export default FormChange;
+export default TypeChange;

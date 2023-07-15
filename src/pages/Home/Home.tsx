@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../../components/common/Header.tsx';
-import Banner from '../../components/common/Banner.tsx';
-import ProductList from '../../components/common/ProductList.tsx';
-import Top from '../../components/common/Top.tsx';
+import Header from '../../components/common/Header';
+import Banner from '../../components/common/Banner';
+import ProductList from '../../components/common/ProductList';
+import Top from '../../components/common/Top';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <>
       <Header id='top' />
@@ -13,4 +13,6 @@ export default function Home() {
       <Top />
     </>
   );
-}
+};
+
+export default Home;
