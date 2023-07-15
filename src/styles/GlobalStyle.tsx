@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
  :root{
-	--main-color: #21BF48 ;
+	--main-color: #F09A6A ;
 	--sub-color:#F2F2F2;
 	--border-color:#C4C4C4;
     --font-color: #333333;
