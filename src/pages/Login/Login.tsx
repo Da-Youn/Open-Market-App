@@ -1,14 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FormWrap, FormChangeBtn } from '../../components/common/Form';
+import { FormWrap } from '../../components/common/Form';
 import HoduLogo from '../../assets/logo-hodu.svg';
-import {
-  LoginWrap,
-  FormChangeWrap,
-  Input,
-  LoginButton,
-  LinkWrap,
-} from './LoginStyle';
+import FormChange from 'src/components/common/FormChange.tsx';
+import { LoginWrap, Input, LoginButton, LinkWrap } from './LoginStyle.tsx';
 
 interface UserInput {
   username: string;
@@ -23,30 +18,16 @@ export default function Login() {
     password: '',
     login_type: 'BUYER',
   });
-  let [idError, setIdError] = useState(false);
-  let [pwError, setPwError] = useState(false);
-  let [loginError, setLoginError] = useState('');
-
-  const handleBuyerLogin = () => {
-    setUserInput({
-      ...userInput,
-      login_type: 'BUYER',
-    });
-  };
-
-  const handleSellerLogin = () => {
-    setUserInput({
-      ...userInput,
-      login_type: 'SELLER',
-    });
-  };
+  const [idError, setIdError] = useState<boolean>(false);
+  const [pwError, setPwError] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>('');
 
   const handleLoginCheck = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim()) {
-      setUserInput({
-        ...userInput,
+      setUserInput((prevUserInput) => ({
+        ...prevUserInput,
         username: e.target.value.trim(),
-      });
+      }));
       setIdError(false);
     } else {
       setIdError(true);
@@ -55,10 +36,10 @@ export default function Login() {
 
   const handlePassWordCheck = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.trim()) {
-      setUserInput({
-        ...userInput,
+      setUserInput((prevUserInput) => ({
+        ...prevUserInput,
         password: e.target.value.trim(),
-      });
+      }));
       setPwError(false);
     } else {
       setPwError(true);
@@ -111,44 +92,20 @@ export default function Login() {
           <img src={HoduLogo} alt='호두 로고 이미지' />
         </Link>
       </h1>
-      <FormChangeWrap>
-        <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
-        <FormChangeBtn
-          className={`form-btn ${
-            userInput.login_type === 'BUYER' ? '' : 'disable'
-          }`}
-          type='button'
-          onClick={handleBuyerLogin}
-        >
-          구매회원 로그인
-        </FormChangeBtn>
-        <FormChangeBtn
-          className={`form-btn ${
-            userInput.login_type === 'SELLER' ? '' : 'disable'
-          }`}
-          type='button'
-          onClick={handleSellerLogin}
-        >
-          판매회원 로그인
-        </FormChangeBtn>
-      </FormChangeWrap>
+      <FormChange userInput={userInput} setUserInput={setUserInput} />
       <FormWrap onSubmit={handleLoginSubmit}>
         <Input
           type='text'
           placeholder='아이디'
           onBlur={handleLoginCheck}
-          borderColor={
-            idError ? 'var(--error-font-color)' : 'var(--border-color)'
-          }
+          idError={idError}
         />
         {idError && <p>아이디를 입력해 주세요.</p>}
         <Input
           type='password'
           placeholder='비밀번호'
           onBlur={handlePassWordCheck}
-          borderColor={
-            pwError ? 'var(--error-font-color)' : 'var(--border-color)'
-          }
+          idError={idError}
         />
         {pwError && <p>비밀번호를 입력해 주세요.</p>}
         {loginError && <p>{loginError}</p>}

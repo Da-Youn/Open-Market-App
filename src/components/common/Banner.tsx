@@ -69,16 +69,14 @@ const BannerWrap = styled.div`
     height: 50px;
     top: 50%;
     border-radius: 50%;
+    transform: translateY(-50%);
   }
 
   img + button {
-    transform: scaleX(-1);
     left: 56px;
-    transform: translateY(-50%);
   }
   button + button {
     right: 56px;
-    transform: translateY(-50%);
   }
 
   button:hover {

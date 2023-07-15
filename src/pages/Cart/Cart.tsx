@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../components/common/header/Header.tsx';
+import Header from '../../components/common/Header.tsx';
 
 export default function Cart() {
   return (

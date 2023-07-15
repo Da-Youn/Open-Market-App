@@ -12,15 +12,12 @@ const LoginWrap = styled.div`
   }
 `;
 
-const FormChangeWrap = styled.div`
-  display: flex;
-  background-color: var(--primary);
-`;
-
 const Input = styled.input`
   width: 480px;
   height: 60px;
-  border-bottom: 1px solid ${(props) => props.borderColor};
+  border-bottom: 1px solid
+    ${(props: { idError: boolean }) =>
+      props.idError ? 'var(--error-font-color)' : 'var(--border-color)'};
   margin-bottom: 10px;
 
   &::placeholder {
@@ -28,7 +25,6 @@ const Input = styled.input`
     color: var(--sub-font-color);
   }
 `;
-
 const LoginButton = styled(Button)`
   height: 480px;
   height: 60px;
@@ -43,4 +39,4 @@ const LinkWrap = styled.div`
   }
 `;
 
-export { LoginWrap, FormChangeWrap, Input, LoginButton, LinkWrap };
+export { LoginWrap, Input, LoginButton, LinkWrap };

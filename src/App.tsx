@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login/Login.tsx';
 import Home from './pages/Home/Home.tsx';
 import Cart from './pages/Cart/Cart.tsx';
-import GlobalStyle from './styles/GlobalStyle';
-function App() {
+import GlobalStyle from './styles/GlobalStyle.tsx';
+const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
@@ -16,5 +16,5 @@ function App() {
       </Router>
     </>
   );
-}
+};
 export default App;
