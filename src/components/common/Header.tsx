@@ -28,11 +28,11 @@ const Header: React.FC<HeaderProps> = ({ id }) => {
       </div>
 
       <div className='header-right'>
-        <Link to='/accounts/cart/'>
+        <Link to='/cart'>
           <img src={CartIcon} alt='장바구니 아이콘' />
           <p>장바구니</p>
         </Link>
-        <Link to='/accounts/login/'>
+        <Link to='/account/login'>
           <img src={UserIcon} alt='유저 아이콘' />
           <p>로그인</p>
         </Link>
