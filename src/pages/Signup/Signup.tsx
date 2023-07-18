@@ -9,7 +9,8 @@ import CheckOn from '../../assets/icon-check-on.svg';
 import CheckOff from '../../assets/icon-check-off.svg';
 import CheckBox from '../../assets/check-box.svg';
 import CheckFillBox from '../../assets/check-fill-box.svg';
-
+import DownArrow from '../../assets/icon-down-arrow.svg';
+import UpArrow from '../../assets/icon-up-arrow.svg';
 export interface SignupProps {}
 
 interface UserInput {
@@ -24,6 +25,19 @@ const Signup: React.FC<SignupProps> = () => {
     password: '',
     login_type: 'BUYER',
   });
+  const [arrowChange, setArrowChange] = useState(DownArrow);
+  const [view, setView] = useState(false);
+  const [firstPhoneNum, setFirstPhoneNum] = useState('010');
+  const handleDropdownView = () => {
+    if (view) {
+      setArrowChange(DownArrow);
+      setView(false);
+    } else {
+      setArrowChange(UpArrow);
+      setView(true);
+    }
+  };
+
   return (
     <SignupWrap>
       <header>
@@ -62,9 +76,36 @@ const Signup: React.FC<SignupProps> = () => {
             <PhoneNumberInput>
               <label htmlFor=''>휴대폰번호</label>
               <div>
-                <input type='number' />
-                <input type='number' />
-                <input type='number' />
+                <button
+                  type='button'
+                  onClick={handleDropdownView}
+                  className='phone-number'
+                >
+                  {firstPhoneNum}
+                  <img src={arrowChange} alt='' />
+                  {view && (
+                    <ul className='selectbox-option hide'>
+                      <li>
+                        <button type='button'>010</button>
+                      </li>
+                      <li>
+                        <button type='button'>011</button>
+                      </li>
+                      <li>
+                        <button type='button'>016</button>
+                      </li>
+                      <li>
+                        <button type='button'>017</button>
+                      </li>
+                      <li>
+                        <button type='button'>019</button>
+                      </li>
+                    </ul>
+                  )}
+                </button>
+
+                <input type='tel' />
+                <input type='tel' />
               </div>
             </PhoneNumberInput>
           </UserInfoWrap>
@@ -85,7 +126,7 @@ const Signup: React.FC<SignupProps> = () => {
 };
 
 const SignupWrap = styled.div`
-  margin: 130px auto 0;
+  margin: 130px auto;
   padding: 0 25px;
   header,
   main {
@@ -111,11 +152,45 @@ const SignupWrap = styled.div`
     margin-bottom: 10px;
   }
 
-  input {
+  input,
+  .phone-number {
     padding-left: 16px;
     height: 54px;
     border-radius: 5px;
     border: 1px solid var(--border-color);
+  }
+
+  .phone-number {
+    padding-left: 61px;
+    text-align: left;
+    position: relative;
+    img {
+      right: 14px;
+      vertical-align: bottom;
+    }
+    ul {
+      text-align: center;
+      height: 100px;
+      position: absolute;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      background-color: var(--primary-color);
+      overflow-y: scroll;
+      width: 100%;
+      left: 0;
+      top: 60px;
+    }
+
+    ul::-webkit-scrollbar {
+      background-color: var(--sub-color);
+      width: 18px;
+    }
+    ul::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: var(--border-color);
+      background-clip: padding-box;
+      border: 5px solid transparent;
+    }
   }
 `;
 
@@ -176,7 +251,8 @@ const PhoneNumberInput = styled.div`
   div {
     flex-direction: row;
     gap: 12px;
-    input {
+    input,
+    .phone-number {
       width: 100%;
     }
   }

@@ -30,6 +30,7 @@ const App: React.FC = () => {
 
 const Wrap = styled.div`
   min-width: 396px;
+  font-size: var(--font-sm);
 `;
 
 export default App;
