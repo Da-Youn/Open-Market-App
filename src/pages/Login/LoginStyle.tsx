@@ -19,7 +19,7 @@ const LoginWrap = styled.div`
   h1 {
     margin-bottom: 70px;
     img {
-      width: 238px;
+      width: 268px;
     }
   }
 `;

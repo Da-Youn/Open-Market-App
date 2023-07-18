@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormWrap } from '../../components/common/Form';
-import HoduLogo from '../../assets/logo-hodu.svg';
+import CoralLogo from '../../assets/logo-coral.png';
 import TypeChange from 'src/components/common/TypeChange';
 import { LoginWrap, Input, LoginButton, LinkWrap } from './LoginStyle';
 
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
       <header>
         <h1>
           <Link to='/'>
-            <img src={HoduLogo} alt='호두 로고 이미지' />
+            <img src={CoralLogo} alt='호두 로고 이미지' />
           </Link>
         </h1>
       </header>

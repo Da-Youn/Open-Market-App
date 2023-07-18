@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import HoduLogo from '../../assets/logo-hodu.svg';
+import CoralLogo from '../../assets/logo-coral.png';
 import UserIcon from '../../assets/icon-user.svg';
 import CartIcon from '../../assets/icon-shopping-cart.svg';
 import SearchIcon from '../../assets/icon-search.svg';
@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ id }) => {
       <div className='header-left'>
         <h1>
           <Link to='/'>
-            <img src={HoduLogo} alt='호두 로고 이미지' />
+            <img src={CoralLogo} alt='호두 로고 이미지' />
           </Link>
         </h1>
         <form>
@@ -54,11 +54,13 @@ export const HeaderWrapper = styled.header`
   }
 
   & .header-left {
+    gap: 26px;
     h1 {
       margin-right: 4px;
 
       img {
-        width: 124px;
+        width: 160px;
+        vertical-align: bottom;
       }
     }
 

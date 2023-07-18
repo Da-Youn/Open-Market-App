@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { FormWrap } from '../../components/common/Form';
 import FormChange from 'src/components/common/TypeChange';
-import HoduLogo from '../../assets/logo-hodu.svg';
+import CoralLogo from '../../assets/logo-coral.png';
 import CheckOn from '../../assets/icon-check-on.svg';
 import CheckOff from '../../assets/icon-check-off.svg';
 import CheckBox from '../../assets/check-box.svg';
@@ -69,7 +69,7 @@ const Signup: React.FC<SignupProps> = () => {
       <header>
         <h1>
           <Link to='/'>
-            <img src={HoduLogo} alt='호두 로고 이미지' />
+            <img src={CoralLogo} alt='호두 로고 이미지' />
           </Link>
         </h1>
       </header>
@@ -195,7 +195,7 @@ const SignupWrap = styled.div`
   h1 {
     margin-bottom: 70px;
     img {
-      width: 238px;
+      width: 268px;
     }
   }
 
