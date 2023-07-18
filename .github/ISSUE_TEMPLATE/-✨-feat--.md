@@ -8,15 +8,14 @@ assignees: ''
 ---
 
 ## Issue: [✨ Feat]
-Feature 작업사항 
+작업사항 이름
 
 ## Description
-설명 작성
+간단한 설명 작성
 
 ## Todo
-- [] todo 
-- [] todo
-- [] todo
+- [ ] todo 
+- [ ] todo
+- [ ] todo
 
-## ETX
-기타사항
+## ETC
