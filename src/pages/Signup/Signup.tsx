@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Button';
@@ -8,7 +8,7 @@ import HoduLogo from '../../assets/logo-hodu.svg';
 import CheckOn from '../../assets/icon-check-on.svg';
 import CheckOff from '../../assets/icon-check-off.svg';
 import CheckBox from '../../assets/check-box.svg';
-import CheckFillBox from '../../assets/check-fill-box.svg';
+import CheckBoxFilled from '../../assets/check-fill-box.svg';
 import DownArrow from '../../assets/icon-down-arrow.svg';
 import UpArrow from '../../assets/icon-up-arrow.svg';
 export interface SignupProps {}
@@ -25,9 +25,12 @@ const Signup: React.FC<SignupProps> = () => {
     password: '',
     login_type: 'BUYER',
   });
-  const [arrowChange, setArrowChange] = useState(DownArrow);
-  const [view, setView] = useState(false);
-  const [firstPhoneNum, setFirstPhoneNum] = useState('010');
+  const [arrowChange, setArrowChange] = useState<string>(DownArrow);
+  const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [view, setView] = useState<boolean>(false);
+  const [firstPhoneNum, setFirstPhoneNum] = useState<string>('010');
+
   const handleDropdownView = () => {
     if (view) {
       setArrowChange(DownArrow);
@@ -38,6 +41,29 @@ const Signup: React.FC<SignupProps> = () => {
     }
   };
 
+  const handleCheckBoxFilled = () => {
+    if (checked) {
+      setChecked(false);
+      setCheckBoxFiiled(CheckBox);
+    } else {
+      setChecked(true);
+      setCheckBoxFiiled(CheckBoxFilled);
+    }
+  };
+
+  const handleFirstPhonNumChange: MouseEventHandler<HTMLButtonElement> = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setFirstPhoneNum(e.currentTarget.innerHTML);
+    handleDropdownView();
+  };
+
+  const handleMaxlength = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length > 4) {
+      e.target.value = value.slice(0, 4);
+    }
+  };
   return (
     <SignupWrap>
       <header>
@@ -76,43 +102,69 @@ const Signup: React.FC<SignupProps> = () => {
             <PhoneNumberInput>
               <label htmlFor=''>휴대폰번호</label>
               <div>
-                <button
-                  type='button'
-                  onClick={handleDropdownView}
-                  className='phone-number'
-                >
-                  {firstPhoneNum}
-                  <img src={arrowChange} alt='' />
+                <FirstNumber>
+                  <button
+                    type='button'
+                    onClick={handleDropdownView}
+                    className='phone-number'
+                  >
+                    <span>{firstPhoneNum}</span>
+                    <img src={arrowChange} alt='' />
+                  </button>
                   {view && (
                     <ul className='selectbox-option hide'>
                       <li>
-                        <button type='button'>010</button>
+                        <button
+                          onClick={handleFirstPhonNumChange}
+                          type='button'
+                        >
+                          010
+                        </button>
                       </li>
                       <li>
-                        <button type='button'>011</button>
+                        <button
+                          onClick={handleFirstPhonNumChange}
+                          type='button'
+                        >
+                          011
+                        </button>
                       </li>
                       <li>
-                        <button type='button'>016</button>
+                        <button
+                          onClick={handleFirstPhonNumChange}
+                          type='button'
+                        >
+                          016
+                        </button>
                       </li>
                       <li>
-                        <button type='button'>017</button>
+                        <button
+                          onClick={handleFirstPhonNumChange}
+                          type='button'
+                        >
+                          017
+                        </button>
                       </li>
                       <li>
-                        <button type='button'>019</button>
+                        <button
+                          onClick={handleFirstPhonNumChange}
+                          type='button'
+                        >
+                          019
+                        </button>
                       </li>
                     </ul>
                   )}
-                </button>
-
-                <input type='tel' />
-                <input type='tel' />
+                </FirstNumber>
+                <input type='tel' onInput={handleMaxlength} />
+                <input type='tel' onInput={handleMaxlength} />
               </div>
             </PhoneNumberInput>
           </UserInfoWrap>
         </FormWrap>
         <CheckWrap>
-          <button>
-            <img src={CheckBox} alt='체크박스' />{' '}
+          <button onClick={handleCheckBoxFilled}>
+            <img src={checkBoxFiiled} alt='체크박스' />{' '}
           </button>
           <p>
             호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에
@@ -158,39 +210,6 @@ const SignupWrap = styled.div`
     height: 54px;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-  }
-
-  .phone-number {
-    padding-left: 61px;
-    text-align: left;
-    position: relative;
-    img {
-      right: 14px;
-      vertical-align: bottom;
-    }
-    ul {
-      text-align: center;
-      height: 100px;
-      position: absolute;
-      border-radius: 5px;
-      border: 1px solid var(--border-color);
-      background-color: var(--primary-color);
-      overflow-y: scroll;
-      width: 100%;
-      left: 0;
-      top: 60px;
-    }
-
-    ul::-webkit-scrollbar {
-      background-color: var(--sub-color);
-      width: 18px;
-    }
-    ul::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background-color: var(--border-color);
-      background-clip: padding-box;
-      border: 5px solid transparent;
-    }
   }
 `;
 
@@ -255,6 +274,61 @@ const PhoneNumberInput = styled.div`
     .phone-number {
       width: 100%;
     }
+  }
+
+  .phone-number {
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-right: 14px;
+
+    span {
+      flex: 9;
+    }
+    img {
+      flex: 1;
+      vertical-align: bottom;
+    }
+  }
+`;
+
+const FirstNumber = styled.div`
+  position: relative;
+  width: 100%;
+  ul {
+    text-align: center;
+    height: 150px;
+    position: absolute;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--primary-color);
+    overflow-y: scroll;
+    width: 100%;
+    left: 0;
+    top: 60px;
+
+    li {
+      button {
+        width: 100%;
+        padding: 5px 0;
+      }
+      button:hover {
+        background-color: var(--main-color);
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  ul::-webkit-scrollbar {
+    background-color: var(--sub-color);
+    width: 18px;
+  }
+  ul::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--border-color);
+    background-clip: padding-box;
+    border: 5px solid transparent;
   }
 `;
 
