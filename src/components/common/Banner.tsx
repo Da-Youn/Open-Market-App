@@ -1,56 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import styled from 'styled-components';
 import LeftSwiper from '../../assets/icon-swiper-1.svg';
 import RightSwiper from '../../assets/icon-swiper-2.svg';
-import Banner2 from '../../assets/banner_2.jpg';
-import Banner3 from '../../assets/banner_3.jpg';
-import Banner1 from '../../assets/banner_1.jpg';
-
-interface ImageSource {
-  default: string;
-}
+import images, { ImageSource } from '../../data/CarouselData'; // data.tsx에서 images 배열과 ImageSource 타입 가져오기
 
 const EventBanner: React.FC = () => {
-  const images: ImageSource[] = [
-    { default: Banner1 },
-    { default: Banner2 },
-    { default: Banner3 },
-  ];
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleClickPrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleClickNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1,
-    );
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
   };
 
   return (
     <BannerWrap className='event-banner'>
-      <img src={images[currentIndex].default} alt='Event Banner' />
-      <button onClick={handleClickPrev}>
-        <img src={LeftSwiper} alt='배너 다음 버튼' />
-      </button>
-      <button onClick={handleClickNext}>
-        <img src={RightSwiper} alt='배너 다음 버튼' />
-      </button>
-      <IndexWrap className='navigation'>
-        {images.map((_, index) => (
-          <div
-            key={index}
-            className={`circle ${currentIndex === index ? 'active' : ''}`}
-            onClick={() => setCurrentIndex(index)}
-          ></div>
-        ))}
-      </IndexWrap>
+      <Slider {...settings}>
+        {images.map(
+          (
+            image: ImageSource,
+            index: number, // 타입 명시
+          ) => (
+            <div key={index}>
+              <img src={image.default} alt='' />
+            </div>
+          ),
+        )}
+      </Slider>
     </BannerWrap>
   );
 };
+
+const PrevArrow: React.FC<{
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}> = ({ onClick }) => {
+  return (
+    <PrevArrowButton onClick={onClick} type='button'>
+      <img src={LeftSwiper} alt='배너 이전 버튼' />
+    </PrevArrowButton>
+  );
+};
+
+const NextArrow: React.FC<{
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}> = ({ onClick }) => {
+  return (
+    <NextArrowButton onClick={onClick} type='button'>
+      <img src={RightSwiper} alt='배너 다음 버튼' />
+    </NextArrowButton>
+  );
+};
+
+const PrevArrowButton = styled.button`
+  left: 56px;
+`;
+
+const NextArrowButton = styled.button`
+  right: 56px;
+`;
 
 const BannerWrap = styled.div`
   width: 100%;
@@ -59,7 +72,7 @@ const BannerWrap = styled.div`
 
   img {
     width: 100%;
-    height: 100%;
+    height: 500px;
     object-fit: cover;
   }
 
@@ -70,35 +83,26 @@ const BannerWrap = styled.div`
     top: 50%;
     border-radius: 50%;
     transform: translateY(-50%);
-  }
+    z-index: 1;
 
-  img + button {
-    left: 56px;
-  }
-  button + button {
-    right: 56px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   button:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
-`;
 
-const IndexWrap = styled.div`
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  & .circle {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #fff;
-  }
-  & .active {
-    background-color: black;
+  .slick-dots {
+    position: absolute;
+    bottom: 20px;
+
+    button::before {
+      color: var(--white);
+      opacity: 0.6;
+    }
   }
 `;
 
