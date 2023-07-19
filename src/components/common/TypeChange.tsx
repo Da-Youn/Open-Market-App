@@ -71,7 +71,7 @@ const TypeChangeBtn = styled.button`
     border-radius: 10px 10px 0 0;
     padding: 20px 0 38px;
     font-weight: 700;
-    background-color: var(--primary-color);
+    background-color: var(--white);
   }
 
   &.disable {

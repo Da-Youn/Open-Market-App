@@ -237,7 +237,7 @@ const IdInput = styled.div`
     box-sizing: border-box;
     height: 54px;
     padding: 0 32px;
-    color: var(--primary-color);
+    color: var(--white);
     border-radius: 5px;
     background: var(--main-color);
   }
@@ -302,7 +302,7 @@ const FirstNumber = styled.div`
     position: absolute;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    background-color: var(--primary-color);
+    background-color: var(--white);
     overflow-y: scroll;
     width: 100%;
     left: 0;
@@ -315,7 +315,7 @@ const FirstNumber = styled.div`
       }
       button:hover {
         background-color: var(--main-color);
-        color: var(--primary-color);
+        color: var(--white);
       }
     }
   }

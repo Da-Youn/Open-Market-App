@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import Cart from './pages/Cart/Cart';
-import GlobalStyle from './styles/GlobalStyle';
+import GlobalStyle from './style/GlobalStyle';
 import Signup from './pages/Signup/Signup';
 const App: React.FC = () => {
   return (

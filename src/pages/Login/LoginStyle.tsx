@@ -38,7 +38,6 @@ const Input = styled.input`
   }
 `;
 const LoginButton = styled(Button)`
-  max-width: 480px;
   height: 60px;
   margin-top: 20px;
 `;

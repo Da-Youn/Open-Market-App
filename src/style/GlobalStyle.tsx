@@ -18,13 +18,11 @@ const GlobalStyle = createGlobalStyle`
     --font-color: #333333;
     --sub-font-color: #767676;;
     --error-color: #EB5757;
-    --primary-color: #ffffff;
+    --white: #ffffff;
 	--font-xl : 36px;
 	--font-lg : 24px;
 	--font-md : 18px;
 	--font-sm : 16px;
-
-
   }
 
   .a11y-hidden {

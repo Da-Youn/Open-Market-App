@@ -8,7 +8,7 @@ const FormWrap = styled.form`
   border-radius: 10px;
   margin: -15px 0 30px;
   border: 1px solid var(--border-color);
-  background-color: var(--primary-color);
+  background-color: var(--white);
 
   p {
     margin-bottom: 6px;
