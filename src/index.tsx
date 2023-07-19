@@ -1,7 +1,10 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
 
-const container = document.getElementById('root');
-const root = createRoot(container!); // '!'를 사용하여 null이 아님을 확신합니다.
-root.render(<App />);
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
