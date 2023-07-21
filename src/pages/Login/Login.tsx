@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormWrap } from '../../components/common/Form';
 import CoralLogo from '../../assets/logo-coral.png';
@@ -18,40 +18,33 @@ const Login: React.FC = () => {
     password: '',
     login_type: 'BUYER',
   });
-
   const [idError, setIdError] = useState<boolean>(false);
   const [pwError, setPwError] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
 
-  const handleLoginValidCheck = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!userInput.username.trim()) {
-      setIdError(true);
-    } else {
-      setIdError(false);
-    }
-
-    if (!userInput.password.trim()) {
-      setPwError(true);
-    } else {
-      setPwError(false);
-    }
-
-    if (idError || pwError) {
-      return;
-    } else {
-      console.log(idError, pwError);
-      LoginSubmit(event);
-    }
+  const handleIDInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      username: e.target.value.trim(),
+    }));
   };
 
-  async function LoginSubmit(event: FormEvent<HTMLFormElement>) {
-    console.log(idError, pwError);
-    if (idError || pwError) {
-      return;
-    }
+  const handlePWInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      password: e.target.value.trim(),
+    }));
+  };
 
+  const handleLoginCheck = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIdError(userInput.username ? false : true);
+    setPwError(userInput.password ? false : true);
+
+    if (userInput.username && userInput.password) handleLoginSubmit();
+  };
+
+  async function handleLoginSubmit() {
     try {
       const response = await fetch(
         'https://openmarket.weniv.co.kr/accounts/login/',
@@ -78,9 +71,7 @@ const Login: React.FC = () => {
           setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
         }
       }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    } catch (error) {}
   }
 
   return (
@@ -94,15 +85,27 @@ const Login: React.FC = () => {
       </header>
       <main>
         <TypeChange userInput={userInput} setUserInput={setUserInput} />
-        <FormWrap onSubmit={handleLoginValidCheck}>
-          <Input type='text' placeholder='아이디' $borderColor={idError} />
+        <FormWrap onSubmit={handleLoginCheck}>
+          <Input
+            type='text'
+            placeholder='아이디'
+            onChange={handleIDInput}
+            $isError={idError}
+          />
           <Input
             type='password'
             placeholder='비밀번호'
-            $borderColor={pwError}
+            onChange={handlePWInput}
+            $isError={pwError}
           />
-          {(idError || pwError) && <p>아이디 또는 비밀번호를 입력해 주세요.</p>}
-          {loginError && <p>{loginError}</p>}
+          {(idError || pwError || loginError) && (
+            <p>
+              {idError || pwError
+                ? '아이디 또는 비밀번호를 입력해 주세요.'
+                : loginError}
+            </p>
+          )}
+
           <label className='input-error hidden'></label>
           <LoginButton className='login-btn' type='submit'>
             로그인

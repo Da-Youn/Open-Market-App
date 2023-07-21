@@ -28,8 +28,8 @@ const Input = styled.input`
   max-width: 480px;
   height: 60px;
   border-bottom: 1px solid
-    ${(props: { $borderColor: boolean }) =>
-      props.$borderColor ? 'var(--error-color)' : 'var(--border-color)'};
+    ${(props: { $isError: boolean }) =>
+      props.$isError ? 'var(--error-color)' : 'var(--border-color)'};
   margin-bottom: 10px;
 
   &::placeholder {
