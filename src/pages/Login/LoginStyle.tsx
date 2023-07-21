@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from '../../components/common/Button';
 
 const LoginWrap = styled.div`
@@ -28,8 +28,8 @@ const Input = styled.input`
   max-width: 480px;
   height: 60px;
   border-bottom: 1px solid
-    ${(props: { error: boolean }) =>
-      props.error ? 'var(--error-color)' : 'var(--border-color)'};
+    ${(props: { $borderColor: boolean }) =>
+      props.$borderColor ? 'var(--error-color)' : 'var(--border-color)'};
   margin-bottom: 10px;
 
   &::placeholder {
@@ -37,6 +37,7 @@ const Input = styled.input`
     color: var(--sub-font-color);
   }
 `;
+
 const LoginButton = styled(Button)`
   height: 60px;
   margin-top: 20px;

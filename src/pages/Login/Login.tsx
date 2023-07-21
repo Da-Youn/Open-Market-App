@@ -18,37 +18,36 @@ const Login: React.FC = () => {
     password: '',
     login_type: 'BUYER',
   });
+
   const [idError, setIdError] = useState<boolean>(false);
   const [pwError, setPwError] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
 
-  const handleLoginCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.trim()) {
-      setUserInput((prevUserInput) => ({
-        ...prevUserInput,
-        username: e.target.value.trim(),
-      }));
-      setIdError(false);
-    } else {
-      setIdError(true);
-    }
-  };
-
-  const handlePassWordCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.trim()) {
-      setUserInput((prevUserInput) => ({
-        ...prevUserInput,
-        password: e.target.value.trim(),
-      }));
-      setPwError(false);
-    } else {
-      setPwError(true);
-    }
-  };
-
-  async function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
+  const handleLoginValidCheck = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!userInput.username.trim()) {
+      setIdError(true);
+    } else {
+      setIdError(false);
+    }
+
+    if (!userInput.password.trim()) {
+      setPwError(true);
+    } else {
+      setPwError(false);
+    }
+
+    if (idError || pwError) {
+      return;
+    } else {
+      console.log(idError, pwError);
+      LoginSubmit(event);
+    }
+  };
+
+  async function LoginSubmit(event: FormEvent<HTMLFormElement>) {
+    console.log(idError, pwError);
     if (idError || pwError) {
       return;
     }
@@ -65,7 +64,6 @@ const Login: React.FC = () => {
         },
       );
       const json = await response.json();
-      console.log(response, json);
 
       if (response.ok) {
         alert(`${userInput.username}님, 반갑습니다.`);
@@ -96,23 +94,15 @@ const Login: React.FC = () => {
       </header>
       <main>
         <TypeChange userInput={userInput} setUserInput={setUserInput} />
-        <FormWrap onSubmit={handleLoginSubmit}>
-          <Input
-            type='text'
-            placeholder='아이디'
-            onBlur={handleLoginCheck}
-            error={idError}
-          />
-          {idError && <p>아이디를 입력해 주세요.</p>}
+        <FormWrap onSubmit={handleLoginValidCheck}>
+          <Input type='text' placeholder='아이디' $borderColor={idError} />
           <Input
             type='password'
             placeholder='비밀번호'
-            onBlur={handlePassWordCheck}
-            error={pwError}
+            $borderColor={pwError}
           />
-          {pwError && <p>비밀번호를 입력해 주세요.</p>}
+          {(idError || pwError) && <p>아이디 또는 비밀번호를 입력해 주세요.</p>}
           {loginError && <p>{loginError}</p>}
-
           <label className='input-error hidden'></label>
           <LoginButton className='login-btn' type='submit'>
             로그인
