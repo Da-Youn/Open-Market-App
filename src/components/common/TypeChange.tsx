@@ -1,57 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface UserInput {
-  username: string;
-  password: string;
-  login_type: 'BUYER' | 'SELLER';
-}
-
 interface TypeChangeProps {
-  userInput: UserInput;
-  setUserInput: React.Dispatch<React.SetStateAction<UserInput>>;
+  loginType: string;
+  setLoginType: React.Dispatch<React.SetStateAction<string>>;
   page: string;
 }
 
 const TypeChange: React.FC<TypeChangeProps> = ({
-  userInput,
-  setUserInput,
+  loginType,
+  setLoginType,
   page,
 }) => {
   const handleBuyerLogin = () => {
-    setUserInput((prevUserInput) => ({
-      ...prevUserInput,
-      login_type: 'BUYER',
-    }));
+    setLoginType('BUYER');
   };
 
   const handleSellerLogin = () => {
-    setUserInput((prevUserInput) => ({
-      ...prevUserInput,
-      login_type: 'SELLER',
-    }));
+    setLoginType('SELLER');
   };
 
   return (
     <TypeChangeWrap>
       <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
       <TypeChangeBtn
-        className={`type-btn ${
-          userInput.login_type === 'BUYER' ? '' : 'disable'
-        }`}
+        className={`type-btn ${loginType === 'BUYER' ? '' : 'disable'}`}
         type='button'
         onClick={handleBuyerLogin}
       >
-        구매회원 {page}
+        구매회원 {page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
       <TypeChangeBtn
-        className={`type-btn ${
-          userInput.login_type === 'SELLER' ? '' : 'disable'
-        }`}
+        className={`type-btn ${loginType === 'SELLER' ? '' : 'disable'}`}
         type='button'
         onClick={handleSellerLogin}
       >
-        판매회원 {page}
+        판매회원 {page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
     </TypeChangeWrap>
   );
