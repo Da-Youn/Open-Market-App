@@ -24,25 +24,6 @@ const LoginWrap = styled.div`
   }
 `;
 
-const Input = styled.input`
-  max-width: 480px;
-  height: 60px;
-  border-bottom: 1px solid
-    ${(props: { $isError: boolean }) =>
-      props.$isError ? 'var(--error-color)' : 'var(--border-color)'};
-  margin-bottom: 10px;
-
-  &::placeholder {
-    font-size: 16px;
-    color: var(--sub-font-color);
-  }
-`;
-
-const LoginButton = styled(Button)`
-  height: 60px;
-  margin-top: 20px;
-`;
-
 const LinkWrap = styled.div`
   display: flex;
   justify-content: center;
@@ -52,4 +33,4 @@ const LinkWrap = styled.div`
   }
 `;
 
-export { LoginWrap, Input, LoginButton, LinkWrap };
+export { LoginWrap, LinkWrap };

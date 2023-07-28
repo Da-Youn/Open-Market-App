@@ -16,15 +16,20 @@ export interface SignupProps {}
 interface UserInput {
   username: string;
   password: string;
-  login_type: 'BUYER' | 'SELLER';
+  passwor2: string;
+  phone_number: string;
+  name: string;
 }
 
 const Signup: React.FC<SignupProps> = () => {
   const [userInput, setUserInput] = useState<UserInput>({
     username: '',
     password: '',
-    login_type: 'BUYER',
+    passwor2: '',
+    phone_number: '',
+    name: '',
   });
+  const [loginType, setLoginType] = useState<string>('BUYER');
   const [arrowChange, setArrowChange] = useState<string>(DownArrow);
   const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
   const [checked, setChecked] = useState<boolean>(false);
@@ -75,8 +80,8 @@ const Signup: React.FC<SignupProps> = () => {
       </header>
       <main>
         <FormChange
-          userInput={userInput}
-          setUserInput={setUserInput}
+          loginType={loginType}
+          setLoginType={setLoginType}
           page='가입'
         />
         <FormWrap>
@@ -85,7 +90,14 @@ const Signup: React.FC<SignupProps> = () => {
               <label htmlFor=''>아이디</label>
               <div>
                 <input type='text' />
-                <button>중복확인</button>
+                <Button
+                  width='auto'
+                  padding='0 32px'
+                  fontSize='var(--font-sm)'
+                  fontWeight='500'
+                >
+                  중복확인
+                </Button>
               </div>
             </IdInput>
             <PasswordInput>
@@ -175,7 +187,9 @@ const Signup: React.FC<SignupProps> = () => {
             대한 내용을 확인하였고 동의합니다.
           </p>
         </CheckWrap>
-        <SignupButton>가입하기</SignupButton>
+        <Button type='submit' maxWidth='480px' $mgTop='34px' $bdRadius='5px'>
+          가입하기
+        </Button>
       </main>
     </SignupWrap>
   );
@@ -238,12 +252,12 @@ const IdInput = styled.div`
     }
   }
   button {
-    box-sizing: border-box;
+    /* box-sizing: border-box;
     height: 54px;
     padding: 0 32px;
     color: var(--white);
     border-radius: 5px;
-    background: var(--main-color);
+    background: var(--main-color); */
   }
 `;
 const PasswordInput = styled.div`
