@@ -84,7 +84,11 @@ const Login: React.FC = () => {
         </h1>
       </header>
       <main>
-        <TypeChange userInput={userInput} setUserInput={setUserInput} />
+        <TypeChange
+          userInput={userInput}
+          setUserInput={setUserInput}
+          page='로그인'
+        />
         <FormWrap onSubmit={handleLoginCheck}>
           <Input
             type='text'

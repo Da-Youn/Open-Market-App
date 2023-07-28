@@ -74,7 +74,11 @@ const Signup: React.FC<SignupProps> = () => {
         </h1>
       </header>
       <main>
-        <FormChange userInput={userInput} setUserInput={setUserInput} />
+        <FormChange
+          userInput={userInput}
+          setUserInput={setUserInput}
+          page='가입'
+        />
         <FormWrap>
           <AccountInfoWrap>
             <IdInput>

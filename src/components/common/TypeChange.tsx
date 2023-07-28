@@ -10,9 +10,14 @@ interface UserInput {
 interface TypeChangeProps {
   userInput: UserInput;
   setUserInput: React.Dispatch<React.SetStateAction<UserInput>>;
+  page: string;
 }
 
-const TypeChange: React.FC<TypeChangeProps> = ({ userInput, setUserInput }) => {
+const TypeChange: React.FC<TypeChangeProps> = ({
+  userInput,
+  setUserInput,
+  page,
+}) => {
   const handleBuyerLogin = () => {
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
@@ -37,7 +42,7 @@ const TypeChange: React.FC<TypeChangeProps> = ({ userInput, setUserInput }) => {
         type='button'
         onClick={handleBuyerLogin}
       >
-        구매회원 로그인
+        구매회원 {page}
       </TypeChangeBtn>
       <TypeChangeBtn
         className={`type-btn ${
@@ -46,7 +51,7 @@ const TypeChange: React.FC<TypeChangeProps> = ({ userInput, setUserInput }) => {
         type='button'
         onClick={handleSellerLogin}
       >
-        판매회원 로그인
+        판매회원 {page}
       </TypeChangeBtn>
     </TypeChangeWrap>
   );
