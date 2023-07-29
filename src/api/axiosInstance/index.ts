@@ -1,28 +1,39 @@
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { AUTH_TOKEN, BASE_URL } from './constants';
 
-export const api = axios.create({
+interface ApiConfig extends AxiosRequestConfig {
+  headers?: {
+    Authorization?: string;
+    'Content-Type'?: string;
+  };
+}
+
+const commonConfig: ApiConfig = {
   baseURL: BASE_URL,
+};
+
+const api: AxiosInstance = axios.create({
+  ...commonConfig,
   headers: {
     Authorization: `Bearer ${AUTH_TOKEN}`,
     'Content-Type': 'application/json',
   },
 });
 
-export const urlApi = axios.create({
-  baseURL: BASE_URL,
-});
+const urlApi: AxiosInstance = axios.create(commonConfig);
 
-export const tokenApi = axios.create({
-  baseURL: BASE_URL,
+const tokenApi: AxiosInstance = axios.create({
+  ...commonConfig,
   headers: {
     Authorization: `Bearer ${AUTH_TOKEN}`,
   },
 });
 
-export const headerApi = axios.create({
-  baseURL: BASE_URL,
+const headerApi: AxiosInstance = axios.create({
+  ...commonConfig,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+export { api, urlApi, tokenApi, headerApi };

@@ -5,6 +5,9 @@ import { Input } from '../Input';
 import TypeChange from '../TypeChange';
 import LoginError from './LoginError';
 import Button from '../Button';
+import { headerApi } from 'src/api/axiosInstance';
+import { AxiosError } from 'axios';
+
 interface UserInput {
   username: string;
   password: string;
@@ -45,32 +48,19 @@ const LoginForm: React.FC = () => {
 
   async function handleLoginSubmit() {
     try {
-      const response = await fetch(
-        'https://openmarket.weniv.co.kr/accounts/login/',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ...userInput, login_type: loginType }),
-        },
-      );
-      const json = await response.json();
+      const res = await headerApi.post(`/accounts/login/`, {
+        ...userInput,
+        login_type: loginType,
+      });
 
-      if (response.ok) {
+      if (res.status >= 200 && res.status < 300) {
         alert(`${userInput.username}님, 반갑습니다.`);
         navigate('/');
-      } else {
-        if (
-          json.FAIL_Message ===
-          '로그인 정보가 없습니다. 로그인 유형을 학인해주세요.'
-        ) {
-          setLoginError('로그인 정보가 없습니다. 로그인 유형을 확인해주세요.');
-        } else {
-          setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
-        }
       }
-    } catch (error) {}
+    } catch (error) {
+      const axiosError = error as AxiosError<Record<string, any>>;
+      setLoginError(axiosError.response?.data?.FAIL_Message);
+    }
   }
 
   return (
@@ -86,19 +76,20 @@ const LoginForm: React.FC = () => {
           placeholder='아이디'
           onChange={handleIDInput}
           $isError={idError}
+          $borderWidth='0 0 1px 0'
         />
         <Input
           type='password'
           placeholder='비밀번호'
           onChange={handlePWInput}
           $isError={pwError}
+          $borderWidth='0 0 1px 0'
         />
         <LoginError
           idError={idError}
           pwError={pwError}
           loginError={loginError}
         />
-
         <label className='input-error hidden'></label>
         <Button type='submit' $mgTop='20px' $bdRadius='5px'>
           로그인
