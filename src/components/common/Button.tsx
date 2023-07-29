@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ChangeEvent, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 interface ButtonProps {
   children: ReactNode;
   type?: string;
-  maxWidth?: string;
+  $maxWidth?: string;
   width?: string;
   padding?: string;
   $mgTop?: string;
@@ -15,9 +15,11 @@ interface ButtonProps {
   border?: string;
   $bdRadius?: string;
   $disabled?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button = ({ children, type, ...props }: ButtonProps) => {
+const Button: React.FC<ButtonProps> = ({ children, type, ...props }) => {
   return (
     <ButtonStyle type={type ? type : 'button'} {...props}>
       {children}
@@ -27,7 +29,7 @@ const Button = ({ children, type, ...props }: ButtonProps) => {
 
 const ButtonStyle = styled.button<ButtonProps>`
   box-sizing: border-box;
-  max-width: ${(props: { maxWidth: string }) => props.maxWidth};
+  max-width: ${(props: { $maxWidth: string }) => props.$maxWidth};
   width: ${(props: { width: string }) => (props.width ? props.width : '100%')};
   margin-top: ${(props: { $mgTop: string }) => props.$mgTop || '0px'};
   padding: ${(props: { padding: string }) => props.padding || '19px 0'};
