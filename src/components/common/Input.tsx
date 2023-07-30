@@ -8,7 +8,7 @@ export const Input = styled.input`
   border-width: ${(props: { $borderWidth: string }) =>
     props.$borderWidth || 'none'};
   border-style: solid;
-  border-color: ${(props: { $isError: boolean; $isActive: boolean }) =>
+  border-color: ${(props: { $isError: string; $isActive: string }) =>
     props.$isError
       ? 'var(--error-color)'
       : props.$isActive

@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
 import TypeChange from '../TypeChange';
-import { FormWrap } from '../Form';
+import { FormWrap, ErrorMsg, ValidMsg } from '../Form';
 import { Input } from '../Input';
 import CheckOn from '../../../assets/icon-check-on.svg';
 import CheckOff from '../../../assets/icon-check-off.svg';
@@ -35,14 +35,55 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const [arrowChange, setArrowChange] = useState<string>(DownArrow);
   const [dropdownView, setDropdownView] = useState<boolean>(false);
   const [firstPhoneNum, setFirstPhoneNum] = useState<string>('010');
-  const [isIdValid, setIsIdValid] = useState<string>('');
-  const [isIdError, setIsIdError] = useState<string>('');
+  const [idValid, setIdValid] = useState<string>('');
+  const [idError, setIdError] = useState<string>('');
+  const [pwValid, setPwValid] = useState<string>(CheckOff);
+  const [pwError, setPwError] = useState<string>('');
+  const [pw2Error, setPw2Error] = useState<string>('');
+  const [pw2Valid, setPw2Valid] = useState<string>(CheckOff);
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.trim();
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
-      username: e.target.value.trim(),
+      username: e.target.value,
     }));
+  };
+
+  const handlePasswordValid = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.trim();
+    const reg =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])(?=.*[A-Z])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!reg.test(e.target.value)) {
+      setPwError(
+        '비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.',
+      );
+      setPwValid(CheckOff);
+    } else {
+      setPwError('');
+      setPwValid(CheckOn);
+      setUserInput((prevUserInput) => ({
+        ...prevUserInput,
+        password: e.target.value,
+      }));
+    }
+  };
+
+  const handlePasswordCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.trim();
+    if (!userInput.password) {
+      setPw2Error('비밀번호를 입력해 주세요.');
+    } else if (userInput.password !== e.target.value) {
+      setPw2Error('비밀번호가 일치하지 않습니다.');
+      setPw2Valid(CheckOff);
+    } else if (userInput.password === e.target.value) {
+      setPw2Error('');
+      setPw2Valid(CheckOn);
+      setUserInput((prevUserInput) => ({
+        ...prevUserInput,
+        password2: e.target.value,
+      }));
+    }
   };
 
   const handleDropdownView = () => {
@@ -77,17 +118,17 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       console.log(res);
       if (res.status === 202) {
         console.log(res.data.Success);
-        setIsIdValid(res.data.Success);
+        setIdValid(res.data.Success);
       }
     } catch (error) {
       const axiosError = error as AxiosError<Record<string, any>>;
       console.log(axiosError.response);
       if (axiosError.response?.data?.FAIL_Message) {
-        setIsIdError(axiosError.response?.data?.FAIL_Message);
+        setIdError(axiosError.response?.data?.FAIL_Message);
       }
     }
   };
-  if (isIdError) console.log(isIdError);
+
   return (
     <>
       <TypeChange
@@ -103,7 +144,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               <Input
                 $mgBottom='none'
                 onChange={handleUsernameChange}
-                $isError={isIdError}
+                $isError={idError}
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
               />
               <Button
                 width='auto'
@@ -116,20 +160,43 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               </Button>
             </div>
           </IdInput>
-          <PasswordInput>
+          {idError && <ErrorMsg>{idError}</ErrorMsg>}
+          {idValid && <ValidMsg>{idValid}</ValidMsg>}
+          <PasswordInput $pwValid={pwValid}>
             <label htmlFor=''>비밀번호</label>
-            <Input type='password' $mgBottom='none' />
+            <Input
+              $mgBottom='none'
+              onChange={handlePasswordValid}
+              $isError={pwError}
+              padding='0 0 0 16px'
+              $borderWidth='1px'
+              $bdRadius='5px'
+            />
           </PasswordInput>
-          <PasswordInput>
+          {pwError && <ErrorMsg>{pwError}</ErrorMsg>}
+          <PasswordInput $pwValid={pw2Valid}>
             <label htmlFor=''>비밀번호 재확인 </label>
-            <Input type='password' $mgBottom='none' />
+            <Input
+              $mgBottom='none'
+              onChange={handlePasswordCheck}
+              $isError={pw2Error}
+              padding='0 0 0 16px'
+              $borderWidth='1px'
+              $bdRadius='5px'
+            />
           </PasswordInput>
+          {pw2Error && <ErrorMsg>{pw2Error}</ErrorMsg>}
         </AccountInfoWrap>
 
         <UserInfoWrap>
           <NameInput>
             <label htmlFor=''>이름</label>
-            <Input $mgBottom='none' />
+            <Input
+              $mgBottom='none'
+              padding='0 0 0 16px'
+              $borderWidth='1px'
+              $bdRadius='5px'
+            />
           </NameInput>
           <PhoneNumberInput>
             <label htmlFor=''>휴대폰번호</label>
@@ -173,8 +240,22 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   </ul>
                 )}
               </FirstNumber>
-              <Input type='tel' onInput={handleMaxlength} $mgBottom='none' />
-              <Input type='tel' onInput={handleMaxlength} $mgBottom='none' />
+              <Input
+                type='tel'
+                onInput={handleMaxlength}
+                $mgBottom='none'
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
+              />
+              <Input
+                type='tel'
+                onInput={handleMaxlength}
+                $mgBottom='none'
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
+              />
             </div>
           </PhoneNumberInput>
         </UserInfoWrap>
@@ -211,7 +292,7 @@ const PasswordInput = styled.div`
     content: '';
     width: 28px;
     height: 28px;
-    background-image: url(${CheckOff});
+    background-image: url(${(props: { $pwValid: string }) => props.$pwValid});
     position: absolute;
     right: 10px;
     top: 50%;

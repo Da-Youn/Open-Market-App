@@ -84,7 +84,6 @@ const SignupWrap = styled.div`
     margin-bottom: 10px;
   }
 
-  input,
   .phone-number {
     padding-left: 16px;
     height: 54px;
