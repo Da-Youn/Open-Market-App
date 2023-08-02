@@ -66,6 +66,8 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const [phoneNumError, setPhoneNumError] = useState<string>('');
   const [dropdownView, setDropdownView] = useState<boolean>(false);
   const [arrowChange, setArrowChange] = useState<string>(DownArrow);
+  const [regNumError, setRegNumError] = useState<string>('');
+  const [regNumValid, setRegNumValid] = useState<string>('');
   const [checked, setChecked] = useState<boolean>(false);
   const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
@@ -212,6 +214,16 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
+  //* company_registration_number
+  const handleRegNumChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.trim();
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      company_registration_number: e.target.value,
+    }));
+  };
+
+
   //* API
 
   const handleCheckIDDuplicate: MouseEventHandler<
@@ -237,6 +249,30 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         setIdError(axiosError.response?.data?.FAIL_Message);
       }
     }
+    }
+  };
+
+  const handleRegNumDuplicate: MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    try {
+      const res = await headerApi.post(
+        `/accounts/signup/valid/company_registration_number/`,
+        { company_registration_number: userInput.company_registration_number },
+      );
+      if (res.status === 202) {
+        setRegNumError('');
+        setRegNumValid(res.data.Success);
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<Record<string, any>>;
+      const failMsg = axiosError.response?.data.FAIL_Message;
+      if (failMsg === 'company_registration_number 필드를 추가해주세요 :)') {
+        setRegNumError('사업자 등록번호를 입력해 주세요.');
+      } else {
+        setRegNumError(axiosError.response?.data.FAIL_Message);
+      }
+      console.log(axiosError.response?.data);
     }
   };
 
@@ -380,16 +416,21 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   padding='0 0 0 16px'
                   $borderWidth='1px'
                   $bdRadius='5px'
+                  onChange={handleRegNumChange}
+                  $isError={regNumError}
                 />
                 <Button
                   width='auto'
                   padding='0 32px'
                   fontSize='var(--font-sm)'
                   fontWeight='500'
+                  onClick={handleRegNumDuplicate}
                 >
                   인증
                 </Button>
               </div>
+              {regNumError && <ErrorMsg>{regNumError}</ErrorMsg>}
+              {regNumValid && <ValidMsg>{regNumValid}</ValidMsg>}
             </RegNumberInput>
             <div>
               <label htmlFor=''>스토어 이름</label>
