@@ -1,6 +1,12 @@
-import React, { useState, ChangeEvent, MouseEventHandler } from 'react';
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  MouseEventHandler,
+} from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
+import { AxiosError } from 'axios';
 import TypeChange from '../TypeChange';
 import { FormWrap, ErrorMsg, ValidMsg } from '../Form';
 import { Input } from '../Input';
@@ -11,8 +17,18 @@ import CheckBoxFilled from '../../../assets/check-fill-box.svg';
 import DownArrow from '../../../assets/icon-down-arrow.svg';
 import UpArrow from '../../../assets/icon-up-arrow.svg';
 import { headerApi } from 'src/api/axiosInstance';
-import { AxiosError } from 'axios';
-
+import {
+  AccountInfoWrap,
+  IdInput,
+  PasswordInput,
+  UserInfoWrap,
+  NameInput,
+  PhoneNumberInput,
+  FirstNumber,
+  SellerInfoWrap,
+  RegNumberInput,
+  CheckWrap,
+} from '../../../pages/Signup/SignupStyle';
 export interface SignupFormProps {}
 
 interface UserInput {
@@ -55,12 +71,25 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //* username 할당
+  const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.trim();
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
       username: e.target.value,
     }));
+
+    // 아이디 유효성 검사
+    const reg = /^[a-zA-Z0-9]{1,20}$/;
+    if (!reg.test(e.target.value)) {
+      setIdError(
+        '아이디는 20자 이내의 영어 소문자/대문자/숫자만 설정 가능합니다.',
+      );
+      setIdValid('');
+      return;
+    } else {
+      setIdError('');
+    }
   };
 
   const handlePasswordValid = (e: ChangeEvent<HTMLInputElement>) => {
@@ -123,24 +152,34 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
-  const checkIDDuplicate: MouseEventHandler<HTMLButtonElement> = async () => {
+  //* API
+
+  const handleCheckIDDuplicate: MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
     try {
       const res = await headerApi.post(`/accounts/signup/valid/username/`, {
         username: userInput.username,
       });
-      console.log(res);
+
       if (res.status === 202) {
-        console.log(res.data.Success);
+        setIdError('');
         setIdValid(res.data.Success);
       }
     } catch (error) {
       const axiosError = error as AxiosError<Record<string, any>>;
       console.log(axiosError.response);
       if (axiosError.response?.data?.FAIL_Message) {
+        const failMsg = axiosError.response?.data?.FAIL_Message;
+        if (failMsg === 'username 필드를 추가해주세요 :)') {
+          setIdError('아이디를 입력해 주세요.');
+        } else {
         setIdError(axiosError.response?.data?.FAIL_Message);
       }
     }
+    }
   };
+
 
   return (
     <>
@@ -152,7 +191,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
             <div>
               <Input
                 $mgBottom='none'
-                onChange={handleUsernameChange}
+                onChange={handleIdChange}
                 $isError={idError}
                 padding='0 0 0 16px'
                 $borderWidth='1px'
@@ -163,7 +202,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 padding='0 32px'
                 fontSize='var(--font-sm)'
                 fontWeight='500'
-                onClick={checkIDDuplicate}
+                onClick={handleCheckIDDuplicate}
               >
                 중복확인
               </Button>
@@ -321,140 +360,5 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     </>
   );
 };
-
-const AccountInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-const IdInput = styled.div`
-  div {
-    gap: 12px;
-    flex-direction: row;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    input {
-      flex-grow: 1;
-    }
-  }
-`;
-const PasswordInput = styled.div`
-  position: relative;
-
-  &::after {
-    content: '';
-    width: 28px;
-    height: 28px;
-    background-image: url(${(props: { $pwValid: string }) => props.$pwValid});
-    position: absolute;
-    right: 10px;
-    top: 50%;
-  }
-`;
-const UserInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-const NameInput = styled.div``;
-const PhoneNumberInput = styled.div`
-  div {
-    flex-direction: row;
-    gap: 12px;
-    input,
-    .phone-number {
-      width: 100%;
-    }
-  }
-
-  .phone-number {
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding-right: 14px;
-
-    span {
-      flex: 9;
-    }
-    img {
-      flex: 1;
-      vertical-align: bottom;
-    }
-  }
-`;
-
-const FirstNumber = styled.div`
-  position: relative;
-  width: 100%;
-  ul {
-    text-align: center;
-    height: 150px;
-    position: absolute;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    background-color: var(--white);
-    overflow-y: scroll;
-    width: 100%;
-    left: 0;
-    top: 60px;
-
-    li {
-      button {
-        width: 100%;
-        padding: 5px 0;
-      }
-      button:hover {
-        background-color: var(--main-color);
-        color: var(--white);
-      }
-    }
-  }
-
-  ul::-webkit-scrollbar {
-    background-color: var(--sub-color);
-    width: 18px;
-  }
-  ul::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: var(--border-color);
-    background-clip: padding-box;
-    border: 5px solid transparent;
-  }
-`;
-
-const SellerInfoWrap = styled.div`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const RegNumberInput = styled.div`
-  div {
-    gap: 12px;
-    flex-direction: row;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    input {
-      flex-grow: 1;
-    }
-  }
-`;
 
 export default SignupForm;
