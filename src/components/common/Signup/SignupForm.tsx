@@ -106,6 +106,22 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userType, phoneNum]);
 
+  useEffect(() => {
+    const allValues = Object.values(userInput);
+    if (
+      !allValues.includes('') &&
+      !idError &&
+      !pwError &&
+      !pw2Error &&
+      !regNumError &&
+      phoneNum.join('').length >= 10 &&
+      checked
+    ) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [userInput, phoneNum, checked]);
 
   //* username 할당
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -291,6 +307,33 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
+  const handleSubmitUserInput: MouseEventHandler<
+    HTMLButtonElement
+  > = async () => {
+    // 가입하기 클릭 시 - 아이디 중복확인 되었는지 체크, 휴대폰번호 중복 체크
+
+    if (!idValid) {
+      setIdError('아이디 중복확인을 해주세요.');
+      return;
+    }
+    try {
+      const res = await headerApi.post(
+        `/accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`,
+        userInput,
+      );
+
+      if (res.status === 202) {
+        alert('회원가입 성공');
+        console.log(res);
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<Record<string, any>>;
+      if (axiosError.response?.data.phone_number) {
+        setPhoneNumError(axiosError.response?.data.phone_number.join(''));
+      }
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -475,6 +518,8 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         $maxWidth='480px'
         $mgTop='34px'
         $bdRadius='5px'
+        disabled={btnDisabled}
+        onClick={handleSubmitUserInput}
       >
         가입하기
       </Button>
