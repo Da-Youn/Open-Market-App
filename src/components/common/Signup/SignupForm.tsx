@@ -37,7 +37,10 @@ interface UserInput {
   password2: string;
   phone_number: string;
   name: string;
+  company_registration_number?: string;
+  store_name?: string;
 }
+
 type PhoneNumState = [string, string, string];
 
 const SignupForm: React.FC<SignupFormProps> = () => {
@@ -76,6 +79,31 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       setCheckBoxFiiled(CheckBoxFilled);
     }
   };
+
+  useEffect(() => {
+    if (userType === 'SELLER') {
+      setUserInput({
+        username: userInput.username,
+        password: userInput.password,
+        password2: userInput.password2,
+        phone_number: phoneNum.join(''),
+        name: userInput.name,
+        company_registration_number: '',
+        store_name: '',
+      });
+      setRegNumError('');
+    } else {
+      setUserInput({
+        username: userInput.username,
+        password: userInput.password,
+        password2: userInput.password2,
+        phone_number: phoneNum.join(''),
+        name: userInput.name,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userType, phoneNum]);
+
 
   //* username 할당
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
