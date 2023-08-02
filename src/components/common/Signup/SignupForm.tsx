@@ -52,14 +52,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     name: '',
   });
   const [userType, setUserType] = useState<string>('BUYER');
-  const [arrowChange, setArrowChange] = useState<string>(DownArrow);
-  const [dropdownView, setDropdownView] = useState<boolean>(false);
-  const [firstPhoneNum, setFirstPhoneNum] = useState<string>('010');
   const [idValid, setIdValid] = useState<string>('');
   const [idError, setIdError] = useState<string>('');
   const [pwValid, setPwValid] = useState<string>(CheckOff);
   const [pwError, setPwError] = useState<string>('');
-  const [pw2Error, setPw2Error] = useState<string>('');
   const [pw2Valid, setPw2Valid] = useState<string>(CheckOff);
   const [pw2Error, setPw2Error] = useState<string>('');
   const [phoneNum, setPhoneNum] = useState<PhoneNumState>(['010', '', '']);
@@ -277,9 +273,9 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         if (failMsg === 'username 필드를 추가해주세요 :)') {
           setIdError('아이디를 입력해 주세요.');
         } else {
-        setIdError(axiosError.response?.data?.FAIL_Message);
+          setIdError(axiosError.response?.data?.FAIL_Message);
+        }
       }
-    }
     }
   };
 
@@ -361,33 +357,38 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 중복확인
               </Button>
             </div>
+            {idError && <ErrorMsg>{idError}</ErrorMsg>}
+            {idValid && <ValidMsg>{idValid}</ValidMsg>}
           </IdInput>
-          {idError && <ErrorMsg>{idError}</ErrorMsg>}
-          {idValid && <ValidMsg>{idValid}</ValidMsg>}
+
           <PasswordInput $pwValid={pwValid}>
-            <label htmlFor=''>비밀번호</label>
-            <Input
-              $mgBottom='none'
-              onChange={handlePasswordValid}
-              $isError={pwError}
-              padding='0 0 0 16px'
-              $borderWidth='1px'
-              $bdRadius='5px'
-            />
+            <div>
+              <label htmlFor=''>비밀번호</label>
+              <Input
+                $mgBottom='none'
+                onChange={handlePasswordValid}
+                $isError={pwError}
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
+              />
+            </div>
+            {pwError && <ErrorMsg>{pwError}</ErrorMsg>}
           </PasswordInput>
-          {pwError && <ErrorMsg>{pwError}</ErrorMsg>}
           <PasswordInput $pwValid={pw2Valid}>
-            <label htmlFor=''>비밀번호 재확인 </label>
-            <Input
-              $mgBottom='none'
-              onChange={handlePasswordCheck}
-              $isError={pw2Error}
-              padding='0 0 0 16px'
-              $borderWidth='1px'
-              $bdRadius='5px'
-            />
+            <div>
+              <label htmlFor=''>비밀번호 재확인 </label>
+              <Input
+                $mgBottom='none'
+                onChange={handlePasswordCheck}
+                $isError={pw2Error}
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
+              />
+            </div>
+            {pw2Error && <ErrorMsg>{pw2Error}</ErrorMsg>}
           </PasswordInput>
-          {pw2Error && <ErrorMsg>{pw2Error}</ErrorMsg>}
         </AccountInfoWrap>
 
         <UserInfoWrap>

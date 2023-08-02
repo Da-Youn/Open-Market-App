@@ -12,11 +12,13 @@ const FormWrap = styled.form`
 `;
 
 const ErrorMsg = styled.p`
+  margin-top: 10px;
   margin-bottom: 6px;
   color: var(--error-color);
 `;
 
 const ValidMsg = styled.p`
+  margin-top: 10px;
   margin-bottom: 6px;
   color: var(--main-color);
 `;

@@ -1,3 +1,5 @@
+import { ErrorMsg } from '../Form';
+
 interface LoginErrorProps {
   idError: boolean;
   pwError: boolean;
@@ -12,11 +14,11 @@ const LoginError: React.FC<LoginErrorProps> = ({
   return (
     <>
       {(idError || pwError || loginError) && (
-        <p>
+        <ErrorMsg>
           {idError || pwError
             ? '아이디 또는 비밀번호를 입력해 주세요.'
             : loginError}
-        </p>
+        </ErrorMsg>
       )}
     </>
   );
