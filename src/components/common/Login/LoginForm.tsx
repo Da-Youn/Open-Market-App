@@ -22,7 +22,7 @@ const LoginForm: React.FC = () => {
     username: '',
     password: '',
   });
-  const [loginType, setLoginType] = useState<string>('BUYER');
+  const [userType, setUserType] = useState<string>('BUYER');
 
   const handleIDInput = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInput((prevUserInput) => ({
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
     try {
       const res = await headerApi.post(`/accounts/login/`, {
         ...userInput,
-        login_type: loginType,
+        login_type: userType,
       });
 
       if (res.status >= 200 && res.status < 300) {
@@ -65,11 +65,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-      <TypeChange
-        loginType={loginType}
-        setLoginType={setLoginType}
-        page='login'
-      />
+      <TypeChange userType={userType} setUserType={setUserType} page='login' />
       <FormWrap onSubmit={handleLoginCheck}>
         <Input
           type='text'

@@ -31,7 +31,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     phone_number: '',
     name: '',
   });
-  const [loginType, setLoginType] = useState<string>('BUYER');
+  const [userType, setUserType] = useState<string>('BUYER');
   const [arrowChange, setArrowChange] = useState<string>(DownArrow);
   const [dropdownView, setDropdownView] = useState<boolean>(false);
   const [firstPhoneNum, setFirstPhoneNum] = useState<string>('010');
@@ -131,11 +131,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
 
   return (
     <>
-      <TypeChange
-        loginType={loginType}
-        setLoginType={setLoginType}
-        page='가입'
-      />
+      <TypeChange userType={userType} setUserType={setUserType} page='가입' />
       <FormWrap>
         <AccountInfoWrap>
           <IdInput>
@@ -259,6 +255,36 @@ const SignupForm: React.FC<SignupFormProps> = () => {
             </div>
           </PhoneNumberInput>
         </UserInfoWrap>
+        <SellerInfoWrap>
+          <RegNumberInput>
+            <label htmlFor=''>사업자등록번호</label>
+            <div>
+              <Input
+                $mgBottom='none'
+                padding='0 0 0 16px'
+                $borderWidth='1px'
+                $bdRadius='5px'
+              />
+              <Button
+                width='auto'
+                padding='0 32px'
+                fontSize='var(--font-sm)'
+                fontWeight='500'
+              >
+                인증
+              </Button>
+            </div>
+          </RegNumberInput>
+          <div>
+            <label htmlFor=''>스토어 이름</label>
+            <Input
+              $mgBottom='none'
+              padding='0 0 0 16px'
+              $borderWidth='1px'
+              $bdRadius='5px'
+            />
+          </div>
+        </SellerInfoWrap>
       </FormWrap>
     </>
   );
@@ -372,6 +398,30 @@ const FirstNumber = styled.div`
     background-color: var(--border-color);
     background-clip: padding-box;
     border: 5px solid transparent;
+  }
+`;
+
+const SellerInfoWrap = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const RegNumberInput = styled.div`
+  div {
+    gap: 12px;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    input {
+      flex-grow: 1;
+    }
   }
 `;
 

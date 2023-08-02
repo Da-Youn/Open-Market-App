@@ -2,36 +2,36 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface TypeChangeProps {
-  loginType: string;
-  setLoginType: React.Dispatch<React.SetStateAction<string>>;
+  userType: string;
+  setUserType: React.Dispatch<React.SetStateAction<string>>;
   page: string;
 }
 
 const TypeChange: React.FC<TypeChangeProps> = ({
-  loginType,
-  setLoginType,
+  userType,
+  setUserType,
   page,
 }) => {
   const handleBuyerLogin = () => {
-    setLoginType('BUYER');
+    setUserType('BUYER');
   };
 
   const handleSellerLogin = () => {
-    setLoginType('SELLER');
+    setUserType('SELLER');
   };
 
   return (
     <TypeChangeWrap>
       <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
       <TypeChangeBtn
-        className={`type-btn ${loginType === 'BUYER' ? '' : 'disable'}`}
+        className={`type-btn ${userType === 'BUYER' ? '' : 'disable'}`}
         type='button'
         onClick={handleBuyerLogin}
       >
         구매회원 {page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
       <TypeChangeBtn
-        className={`type-btn ${loginType === 'SELLER' ? '' : 'disable'}`}
+        className={`type-btn ${userType === 'SELLER' ? '' : 'disable'}`}
         type='button'
         onClick={handleSellerLogin}
       >
