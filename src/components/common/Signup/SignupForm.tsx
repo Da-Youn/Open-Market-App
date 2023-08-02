@@ -41,6 +41,19 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const [pwError, setPwError] = useState<string>('');
   const [pw2Error, setPw2Error] = useState<string>('');
   const [pw2Valid, setPw2Valid] = useState<string>(CheckOff);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
+  const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
+
+  const handleCheckBoxFilled = () => {
+    if (checked) {
+      setChecked(false);
+      setCheckBoxFiiled(CheckBox);
+    } else {
+      setChecked(true);
+      setCheckBoxFiiled(CheckBoxFilled);
+    }
+  };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.trim();
@@ -288,6 +301,23 @@ const SignupForm: React.FC<SignupFormProps> = () => {
           </SellerInfoWrap>
         )}
       </FormWrap>
+      <CheckWrap>
+        <button onClick={handleCheckBoxFilled}>
+          <img src={checkBoxFiiled} alt='체크박스' />{' '}
+        </button>
+        <p>
+          호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에 대한
+          내용을 확인하였고 동의합니다.
+        </p>
+      </CheckWrap>
+      <Button
+        type='submit'
+        $maxWidth='480px'
+        $mgTop='34px'
+        $bdRadius='5px'
+      >
+        가입하기
+      </Button>
     </>
   );
 };
