@@ -255,36 +255,38 @@ const SignupForm: React.FC<SignupFormProps> = () => {
             </div>
           </PhoneNumberInput>
         </UserInfoWrap>
-        <SellerInfoWrap>
-          <RegNumberInput>
-            <label htmlFor=''>사업자등록번호</label>
+        {userType === 'SELLER' && (
+          <SellerInfoWrap>
+            <RegNumberInput>
+              <label htmlFor=''>사업자등록번호</label>
+              <div>
+                <Input
+                  $mgBottom='none'
+                  padding='0 0 0 16px'
+                  $borderWidth='1px'
+                  $bdRadius='5px'
+                />
+                <Button
+                  width='auto'
+                  padding='0 32px'
+                  fontSize='var(--font-sm)'
+                  fontWeight='500'
+                >
+                  인증
+                </Button>
+              </div>
+            </RegNumberInput>
             <div>
+              <label htmlFor=''>스토어 이름</label>
               <Input
                 $mgBottom='none'
                 padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
               />
-              <Button
-                width='auto'
-                padding='0 32px'
-                fontSize='var(--font-sm)'
-                fontWeight='500'
-              >
-                인증
-              </Button>
             </div>
-          </RegNumberInput>
-          <div>
-            <label htmlFor=''>스토어 이름</label>
-            <Input
-              $mgBottom='none'
-              padding='0 0 0 16px'
-              $borderWidth='1px'
-              $bdRadius='5px'
-            />
-          </div>
-        </SellerInfoWrap>
+          </SellerInfoWrap>
+        )}
       </FormWrap>
     </>
   );
