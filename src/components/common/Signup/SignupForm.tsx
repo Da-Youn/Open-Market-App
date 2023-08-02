@@ -38,6 +38,7 @@ interface UserInput {
   phone_number: string;
   name: string;
 }
+type PhoneNumState = [string, string, string];
 
 const SignupForm: React.FC<SignupFormProps> = () => {
   const [userInput, setUserInput] = useState<UserInput>({
@@ -58,6 +59,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const [pw2Error, setPw2Error] = useState<string>('');
   const [pw2Valid, setPw2Valid] = useState<string>(CheckOff);
   const [pw2Error, setPw2Error] = useState<string>('');
+  const [phoneNum, setPhoneNum] = useState<PhoneNumState>(['010', '', '']);
+  const [phoneNumError, setPhoneNumError] = useState<string>('');
+  const [dropdownView, setDropdownView] = useState<boolean>(false);
+  const [arrowChange, setArrowChange] = useState<string>(DownArrow);
   const [checked, setChecked] = useState<boolean>(false);
   const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
@@ -144,6 +149,9 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
+
+  //* phone_number
+  // 앞자리 번호 드롭다운
   const handleDropdownView = () => {
     if (dropdownView) {
       setArrowChange(DownArrow);
@@ -154,13 +162,21 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
-  const handleFirstPhonNumChange: MouseEventHandler<HTMLButtonElement> = (
+  const handleFirstPhoneNumChange: MouseEventHandler<HTMLButtonElement> = (
     e: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setFirstPhoneNum(e.currentTarget.innerHTML);
+    setPhoneNum([e.currentTarget.innerText, phoneNum[1], phoneNum[2]]);
     handleDropdownView();
   };
+  const handleSecondPhoneNumChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPhoneNum([phoneNum[0], e.target.value, phoneNum[2]]);
+  };
 
+  const handleLastPhoneNumChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPhoneNum([phoneNum[0], phoneNum[1], e.target.value]);
+  };
+
+  // 번호 입력가능 길이 4자리로 제한
   const handleMaxlength = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length > 4) {
@@ -271,33 +287,33 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   onClick={handleDropdownView}
                   className='phone-number'
                 >
-                  <span>{firstPhoneNum}</span>
+                  <span>{phoneNum[0]}</span>
                   <img src={arrowChange} alt='' />
                 </button>
                 {dropdownView && (
                   <ul className='selectbox-option hide'>
                     <li>
-                      <button onClick={handleFirstPhonNumChange} type='button'>
+                      <button onClick={handleFirstPhoneNumChange} type='button'>
                         010
                       </button>
                     </li>
                     <li>
-                      <button onClick={handleFirstPhonNumChange} type='button'>
+                      <button onClick={handleFirstPhoneNumChange} type='button'>
                         011
                       </button>
                     </li>
                     <li>
-                      <button onClick={handleFirstPhonNumChange} type='button'>
+                      <button onClick={handleFirstPhoneNumChange} type='button'>
                         016
                       </button>
                     </li>
                     <li>
-                      <button onClick={handleFirstPhonNumChange} type='button'>
+                      <button onClick={handleFirstPhoneNumChange} type='button'>
                         017
                       </button>
                     </li>
                     <li>
-                      <button onClick={handleFirstPhonNumChange} type='button'>
+                      <button onClick={handleFirstPhoneNumChange} type='button'>
                         019
                       </button>
                     </li>
@@ -305,22 +321,25 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 )}
               </FirstNumber>
               <Input
-                type='tel'
                 onInput={handleMaxlength}
+                onChange={handleSecondPhoneNumChange}
                 $mgBottom='none'
                 padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
+                $isError={phoneNumError}
               />
               <Input
-                type='tel'
                 onInput={handleMaxlength}
+                onChange={handleLastPhoneNumChange}
                 $mgBottom='none'
                 padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
+                $isError={phoneNumError}
               />
             </div>
+            {phoneNumError && <ErrorMsg>{phoneNumError}</ErrorMsg>}
           </PhoneNumberInput>
         </UserInfoWrap>
         {userType === 'SELLER' && (
