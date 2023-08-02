@@ -179,6 +179,14 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
+  //* name 할당
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.trim();
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      name: e.target.value,
+    }));
+  };
 
   //* phone_number
   // 앞자리 번호 드롭다운
@@ -214,7 +222,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
-  //* company_registration_number
+  //* company_registration_number 할당
   const handleRegNumChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.trim();
     setUserInput((prevUserInput) => ({
@@ -223,6 +231,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }));
   };
 
+  //* store_name 할당
+  const handleStoreNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      store_name: e.target.value,
+    }));
+  };
 
   //* API
 
@@ -336,6 +351,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
           <NameInput>
             <label htmlFor=''>이름</label>
             <Input
+              onChange={handleNameChange}
               $mgBottom='none'
               padding='0 0 0 16px'
               $borderWidth='1px'
@@ -439,6 +455,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
+                onChange={handleStoreNameChange}
               />
             </div>
           </SellerInfoWrap>
