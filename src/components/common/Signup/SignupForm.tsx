@@ -9,7 +9,7 @@ import Button from '../Button';
 import { AxiosError } from 'axios';
 import TypeChange from '../TypeChange';
 import { FormWrap, ErrorMsg, ValidMsg } from '../Form';
-import { Input } from '../Input';
+import Input from '../Input';
 import CheckOn from '../../../assets/icon-check-on.svg';
 import CheckOff from '../../../assets/icon-check-off.svg';
 import CheckBox from '../../../assets/check-box.svg';
@@ -24,7 +24,8 @@ import {
   UserInfoWrap,
   NameInput,
   PhoneNumberInput,
-  FirstNumber,
+  FirstNumberWrap,
+  FirstNumberDropBtn,
   SellerInfoWrap,
   RegNumberInput,
   CheckWrap,
@@ -117,6 +118,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     } else {
       setBtnDisabled(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInput, phoneNum, checked]);
 
   //* username 할당
@@ -256,6 +258,9 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const handleCheckIDDuplicate: MouseEventHandler<
     HTMLButtonElement
   > = async () => {
+    if (idError) {
+      return;
+    }
     try {
       const res = await headerApi.post(`/accounts/signup/valid/username/`, {
         username: userInput.username,
@@ -266,6 +271,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         setIdValid(res.data.Success);
       }
     } catch (error) {
+      setIdValid('');
       const axiosError = error as AxiosError<Record<string, any>>;
       console.log(axiosError.response);
       if (axiosError.response?.data?.FAIL_Message) {
@@ -405,15 +411,11 @@ const SignupForm: React.FC<SignupFormProps> = () => {
           <PhoneNumberInput>
             <label htmlFor=''>휴대폰번호</label>
             <div>
-              <FirstNumber>
-                <button
-                  type='button'
-                  onClick={handleDropdownView}
-                  className='phone-number'
-                >
+              <FirstNumberWrap>
+                <FirstNumberDropBtn type='button' onClick={handleDropdownView}>
                   <span>{phoneNum[0]}</span>
                   <img src={arrowChange} alt='' />
-                </button>
+                </FirstNumberDropBtn>
                 {dropdownView && (
                   <ul className='selectbox-option hide'>
                     <li>
@@ -443,10 +445,11 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                     </li>
                   </ul>
                 )}
-              </FirstNumber>
+              </FirstNumberWrap>
               <Input
                 onInput={handleMaxlength}
                 onChange={handleSecondPhoneNumChange}
+                width='100%'
                 $mgBottom='none'
                 padding='0 0 0 16px'
                 $borderWidth='1px'
@@ -456,6 +459,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               <Input
                 onInput={handleMaxlength}
                 onChange={handleLastPhoneNumChange}
+                width='100%'
                 $mgBottom='none'
                 padding='0 0 0 16px'
                 $borderWidth='1px'

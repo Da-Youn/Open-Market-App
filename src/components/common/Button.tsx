@@ -14,7 +14,7 @@ interface ButtonProps {
   bgColor?: string;
   border?: string;
   $bdRadius?: string;
-  $disabled?: boolean;
+  disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
@@ -42,18 +42,14 @@ const ButtonStyle = styled.button<ButtonProps>`
   border: ${(props: { border: string }) => props.border || 'none'};
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || '5px'};
 
-  ${(props: { $disabled: boolean }) => {
-    props.$disabled &&
-      styled`
-      cursor: default;
-      background-color: ${(props: { $disBgColor: string }) =>
-        props.$disBgColor || 'var(--border-color)'};
-      color: ${(props: { $disColor: string }) =>
-        props.$disColor || 'var(--white)'};
-         border: ${(props: { $disBorder: string }) =>
-           props.$disBorder || 'none'};
-    `;
-  }}
+  &:disabled {
+    cursor: default;
+    background-color: ${(props: { $disBgColor: string }) =>
+      props.$disBgColor || 'var(--border-color)'};
+    color: ${(props: { $disColor: string }) =>
+      props.$disColor || 'var(--white)'};
+    border: ${(props: { $disBorder: string }) => props.$disBorder || 'none'};
+  }
 `;
 
 export default Button;

@@ -1,6 +1,27 @@
+import React, { ReactNode, FormEvent, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
-export const Input = styled.input`
+interface InputProps {
+  type?: string;
+  maxWidth?: string;
+  width?: string;
+  height?: string;
+  padding?: string;
+  $borderWidth?: string;
+  $bdRadius?: string;
+  $mgBottom?: string;
+  $isError?: string | boolean;
+  $isActive?: boolean;
+  placeholder?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Input: React.FC<InputProps> = ({ type, ...props }) => {
+  return <InputStyle type={type ? type : 'text'} {...props} />;
+};
+
+export const InputStyle = styled.input<InputProps>`
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};
   width: ${(props: { width: string }) => props.width};
   height: ${(props: { height: string }) => props.height || '54px'};
@@ -17,8 +38,14 @@ export const Input = styled.input`
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || 'none'};
   margin-bottom: ${(props: { $mgBottom: string }) => props.$mgBottom || '10px'};
 
+  &:focus {
+    border-color: var(--main-color);
+  }
+
   &::placeholder {
     font-size: 16px;
     color: var(--sub-font-color);
   }
 `;
+
+export default Input;

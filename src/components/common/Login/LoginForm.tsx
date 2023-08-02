@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormWrap } from '../../../components/common/Form';
-import { Input } from '../Input';
+import Input from '../Input';
 import TypeChange from '../TypeChange';
 import LoginError from './LoginError';
 import Button from '../Button';

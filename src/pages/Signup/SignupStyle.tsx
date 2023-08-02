@@ -26,13 +26,6 @@ const SignupWrap = styled.div`
     color: var(--sub-font-color);
     margin-bottom: 10px;
   }
-
-  .phone-number {
-    padding-left: 16px;
-    height: 54px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-  }
 `;
 
 const AccountInfoWrap = styled.div`
@@ -84,30 +77,10 @@ const PhoneNumberInput = styled.div`
   div {
     flex-direction: row;
     gap: 12px;
-    input,
-    .phone-number {
-      width: 100%;
-    }
-  }
-
-  .phone-number {
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding-right: 14px;
-
-    span {
-      flex: 9;
-    }
-    img {
-      flex: 1;
-      vertical-align: bottom;
-    }
   }
 `;
 
-const FirstNumber = styled.div`
+const FirstNumberWrap = styled.div`
   position: relative;
   width: 100%;
   ul {
@@ -144,6 +117,27 @@ const FirstNumber = styled.div`
     background-clip: padding-box;
     border: 5px solid transparent;
   }
+`;
+
+const FirstNumberDropBtn = styled.button`
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding-right: 14px;
+  width: 100%;
+  span {
+    flex: 9;
+  }
+  img {
+    flex: 1;
+    vertical-align: bottom;
+  }
+
+  padding-left: 16px;
+  height: 54px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
 `;
 
 const SellerInfoWrap = styled.div`
@@ -189,7 +183,8 @@ export {
   UserInfoWrap,
   NameInput,
   PhoneNumberInput,
-  FirstNumber,
+  FirstNumberWrap,
+  FirstNumberDropBtn,
   SellerInfoWrap,
   RegNumberInput,
   CheckWrap,
