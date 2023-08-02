@@ -57,6 +57,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
   const [pwError, setPwError] = useState<string>('');
   const [pw2Error, setPw2Error] = useState<string>('');
   const [pw2Valid, setPw2Valid] = useState<string>(CheckOff);
+  const [pw2Error, setPw2Error] = useState<string>('');
   const [checked, setChecked] = useState<boolean>(false);
   const [checkBoxFiiled, setCheckBoxFiiled] = useState<string>(CheckBox);
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
@@ -92,8 +93,15 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     }
   };
 
+  //* password - 비밀번호 유효성검사 & (재확인 값 존재 시)재확인 값과 비교
   const handlePasswordValid = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.trim();
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      password: e.target.value,
+    }));
+
+    // 유효성검사
     const reg =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])(?=.*[A-Z])[A-Za-z\d@$!%*#?&]{8,}$/;
     if (!reg.test(e.target.value)) {
@@ -104,15 +112,27 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     } else {
       setPwError('');
       setPwValid(CheckOn);
-      setUserInput((prevUserInput) => ({
-        ...prevUserInput,
-        password: e.target.value,
-      }));
+    }
+
+    // 비밀번호 재확인 값과 비교
+    if (userInput.password2 && e.target.value !== userInput.password2) {
+      setPw2Error('비밀번호가 일치하지 않습니다.');
+      setPw2Valid(CheckOff);
+    } else if (userInput.password2 && e.target.value === userInput.password2) {
+      setPw2Error('');
+      setPw2Valid(CheckOn);
     }
   };
 
+  //* password2 - 비밀번호 값과 비교
   const handlePasswordCheck = (e: ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.trim();
+    setUserInput((prevUserInput) => ({
+      ...prevUserInput,
+      password2: e.target.value,
+    }));
+
+    // 비밀번호 값과 비교
     if (!userInput.password) {
       setPw2Error('비밀번호를 입력해 주세요.');
     } else if (userInput.password !== e.target.value) {
@@ -121,10 +141,6 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     } else if (userInput.password === e.target.value) {
       setPw2Error('');
       setPw2Valid(CheckOn);
-      setUserInput((prevUserInput) => ({
-        ...prevUserInput,
-        password2: e.target.value,
-      }));
     }
   };
 
