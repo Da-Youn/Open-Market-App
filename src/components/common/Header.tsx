@@ -1,16 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CoralLogo from '../../assets/logo-coral.png';
 import UserIcon from '../../assets/icon-user.svg';
 import CartIcon from '../../assets/icon-shopping-cart.svg';
 import SearchIcon from '../../assets/icon-search.svg';
-
+import Button from './Button';
+import ShoppingBagImg from '../../assets/icon-shopping-bag.svg';
 interface HeaderProps {
   id: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ id }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const userType = localStorage.getItem('user_type');
+  console.log(token, userType);
+  const isLoggedIn = !!token;
+
+  const handleSellerBtnClick = () => {
+    // navigate 함수를 이용하여 페이지 이동
+    navigate('/my/seller_center');
+  };
+
   return (
     <HeaderWrapper id={id}>
       <div className='header-left'>
@@ -32,10 +44,26 @@ const Header: React.FC<HeaderProps> = ({ id }) => {
           <img src={CartIcon} alt='장바구니 아이콘' />
           <p>장바구니</p>
         </Link>
-        <Link to='/account/login'>
-          <img src={UserIcon} alt='유저 아이콘' />
-          <p>로그인</p>
-        </Link>
+        {!isLoggedIn ? (
+          <Link to='/account/login'>
+            <img src={UserIcon} alt='유저 아이콘' />
+            <p>로그인</p>
+          </Link>
+        ) : userType === 'BUYER' ? (
+          <Link to='/my/page'>
+            <img src={UserIcon} alt='유저 아이콘' />
+            <p>마이페이지</p>
+          </Link>
+        ) : (
+          <SellerBtn
+            width='168px'
+            fontWeight='400'
+            onClick={handleSellerBtnClick}
+          >
+            <img src={ShoppingBagImg} alt='' />
+            판매자 센터
+          </SellerBtn> // 판매자센터 버튼
+        )}
       </div>
     </HeaderWrapper>
   );
@@ -95,6 +123,14 @@ export const HeaderWrapper = styled.header`
       color: var(--sub-font-color);
     }
   }
+`;
+
+const SellerBtn = styled(Button)`
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 `;
 
 export default Header;
