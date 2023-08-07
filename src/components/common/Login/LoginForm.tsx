@@ -54,6 +54,9 @@ const LoginForm: React.FC = () => {
       });
 
       if (res.status >= 200 && res.status < 300) {
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user_type', res.data.user_type);
+        localStorage.setItem('username', userInput.username);
         alert(`${userInput.username}님, 반갑습니다.`);
         navigate('/');
       }
