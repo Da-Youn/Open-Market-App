@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Product {
@@ -48,12 +49,15 @@ export default function ProductList() {
     <ProductListWrap>
       <ProductWrap>
         {data.map((product) => (
-          <ProductDiv key={product.product_id}>
+          <ProductLink
+            key={product.product_id}
+            to={`/products/${product.product_id}`}
+          >
             <img src={product.image} alt={product.product_name} />
             <p className='store-name'>{product.store_name}</p>
             <p className='product-name'>{product.product_name}</p>
             <p className='price'>{product.price.toLocaleString()}원</p>
-          </ProductDiv>
+          </ProductLink>
         ))}
       </ProductWrap>
       {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>}
@@ -93,7 +97,7 @@ export const ProductWrap = styled.div`
   }
 `;
 
-export const ProductDiv = styled.div`
+export const ProductLink = styled(Link)`
   margin-bottom: 8px;
   img {
     width: 380px;
