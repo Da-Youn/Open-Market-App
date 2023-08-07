@@ -4,7 +4,7 @@ import React, {
   ChangeEvent,
   MouseEventHandler,
 } from 'react';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { AxiosError } from 'axios';
 import TypeChange from '../TypeChange';
@@ -45,6 +45,7 @@ interface UserInput {
 type PhoneNumState = [string, string, string];
 
 const SignupForm: React.FC<SignupFormProps> = () => {
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState<UserInput>({
     username: '',
     password: '',
@@ -325,8 +326,8 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       );
 
       if (res.status === 202) {
-        alert('회원가입 성공');
-        console.log(res);
+        alert('회원가입이 완료되었습니다 :)');
+        navigate('/account/login');
       }
     } catch (error) {
       const axiosError = error as AxiosError<Record<string, any>>;
