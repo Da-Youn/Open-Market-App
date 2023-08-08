@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Product {
@@ -16,6 +16,7 @@ interface ProductListData {
 }
 
 export default function ProductList() {
+  const navigate = useNavigate();
   const [data, setData] = useState<Product[]>([]);
   const [nextPage, setNextPage] = useState<string>('');
 
@@ -49,15 +50,19 @@ export default function ProductList() {
     <ProductListWrap>
       <ProductWrap>
         {data.map((product) => (
-          <ProductLink
+          <ProductBtn
             key={product.product_id}
-            to={`/products/${product.product_id}`}
+            onClick={() =>
+              navigate(`/products/${product.product_id}`, {
+                state: product.product_id,
+              })
+            }
           >
             <img src={product.image} alt={product.product_name} />
             <p className='store-name'>{product.store_name}</p>
             <p className='product-name'>{product.product_name}</p>
             <p className='price'>{product.price.toLocaleString()}원</p>
-          </ProductLink>
+          </ProductBtn>
         ))}
       </ProductWrap>
       {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>}
@@ -97,8 +102,9 @@ export const ProductWrap = styled.div`
   }
 `;
 
-export const ProductLink = styled(Link)`
+export const ProductBtn = styled.button`
   margin-bottom: 8px;
+  text-align: left;
   img {
     width: 380px;
     height: 380px;
