@@ -124,7 +124,7 @@ export const NextBtn = styled.button`
   color: var(--main-color);
   border-radius: 20px;
   text-align: center;
-  margin: 100px auto;
+  margin: 100px auto 0;
 
   &:hover {
     background-color: var(--main-color);

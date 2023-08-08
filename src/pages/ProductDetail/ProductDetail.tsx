@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from 'src/components/common/Header';
 import ProductDetailCard from 'src/components/common/ProductDetail/ProductDetailCard';
+import Footer from 'src/components/common/Footer';
 import styled from 'styled-components';
 export interface ProductDetailProps {}
 
@@ -11,6 +12,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
       <Main>
         <ProductDetailCard />
       </Main>
+      <Footer />
     </>
   );
 };
