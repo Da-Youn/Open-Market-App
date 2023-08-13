@@ -15,19 +15,12 @@ const commonConfig: ApiConfig = {
 const api: AxiosInstance = axios.create({
   ...commonConfig,
   headers: {
-    Authorization: `Bearer ${AUTH_TOKEN}`,
+    Authorization: `JWT ${AUTH_TOKEN}`,
     'Content-Type': 'application/json',
   },
 });
 
 const urlApi: AxiosInstance = axios.create(commonConfig);
-
-const tokenApi: AxiosInstance = axios.create({
-  ...commonConfig,
-  headers: {
-    Authorization: `Bearer ${AUTH_TOKEN}`,
-  },
-});
 
 const headerApi: AxiosInstance = axios.create({
   ...commonConfig,
@@ -36,4 +29,4 @@ const headerApi: AxiosInstance = axios.create({
   },
 });
 
-export { api, urlApi, tokenApi, headerApi };
+export { api, urlApi, headerApi };
