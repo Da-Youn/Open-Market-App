@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductData } from 'src/store/productSlice';
+import getCartList from 'src/api/Cart/getCartList';
+import postAddCart from 'src/api/Cart/postAddCart';
 import { RootState } from 'src/store/store';
+import { getProductData } from 'src/store/productSlice';
+import Modal from '../Modal';
 import Button from '../Button';
 import PlusIcon from '../../../assets/icon-plus-line.svg';
 import MinusIcon from '../../../assets/icon-minus-line.svg';
@@ -21,10 +24,12 @@ import {
 export interface ProductDetailCardProps {}
 
 const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const postId = location.state.toString();
+  const productId = location.state;
   const dispatch = useDispatch<any>();
-
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<string>('moveCart');
   const productData = useSelector(
     (state: RootState) => state.product.productData,
   );
@@ -32,10 +37,36 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
   const loading = useSelector((state: RootState) => state.product.loading);
 
   useEffect(() => {
-    dispatch(getProductData(postId)); // createAsyncThunk로 비동기 요청 수행
+    dispatch(getProductData(productId)); // createAsyncThunk로 비동기 요청 수행
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postId]);
+  }, [productId]);
+
+  const handleAddCart = async () => {
+    const cartList = await getCartList();
+    const checkItem = cartList.some(
+      (item: any) => item.product_id === productId,
+    );
+    const data = {
+      product_id: productId,
+      quantity: 1,
+      check: checkItem,
+    };
+    const res = await postAddCart(data);
+    if (res?.status === 406) {
+      setModalType('addCartError');
+    }
+
+    setIsOpen(true);
+  };
+
+  const handleAcceptBtn = async () => {
+    if (modalType === 'moveCart') {
+      navigate('/cart');
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <>
@@ -93,6 +124,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                   바로 구매
                 </Button>
                 <Button
+                  onClick={handleAddCart}
                   width='200px'
                   fontWeight='400'
                   $bgColor='var(--sub-font-color )'
@@ -102,6 +134,14 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
               </SubmitButtonWrap>
             </ProductForm>
           </InfoFormSection>
+
+          {isOpen && (
+            <Modal
+              type={modalType}
+              setIsOpen={setIsOpen}
+              acceptBtnClick={handleAcceptBtn}
+            />
+          )}
         </ProductCardWrap>
       )}
     </>
