@@ -28,15 +28,17 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
     (state: RootState) => state.product.productData,
   );
 
+  const loading = useSelector((state: RootState) => state.product.loading);
+
   useEffect(() => {
     dispatch(getProductData(postId)); // createAsyncThunk로 비동기 요청 수행
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [postId]);
 
   return (
     <>
-      {productData && (
+      {productData !== null && !loading && (
         <ProductCardWrap>
           <h1 className='a11y-hidden'>상품 상세 정보</h1>
           <div>
