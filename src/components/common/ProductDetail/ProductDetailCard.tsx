@@ -8,7 +8,8 @@ import PlusIcon from '../../../assets/icon-plus-line.svg';
 import MinusIcon from '../../../assets/icon-minus-line.svg';
 import {
   ProductCardWrap,
-  InfoFormSecrion,
+  ImgSection,
+  InfoFormSection,
   ProductInfo,
   ProductName,
   ProductForm,
@@ -41,15 +42,15 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
       {productData !== null && !loading && (
         <ProductCardWrap>
           <h1 className='a11y-hidden'>상품 상세 정보</h1>
-          <div>
+          <ImgSection>
             <img
               aria-label='상품 이미지'
               src={productData.image}
               alt={`${productData.product_name} 이미지`}
             />
-          </div>
+          </ImgSection>
 
-          <InfoFormSecrion>
+          <InfoFormSection>
             <ProductInfo>
               <h2 className='a11y-hidden'>상품 정보</h2>
               <p aria-label='스토어 이름'>{productData.store_name}</p>
@@ -100,7 +101,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                 </Button>
               </SubmitButtonWrap>
             </ProductForm>
-          </InfoFormSecrion>
+          </InfoFormSection>
         </ProductCardWrap>
       )}
     </>

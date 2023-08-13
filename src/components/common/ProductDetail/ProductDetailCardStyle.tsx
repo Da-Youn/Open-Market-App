@@ -3,17 +3,23 @@ import styled from 'styled-components';
 export const ProductCardWrap = styled.section`
   width: 100%;
   display: flex;
+  justify-content: center;
   gap: 50px;
-
+`;
+export const ImgSection = styled.div`
+  max-width: 600px;
+  max-height: 600px;
+  width: 100%;
+  height: 100%;
   img {
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
     object-fit: cover;
     object-position: 50% 0;
   }
 `;
-
-export const InfoFormSecrion = styled.div`
+export const InfoFormSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
