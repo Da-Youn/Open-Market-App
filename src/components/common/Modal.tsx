@@ -54,6 +54,18 @@ const Modal: React.FC<ModalProps> = ({
           cancel: '아니오',
           accept: '예',
         }
+      : type === 'addCartError'
+      ? {
+          desc: (
+            <p>
+              원하는 상품의 재고가 없어요.
+              <br />
+              다른 상품을 살펴보시는 건 어떨까요?
+            </p>
+          ),
+          cancel: '아니오',
+          accept: '다른 상품 보기',
+        }
       : {};
 
   const handleModalClose = () => {
