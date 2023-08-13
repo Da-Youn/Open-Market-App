@@ -350,13 +350,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 $mgBottom='none'
                 onChange={handleIdChange}
                 $isError={idError}
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
               />
               <Button
                 width='auto'
-                padding='0 32px'
+                $padding='0 32px'
                 fontSize='var(--font-sm)'
                 fontWeight='500'
                 onClick={handleCheckIDDuplicate}
@@ -375,7 +375,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 $mgBottom='none'
                 onChange={handlePasswordValid}
                 $isError={pwError}
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
               />
@@ -389,7 +389,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 $mgBottom='none'
                 onChange={handlePasswordCheck}
                 $isError={pw2Error}
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
               />
@@ -404,7 +404,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
             <Input
               onChange={handleNameChange}
               $mgBottom='none'
-              padding='0 0 0 16px'
+              $padding='0 0 0 16px'
               $borderWidth='1px'
               $bdRadius='5px'
             />
@@ -452,7 +452,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 onChange={handleSecondPhoneNumChange}
                 width='100%'
                 $mgBottom='none'
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
                 $isError={phoneNumError}
@@ -462,7 +462,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 onChange={handleLastPhoneNumChange}
                 width='100%'
                 $mgBottom='none'
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
                 $isError={phoneNumError}
@@ -478,7 +478,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               <div>
                 <Input
                   $mgBottom='none'
-                  padding='0 0 0 16px'
+                  $padding='0 0 0 16px'
                   $borderWidth='1px'
                   $bdRadius='5px'
                   onChange={handleRegNumChange}
@@ -486,7 +486,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 />
                 <Button
                   width='auto'
-                  padding='0 32px'
+                  $padding='0 32px'
                   fontSize='var(--font-sm)'
                   fontWeight='500'
                   onClick={handleRegNumDuplicate}
@@ -501,7 +501,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               <label htmlFor=''>스토어 이름</label>
               <Input
                 $mgBottom='none'
-                padding='0 0 0 16px'
+                $padding='0 0 0 16px'
                 $borderWidth='1px'
                 $bdRadius='5px'
                 onChange={handleStoreNameChange}

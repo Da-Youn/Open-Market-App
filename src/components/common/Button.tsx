@@ -6,13 +6,13 @@ interface ButtonProps {
   type?: string;
   $maxWidth?: string;
   width?: string;
-  padding?: string;
+  $padding?: string;
   $mgTop?: string;
   color?: string;
   fontSize?: string;
   fontWeight?: string;
-  bgColor?: string;
-  border?: string;
+  $bgColor?: string;
+  $border?: string;
   $bdRadius?: string;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -32,14 +32,14 @@ const ButtonStyle = styled.button<ButtonProps>`
   max-width: ${(props: { $maxWidth: string }) => props.$maxWidth};
   width: ${(props: { width: string }) => (props.width ? props.width : '100%')};
   margin-top: ${(props: { $mgTop: string }) => props.$mgTop || '0px'};
-  padding: ${(props: { padding: string }) => props.padding || '19px 0'};
+  padding: ${(props: { $padding: string }) => props.$padding || '19px 0'};
   color: ${(props: { color: string }) => props.color || 'var(--white)'};
   font-size: ${(props: { fontSize: string }) =>
     props.fontSize || 'var(--font-md)'};
   font-weight: ${(props: { fontWeight: string }) => props.fontWeight || '700'};
-  background-color: ${(props: { bgColor: string }) =>
-    props.bgColor || 'var(--main-color)'};
-  border: ${(props: { border: string }) => props.border || 'none'};
+  background-color: ${(props: { $bgColor: string }) =>
+    props.$bgColor || 'var(--main-color)'};
+  border: ${(props: { $border: string }) => props.$border || 'none'};
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || '5px'};
 
   &:disabled {

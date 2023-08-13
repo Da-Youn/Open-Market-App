@@ -94,7 +94,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                 <Button
                   width='200px'
                   fontWeight='400'
-                  bgColor='var(--sub-font-color )'
+                  $bgColor='var(--sub-font-color )'
                 >
                   장바구니
                 </Button>
