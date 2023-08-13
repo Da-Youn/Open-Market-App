@@ -6,7 +6,7 @@ interface InputProps {
   maxWidth?: string;
   width?: string;
   height?: string;
-  padding?: string;
+  $padding?: string;
   $borderWidth?: string;
   $bdRadius?: string;
   $mgBottom?: string;
@@ -25,7 +25,7 @@ export const InputStyle = styled.input<InputProps>`
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};
   width: ${(props: { width: string }) => props.width};
   height: ${(props: { height: string }) => props.height || '54px'};
-  padding: ${(props: { padding: string }) => props.padding};
+  padding: ${(props: { $padding: string }) => props.$padding};
   border-width: ${(props: { $borderWidth: string }) =>
     props.$borderWidth || 'none'};
   border-style: solid;
