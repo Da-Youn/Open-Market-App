@@ -111,11 +111,19 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
               <ProductQuantitySelection>
                 <h3 className='a11y-hidden'>수량 선택</h3>
                 <div>
-                  <button type='button' onClick={handleQuantityDec}>
+                  <button
+                    type='button'
+                    onClick={handleQuantityDec}
+                    disabled={stock > 0 ? false : true}
+                  >
                     <img src={MinusIcon} alt='감소 버튼' />
                   </button>
                   <p>{quantity}</p>
-                  <button type='button' onClick={handleQuantityInc}>
+                  <button
+                    type='button'
+                    onClick={handleQuantityInc}
+                    disabled={stock > 0 ? false : true}
+                  >
                     <img src={PlusIcon} alt='증가 버튼' />
                   </button>
                 </div>
@@ -136,7 +144,11 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                 </div>
               </ProductTotalAmount>
               <SubmitButtonWrap>
-                <Button width='416px' fontWeight='400'>
+                <Button
+                  width='416px'
+                  fontWeight='400'
+                  disabled={stock > 0 ? false : true}
+                >
                   바로 구매
                 </Button>
                 <Button
@@ -144,6 +156,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                   width='200px'
                   fontWeight='400'
                   $bgColor='var(--sub-font-color )'
+                  disabled={stock > 0 ? false : true}
                 >
                   장바구니
                 </Button>

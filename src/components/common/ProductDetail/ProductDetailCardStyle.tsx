@@ -51,6 +51,9 @@ export const ProductForm = styled.form`
 `;
 
 export const ProductQuantitySelection = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   padding: 30px 0;
   margin: 20px 0 46px;
   border-top: 1px solid var(--border-color);
