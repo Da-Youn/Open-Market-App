@@ -29,18 +29,18 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
   const productId = location.state;
   const dispatch = useDispatch<any>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
   const [modalType, setModalType] = useState<string>('moveCart');
+
   const productData = useSelector(
     (state: RootState) => state.product.productData,
   );
-
   const loading = useSelector((state: RootState) => state.product.loading);
-
   useEffect(() => {
     dispatch(getProductData(productId)); // createAsyncThunk로 비동기 요청 수행
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+  const stock = Number(productData?.stock);
 
   const handleAddCart = async () => {
     const cartList = await getCartList();
@@ -49,7 +49,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
     );
     const data = {
       product_id: productId,
-      quantity: 1,
+      quantity: quantity,
       check: checkItem,
     };
     const res = await postAddCart(data);
@@ -65,6 +65,18 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
       navigate('/cart');
     } else {
       navigate('/');
+    }
+  };
+
+  const handleQuantityDec = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleQuantityInc = () => {
+    if (quantity < stock) {
+      setQuantity((prev) => prev + 1);
     }
   };
 
@@ -99,23 +111,27 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
               <ProductQuantitySelection>
                 <h3 className='a11y-hidden'>수량 선택</h3>
                 <div>
-                  <button>
+                  <button type='button' onClick={handleQuantityDec}>
                     <img src={MinusIcon} alt='감소 버튼' />
                   </button>
-                  <p>1</p>
-                  <button>
+                  <p>{quantity}</p>
+                  <button type='button' onClick={handleQuantityInc}>
                     <img src={PlusIcon} alt='증가 버튼' />
                   </button>
                 </div>
+                <p>현재 재고 : {stock > 0 ? `${stock}개` : '0개(품절)'}</p>
               </ProductQuantitySelection>
               <ProductTotalAmount>
                 <h3>총 상품 금액</h3>
                 <div>
                   <p>
-                    총 수량 <span>1</span>개
+                    총 수량 <span>{quantity}</span>개
                   </p>
                   <p>
-                    <span>{productData.price.toLocaleString()}</span>원
+                    <span>
+                      {(quantity * productData.price).toLocaleString()}
+                    </span>
+                    원
                   </p>
                 </div>
               </ProductTotalAmount>
