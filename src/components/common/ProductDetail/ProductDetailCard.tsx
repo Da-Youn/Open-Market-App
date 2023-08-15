@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import getCartList from 'src/api/Cart/getCartList';
 import postAddCart from 'src/api/Cart/postAddCart';
 import { RootState } from 'src/store/store';
 import { getProductData } from 'src/store/productSlice';
+import { getCartListData } from 'src/store/cartListSlice';
 import Modal from '../Modal';
 import Button from '../Button';
 import PlusIcon from '../../../assets/icon-plus-line.svg';
@@ -35,16 +35,20 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
   const productData = useSelector(
     (state: RootState) => state.product.productData,
   );
+  const cartListData = useSelector(
+    (state: RootState) => state.cartList.cartListData?.results,
+  );
+
   const loading = useSelector((state: RootState) => state.product.loading);
   useEffect(() => {
-    dispatch(getProductData(productId)); // createAsyncThunk로 비동기 요청 수행
+    dispatch(getProductData(productId));
+    dispatch(getCartListData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
   const stock = Number(productData?.stock);
 
   const handleAddCart = async () => {
-    const cartList = await getCartList();
-    const checkItem = cartList.some(
+    const checkItem = cartListData?.some(
       (item: any) => item.product_id === productId,
     );
     const data = {
