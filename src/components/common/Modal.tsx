@@ -54,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({
           cancel: '아니오',
           accept: '예',
         }
-      : type === 'addCartError'
+      : type === 'outOfStockError'
       ? {
           desc: (
             <p>
@@ -64,6 +64,18 @@ const Modal: React.FC<ModalProps> = ({
             </p>
           ),
           cancel: '아니오',
+          accept: '다른 상품 보기',
+        }
+      : type === 'lackOfStockError'
+      ? {
+          desc: (
+            <p>
+              이미 장바구니에 담긴 수량은
+              <br />
+              현재 재고 수량을 초과할 수 없습니다.
+            </p>
+          ),
+          cancel: '확인',
           accept: '다른 상품 보기',
         }
       : {};

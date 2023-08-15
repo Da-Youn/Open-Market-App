@@ -54,9 +54,15 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
     };
     const res = await postAddCart(data);
     if (res?.status === 406) {
-      setModalType('addCartError');
+      if (
+        res?.data.FAIL_message ===
+        '현재 재고보다 더 많은 수량을 담을 수 없습니다.'
+      ) {
+        setModalType('lackOfStockError');
+      } else {
+        setModalType('outOfStockError');
+      }
     }
-
     setIsOpen(true);
   };
 
