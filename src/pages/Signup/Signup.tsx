@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CoralLogo from '../../assets/logo-coral.png';
-import SignupForm from 'src/components/common/Signup/SignupForm';
+import SignupForm from '../../components/Signup/SignupForm';
 import { SignupWrap } from './SignupStyle';
 export interface SignupProps {}
 

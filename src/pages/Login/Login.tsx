@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CoralLogo from '../../assets/logo-coral.png';
 import { LoginWrap, LinkWrap } from './LoginStyle';
-import LoginForm from 'src/components/common/Login/LoginForm';
+import LoginForm from 'src/components/Login/LoginForm';
 
 const Login: React.FC = () => {
   return (

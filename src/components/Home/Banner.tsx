@@ -4,9 +4,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import styled from 'styled-components';
-import LeftSwiper from '../../../assets/icon-swiper-1.svg';
-import RightSwiper from '../../../assets/icon-swiper-2.svg';
-import images, { ImageSource } from '../../../data/CarouselData'; // data.tsx에서 images 배열과 ImageSource 타입 가져오기
+import LeftSwiper from '../../assets/icon-swiper-1.svg';
+import RightSwiper from '../../assets/icon-swiper-2.svg';
+import images, { ImageSource } from '../../data/CarouselData'; // data.tsx에서 images 배열과 ImageSource 타입 가져오기
 
 const EventBanner: React.FC = () => {
   const settings = {

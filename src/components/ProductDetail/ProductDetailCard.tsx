@@ -5,10 +5,10 @@ import postAddCart from 'src/api/Cart/postAddCart';
 import { RootState } from 'src/store/store';
 import { getProductData } from 'src/store/productSlice';
 import { getCartListData } from 'src/store/cartListSlice';
-import Modal from '../Modal';
-import Button from '../Button';
-import PlusIcon from '../../../assets/icon-plus-line.svg';
-import MinusIcon from '../../../assets/icon-minus-line.svg';
+import Modal from '../common/Modal';
+import Button from '../common/Button';
+import PlusIcon from '../../assets/icon-plus-line.svg';
+import MinusIcon from '../../assets/icon-minus-line.svg';
 import {
   ProductCardWrap,
   ImgSection,

@@ -1,4 +1,4 @@
-import { ErrorMsg } from '../Form';
+import { ErrorMsg } from '../common/Form';
 
 interface LoginErrorProps {
   idError: boolean;

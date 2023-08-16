@@ -5,17 +5,17 @@ import React, {
   MouseEventHandler,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../Button';
+import Button from '../common/Button';
 import { AxiosError } from 'axios';
-import TypeChange from '../TypeChange';
-import { FormWrap, ErrorMsg, ValidMsg } from '../Form';
-import Input from '../Input';
-import CheckOn from '../../../assets/icon-check-on.svg';
-import CheckOff from '../../../assets/icon-check-off.svg';
-import CheckBox from '../../../assets/check-box.svg';
-import CheckBoxFilled from '../../../assets/check-fill-box.svg';
-import DownArrow from '../../../assets/icon-down-arrow.svg';
-import UpArrow from '../../../assets/icon-up-arrow.svg';
+import TypeChange from '../common/TypeChange';
+import { FormWrap, ErrorMsg, ValidMsg } from '../common/Form';
+import Input from '../common/Input';
+import CheckOn from '../../assets/icon-check-on.svg';
+import CheckOff from '../../assets/icon-check-off.svg';
+import CheckBox from '../../assets/check-box.svg';
+import CheckBoxFilled from '../../assets/check-fill-box.svg';
+import DownArrow from '../../assets/icon-down-arrow.svg';
+import UpArrow from '../../assets/icon-up-arrow.svg';
 import { headerApi } from 'src/api/axiosInstance';
 import {
   AccountInfoWrap,
@@ -29,7 +29,7 @@ import {
   SellerInfoWrap,
   RegNumberInput,
   CheckWrap,
-} from '../../../pages/Signup/SignupStyle';
+} from '../../pages/Signup/SignupStyle';
 export interface SignupFormProps {}
 
 interface UserInput {
