@@ -7,8 +7,8 @@ import { getProductData } from 'src/store/productSlice';
 import { getCartListData } from 'src/store/cartListSlice';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
-import PlusIcon from '../../assets/icon-plus-line.svg';
-import MinusIcon from '../../assets/icon-minus-line.svg';
+import QuantityButton from '../common/QuantityButton';
+
 import {
   ProductCardWrap,
   ImgSection,
@@ -78,18 +78,6 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
     }
   };
 
-  const handleQuantityDec = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
-
-  const handleQuantityInc = () => {
-    if (quantity < stock) {
-      setQuantity((prev) => prev + 1);
-    }
-  };
-
   return (
     <>
       {productData !== null && !loading && (
@@ -120,23 +108,11 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
               <p>택배배송 / 무료배송</p>
               <ProductQuantitySelection>
                 <h3 className='a11y-hidden'>수량 선택</h3>
-                <div>
-                  <button
-                    type='button'
-                    onClick={handleQuantityDec}
-                    disabled={stock > 0 ? false : true}
-                  >
-                    <img src={MinusIcon} alt='감소 버튼' />
-                  </button>
-                  <p>{quantity}</p>
-                  <button
-                    type='button'
-                    onClick={handleQuantityInc}
-                    disabled={stock > 0 ? false : true}
-                  >
-                    <img src={PlusIcon} alt='증가 버튼' />
-                  </button>
-                </div>
+                <QuantityButton
+                  stock={stock}
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                />
                 <p>현재 재고 : {stock > 0 ? `${stock}개` : '0개(품절)'}</p>
               </ProductQuantitySelection>
               <ProductTotalAmount>
