@@ -15,7 +15,6 @@ const Header: React.FC<HeaderProps> = ({ id }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const userType = localStorage.getItem('user_type');
-  console.log(token, userType);
   const isLoggedIn = !!token;
 
   const handleSellerBtnClick = () => {

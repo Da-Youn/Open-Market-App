@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
 	--font-lg : 24px;
 	--font-md : 18px;
 	--font-sm : 16px;
+	--font-xs : 14px
   }
 
   .a11y-hidden {
