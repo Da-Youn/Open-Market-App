@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { api } from 'src/api/axiosInstance';
+import { urlApi } from 'src/api/axiosInstance';
 
 interface ProductData {
   product_id: number;
@@ -28,10 +28,10 @@ const initialProductState: ProductState = {
   loading: false,
 };
 
-export const getProductData = createAsyncThunk<ProductData, string>(
+export const getProductData = createAsyncThunk<ProductData, number>(
   '/product/getProduct',
   async (postId) => {
-    const res = await api.get(`/products/${postId}`);
+    const res = await urlApi.get(`/products/${postId}/`);
     return res.data;
   },
 );
