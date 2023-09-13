@@ -1,11 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { api } from 'src/api/axiosInstance';
 
+interface CartItemResults {
+  my_cart: number;
+  cart_item_id: number;
+  product_id: number;
+  quantity: number;
+}
+
 interface CartItem {
   count: number;
   next: string | null;
   previous: string | null;
-  results: [];
+  results: CartItemResults[];
 }
 
 interface CartListState {
