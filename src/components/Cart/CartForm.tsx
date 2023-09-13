@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
+import { getProductData } from 'src/store/productSlice';
+import { getCartListData } from 'src/store/cartListSlice';
 import styled from 'styled-components';
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
@@ -12,7 +16,38 @@ export interface CartListProps {
 }
 
 const CartForm = (props: CartListProps) => {
+  const dispatch = useDispatch<any>();
+  const cartListData = useSelector(
+    (state: RootState) => state.cartList.cartListData?.results,
+  );
+
   const [cartListDetail, setCartListDetail] = useState<any>(null);
+
+  useEffect(() => {
+    dispatch(getCartListData()); // createAsyncThunk로 비동기 요청 수행
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (cartListData?.length) {
+      const tempCartListDetail: any[] = [];
+
+      // Fetch productData for each item
+      cartListData.forEach((item: any) => {
+        dispatch(getProductData(item.product_id)).then((product: any) => {
+          tempCartListDetail.push(product.payload);
+
+          // If all products are fetched, update the state
+          if (tempCartListDetail.length === cartListData.length) {
+            setCartListDetail(tempCartListDetail);
+          }
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartListData]);
+
   return (
     <CartFormLayout>
       <h1>장바구니</h1>
