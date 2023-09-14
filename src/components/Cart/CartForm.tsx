@@ -26,6 +26,7 @@ const CartForm = () => {
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
   const [amountData, setAmountData] = useState<AmountDataType>({});
+  const [totalAmount, setTotalAmount] = useState<number>(0);
 
   // 장바구니 목록 불러오기
   useEffect(() => {
@@ -60,6 +61,12 @@ const CartForm = () => {
     } else {
       setCheckBox(CheckBoxIcon);
     }
+    // 선택한 상품 총합계금액 계산
+    const sum = amounts.reduce(
+      (acc, currentValue) => acc + parseInt(currentValue),
+      0,
+    );
+    setTotalAmount(sum);
   }, [amountData]);
 
   const handleCheckBoxActive = () => {
@@ -106,7 +113,7 @@ const CartForm = () => {
           <AmountCalcInfo>
             <p>총 상품금액</p>
             <p>
-              <span>46,500</span> 원
+              <span>{totalAmount}</span> 원
             </p>
           </AmountCalcInfo>
           <PlusIconStyle>
@@ -130,7 +137,7 @@ const CartForm = () => {
           <AmountCalcInfo>
             <p>결제 예정 금액</p>
             <p>
-              <strong>46,500</strong> 원
+              <strong>{totalAmount}</strong> 원
             </p>
           </AmountCalcInfo>
         </TotalAmountBox>
