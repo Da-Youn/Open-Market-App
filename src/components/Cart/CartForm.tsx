@@ -8,24 +8,28 @@ import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
-import CheckBox from '../../assets/check-box(circle).svg';
-import CheckFillBox from '../../assets/check-fill-box(circle).svg';
+import CheckBoxIcon from '../../assets/check-box(circle).svg';
+import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
-export interface CartListProps {
-  cartListDetail: any;
-}
+export interface CartListProps {}
 
-const CartForm = (props: CartListProps) => {
+type AmountDataType = {
+  [key: number]: string;
+};
+
+const CartForm = () => {
   const dispatch = useDispatch<any>();
   const cartListData = useSelector(
     (state: RootState) => state.cartList.cartListData?.results,
   );
-
   const [cartListDetail, setCartListDetail] = useState<any>(null);
+  const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
+  const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
+  const [amountData, setAmountData] = useState<AmountDataType>({});
 
+  // 장바구니 목록 불러오기
   useEffect(() => {
     dispatch(getCartListData()); // createAsyncThunk로 비동기 요청 수행
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,14 +52,34 @@ const CartForm = (props: CartListProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartListData]);
 
+  useEffect(() => {
+    const amounts = Object.values(amountData);
+    // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
+    if (cartListDetail && cartListDetail.length === amounts.length) {
+      setCheckBox(CheckBoxFilledIcon);
+    } else {
+      setCheckBox(CheckBoxIcon);
+    }
+  }, [amountData]);
+
+  const handleCheckBoxActive = () => {
+    if (checkBox === CheckBoxIcon) {
+      setCheckBox(CheckBoxFilledIcon);
+      setIsAllChecked(true);
+    } else if (checkBox === CheckBoxFilledIcon) {
+      setCheckBox(CheckBoxIcon);
+      setIsAllChecked(false);
+    }
+  };
+
   return (
     <CartFormLayout>
       <h1>장바구니</h1>
       <CartFormBox>
         <CartListCol role='columnheader'>
-          <button>
+          <button onClick={handleCheckBoxActive}>
             <p className='a11y-hidden'>목록 전체선택 버튼</p>
-            <img src={CheckBox} alt='장바구니 목록 전체선택 버튼 이미지' />
+            <img src={checkBox} alt='장바구니 목록 전체선택 버튼 이미지' />
           </button>
           <span>
             <p className='a11y-hidden'>이미지</p>
@@ -68,7 +92,14 @@ const CartForm = (props: CartListProps) => {
           <h2 className='a11y-hidden'>장바구니 상품 정보</h2>
           {cartListDetail &&
             cartListDetail.map((cartItem: any) => (
-              <CartItem key={cartItem.product_id} data={cartItem} />
+              <CartItem
+                key={cartItem.product_id}
+                data={cartItem}
+                isAllChecked={isAllChecked}
+                setIsAllChecked={setIsAllChecked}
+                amountData={amountData}
+                setAmountData={setAmountData}
+              />
             ))}
         </CartList>
         <TotalAmountBox>

@@ -6,7 +6,7 @@ export default function Cart() {
   return (
     <div>
       <Header id='top' />
-      <CartForm cartListDetail={undefined} />
+      <CartForm />
       <Footer />
     </div>
   );

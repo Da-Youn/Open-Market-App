@@ -1,24 +1,67 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import QuantityButton from '../common/QuantityButton';
 import Button from '../common/Button';
-import CheckBox from '../../assets/check-box(circle).svg';
-import CheckFillBox from '../../assets/check-fill-box(circle).svg';
+import CheckBoxIcon from '../../assets/check-box(circle).svg';
+import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
+
+type AmountDataType = {
+  [key: number]: string;
+};
 
 interface CartItemProps {
-  key: string;
+  key: number;
   data: any;
+  isAllChecked: boolean | null;
+  setIsAllChecked: React.Dispatch<React.SetStateAction<boolean | null>>;
+  amountData: AmountDataType;
+  setAmountData: React.Dispatch<React.SetStateAction<AmountDataType>>;
 }
 
 const CartItem = (props: CartItemProps) => {
   const itemData = props.data;
   const [quantity, setQuantity] = useState<number>(1);
+  const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
+
+
+  useEffect(() => {
+    if (props.isAllChecked === false) {
+      props.setAmountData({});
+      setCheckBox(CheckBoxIcon);
+    } else if (props.isAllChecked === true) {
+      setCheckBox(CheckBoxFilledIcon);
+      AddAmount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.isAllChecked]);
+
+  const handleCheckBoxActive = () => {
+    if (checkBox === CheckBoxIcon) {
+      AddAmount();
+    } else if (checkBox === CheckBoxFilledIcon) {
+      DeleteAmount();
+    }
+  };
+
+  const AddAmount = () => {
+    props.setAmountData((prev) => ({
+      ...prev,
+      [itemData.product_id]: itemData.price,
+    }));
+    setCheckBox(CheckBoxFilledIcon);
+  };
+  const DeleteAmount = () => {
+    const newData: AmountDataType = { ...props.amountData };
+    delete newData[itemData.product_id];
+    props.setAmountData(newData);
+    setCheckBox(CheckBoxIcon);
+  };
 
   return (
     <CartItemLayout>
-      <CheckBtn>
+      <CheckBtn onClick={handleCheckBoxActive}>
         <p className='a11y-hidden'>상품 선택 버튼</p>
-        <img src={CheckBox} alt='상품 선택 버튼 이미지' />
+        <img src={checkBox} alt='상품 선택 버튼 이미지' />
       </CheckBtn>
       <CartItemImg src={itemData.image} alt='' />
       <CartItemInfo>
@@ -37,7 +80,7 @@ const CartItem = (props: CartItemProps) => {
         />
       </div>
       <CartItemAmount>
-        <strong> {(quantity * itemData.price).toLocaleString()}원</strong>
+        <strong>{(quantity * itemData.price).toLocaleString()}원</strong>
         <Button
           width='130px'
           fontWeight='400'
