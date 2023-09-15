@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import postAddCart from 'src/api/Cart/postAddCart';
-import { RootState } from 'src/store/store';
-import { getProductData } from 'src/store/productSlice';
-import { getCartListData } from 'src/store/cartListSlice';
+import { usePostCart } from 'src/hooks/useCart';
+import { useGetProduct } from 'src/hooks/useProduct';
+
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
-
 import {
   ProductCardWrap,
   ImgSection,
@@ -27,47 +24,31 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const productId = location.state;
-  const dispatch = useDispatch<any>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [modalType, setModalType] = useState<string>('moveCart');
+  const { productData } = useGetProduct(productId);
+  const usePostCartMutate = usePostCart();
 
-  const productData = useSelector(
-    (state: RootState) => state.product.productData,
-  );
-  const cartListData = useSelector(
-    (state: RootState) => state.cartList.cartListData?.results,
-  );
-
-  const loading = useSelector((state: RootState) => state.product.loading);
-  useEffect(() => {
-    dispatch(getProductData(productId));
-    dispatch(getCartListData());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId]);
-  const stock = Number(productData?.stock);
+  const stock = Number(productData.stock);
 
   const handleAddCart = async () => {
-    const checkItem = cartListData?.some(
-      (item: any) => item.product_id === productId,
-    );
-    const data = {
-      product_id: productId,
-      quantity: quantity,
-      check: checkItem,
-    };
-    const res = await postAddCart(data);
-    if (res?.status === 406) {
-      if (
-        res?.data.FAIL_message ===
-        '현재 재고보다 더 많은 수량을 담을 수 없습니다.'
-      ) {
+    try {
+      return await usePostCartMutate.mutateAsync({
+        product_id: productId,
+        quantity: quantity,
+        is_active: false,
+      });
+    } catch (error: any) {
+      // 예외 메시지를 이용해 모달 타입 설정
+      if (error.message === 'lackOfStockError') {
         setModalType('lackOfStockError');
-      } else {
+      } else if (error.message === 'outOfStockError') {
         setModalType('outOfStockError');
       }
+
+      setIsOpen(true);
     }
-    setIsOpen(true);
   };
 
   const handleAcceptBtn = async () => {
@@ -80,7 +61,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
 
   return (
     <>
-      {productData !== null && !loading && (
+      {productData !== null && (
         <ProductCardWrap>
           <h1 className='a11y-hidden'>상품 상세 정보</h1>
           <ImgSection>
@@ -99,7 +80,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                 <strong>{productData.product_name}</strong>
               </ProductName>
               <p aria-label='상품 가격'>
-                <strong>{productData.price.toLocaleString()}</strong>원
+                <strong>{'10000'.toLocaleString()}</strong>원
               </p>
             </ProductInfo>
 
@@ -122,10 +103,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
                     총 수량 <span>{quantity}</span>개
                   </p>
                   <p>
-                    <span>
-                      {(quantity * productData.price).toLocaleString()}
-                    </span>
-                    원
+                    <span>{(quantity * 10000).toLocaleString()}</span>원
                   </p>
                 </div>
               </ProductTotalAmount>
