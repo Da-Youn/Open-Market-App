@@ -12,7 +12,16 @@ const commonConfig: ApiConfig = {
   baseURL: BASE_URL,
 };
 
-const api: AxiosInstance = axios.create({
+// 기본 axios 인스턴스
+const axiosInstance: AxiosInstance = axios.create({
+  ...commonConfig,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// user token 값을 사용하는 인스턴스
+const userInstance: AxiosInstance = axios.create({
   ...commonConfig,
   headers: {
     Authorization: `JWT ${AUTH_TOKEN}`,
@@ -20,13 +29,7 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-const urlApi: AxiosInstance = axios.create(commonConfig);
+// url값만 사용하는 인스턴스
+const urlInstance: AxiosInstance = axios.create(commonConfig);
 
-const headerApi: AxiosInstance = axios.create({
-  ...commonConfig,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export { api, urlApi, headerApi };
+export { axiosInstance, userInstance, urlInstance };

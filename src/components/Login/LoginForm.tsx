@@ -5,7 +5,7 @@ import Input from '../common/Input';
 import TypeChange from '../common/TypeChange';
 import LoginError from './LoginError';
 import Button from '../common/Button';
-import { headerApi } from 'src/api/axiosInstance';
+import { axiosInstance } from 'src/api/axiosInstance';
 import { AxiosError } from 'axios';
 
 interface UserInput {
@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
 
   async function handleLoginSubmit() {
     try {
-      const res = await headerApi.post(`/accounts/login/`, {
+      const res = await axiosInstance.post(`/accounts/login/`, {
         ...userInput,
         login_type: userType,
       });

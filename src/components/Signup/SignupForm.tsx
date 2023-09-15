@@ -16,7 +16,7 @@ import CheckBox from '../../assets/check-box.svg';
 import CheckBoxFilled from '../../assets/check-fill-box.svg';
 import DownArrow from '../../assets/icon-down-arrow.svg';
 import UpArrow from '../../assets/icon-up-arrow.svg';
-import { headerApi } from 'src/api/axiosInstance';
+import { axiosInstance } from 'src/api/axiosInstance';
 import {
   AccountInfoWrap,
   IdInput,
@@ -263,7 +263,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       return;
     }
     try {
-      const res = await headerApi.post(`/accounts/signup/valid/username/`, {
+      const res = await axiosInstance.post(`/accounts/signup/valid/username/`, {
         username: userInput.username,
       });
 
@@ -290,7 +290,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     HTMLButtonElement
   > = async () => {
     try {
-      const res = await headerApi.post(
+      const res = await axiosInstance.post(
         `/accounts/signup/valid/company_registration_number/`,
         { company_registration_number: userInput.company_registration_number },
       );
@@ -320,7 +320,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       return;
     }
     try {
-      const res = await headerApi.post(
+      const res = await axiosInstance.post(
         `/accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`,
         userInput,
       );
