@@ -1,13 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export default function Top() {
+const Top = () => {
   return (
     <TopWrap>
       <a href='#top'>↑</a>
     </TopWrap>
   );
-}
+};
+
+export default Top;
 
 const TopWrap = styled.article`
   width: 60px;

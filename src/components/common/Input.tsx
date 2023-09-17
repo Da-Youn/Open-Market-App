@@ -1,4 +1,4 @@
-import React, { ReactNode, FormEvent, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 interface InputProps {
@@ -17,8 +17,8 @@ interface InputProps {
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ type, ...props }) => {
-  return <InputStyle type={type ? type : 'text'} {...props} />;
+const Input = (props: InputProps) => {
+  return <InputStyle type={props.type ? props.type : 'text'} {...props} />;
 };
 
 export const InputStyle = styled.input<InputProps>`

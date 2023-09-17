@@ -1,5 +1,4 @@
-import styled, { css } from 'styled-components';
-import Button from '../../components/common/Button';
+import styled from 'styled-components';
 
 const LoginWrap = styled.div`
   margin: 130px auto 0;

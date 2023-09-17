@@ -1,11 +1,11 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import CoralLogo from '../../assets/logo-coral.png';
-import SignupForm from '../../components/Signup/SignupForm';
-import { SignupWrap } from './SignupStyle';
-export interface SignupProps {}
 
-const Signup: React.FC<SignupProps> = () => {
+import SignupForm from '../../components/Signup/SignupForm';
+
+import { SignupWrap } from './SignupStyle';
+import CoralLogo from '../../assets/logo-coral.png';
+
+const Signup = () => {
   return (
     <SignupWrap>
       <header>

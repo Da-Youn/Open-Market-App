@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+
 import { AxiosError } from 'axios';
+
 import { useRecoilState } from 'recoil';
-import { ProductTypes, useGetProduct } from './useProduct';
 import { cartDetailAtom } from 'src/atoms/cartAtom';
+
+import { ProductTypes } from './useProduct';
+
 import {
   axiosInstance,
   urlInstance,

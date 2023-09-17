@@ -1,11 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { productAtom } from 'src/atoms/productAtom';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
 import {
   axiosInstance,
   urlInstance,
   userInstance,
 } from 'src/api/axiosInstance';
+
+import { productAtom } from 'src/atoms/productAtom';
 
 export interface ProductTypes {
   product_id?: number;

@@ -1,17 +1,19 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import CoralLogo from '../../assets/logo-coral.png';
-import UserIcon from '../../assets/icon-user.svg';
-import CartIcon from '../../assets/icon-shopping-cart.svg';
-import SearchIcon from '../../assets/icon-search.svg';
+
 import Button from './Button';
+
+import UserIcon from '../../assets/icon-user.svg';
+import CoralLogo from '../../assets/logo-coral.png';
+import SearchIcon from '../../assets/icon-search.svg';
+import CartIcon from '../../assets/icon-shopping-cart.svg';
 import ShoppingBagImg from '../../assets/icon-shopping-bag.svg';
+
 interface HeaderProps {
   id: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ id }) => {
+const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const userType = localStorage.getItem('user_type');
@@ -23,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ id }) => {
   };
 
   return (
-    <HeaderWrapper id={id}>
+    <HeaderWrapper id={props.id}>
       <div className='header-left'>
         <h1>
           <Link to='/'>

@@ -3,8 +3,16 @@ interface SignupErrorProps {
   isValid?: string;
 }
 
-const SignupError: React.FC<SignupErrorProps> = ({ isError, isValid }) => {
-  return <>{isValid ? <p>{isValid}</p> : isError ? <p>{isValid}</p> : null}</>;
+const SignupError = (props: SignupErrorProps) => {
+  return (
+    <>
+      {props.isValid ? (
+        <p>{props.isValid}</p>
+      ) : props.isError ? (
+        <p>{props.isValid}</p>
+      ) : null}
+    </>
+  );
 };
 
 export default SignupError;

@@ -1,19 +1,21 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FormWrap } from '../common/Form';
-import Input from '../common/Input';
-import TypeChange from '../common/TypeChange';
-import LoginError from './LoginError';
-import Button from '../common/Button';
-import { axiosInstance } from 'src/api/axiosInstance';
+
 import { AxiosError } from 'axios';
+import { axiosInstance } from 'src/api/axiosInstance';
+
+import Input from '../common/Input';
+import Button from '../common/Button';
+import LoginError from './LoginError';
+import { FormWrap } from '../common/Form';
+import TypeChange from '../common/TypeChange';
 
 interface UserInput {
   username: string;
   password: string;
 }
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [idError, setIdError] = useState<boolean>(false);
   const [pwError, setPwError] = useState<boolean>(false);

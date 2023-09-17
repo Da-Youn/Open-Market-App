@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useGetCart, useGetCarDetail } from 'src/hooks/useCart.tsx';
 
-import styled from 'styled-components';
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
 

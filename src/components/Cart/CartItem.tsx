@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import QuantityButton from '../common/QuantityButton';
+
 import Button from '../common/Button';
+import QuantityButton from '../common/QuantityButton';
+
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
 import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
@@ -23,6 +25,7 @@ const CartItem = (props: CartItemProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
 
+  //장바구니 수량 변경
 
   useEffect(() => {
     if (props.isAllChecked === false) {

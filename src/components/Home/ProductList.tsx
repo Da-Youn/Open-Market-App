@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,7 +15,7 @@ interface ProductListData {
   next: string;
 }
 
-export default function ProductList() {
+const ProductList = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<Product[]>([]);
   const [nextPage, setNextPage] = useState<string>('');
@@ -68,7 +68,9 @@ export default function ProductList() {
       {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>}
     </ProductListWrap>
   );
-}
+};
+
+export default ProductList;
 
 export const ProductListWrap = styled.section`
   display: flex;

@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
-import GlobalStyle from './style/GlobalStyle';
 import Router from './router/Router';
+import GlobalStyle from './style/GlobalStyle';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <Wrap>
       <GlobalStyle />

@@ -1,4 +1,4 @@
-import React, { ReactNode, ChangeEvent, MouseEventHandler } from 'react';
+import { ReactNode, ChangeEvent, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 interface ButtonProps {
@@ -19,10 +19,10 @@ interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, type, ...props }) => {
+const Button = (props: ButtonProps) => {
   return (
-    <ButtonStyle type={type ? type : 'button'} {...props}>
-      {children}
+    <ButtonStyle type={props.type ? props.type : 'button'} {...props}>
+      {props.children}
     </ButtonStyle>
   );
 };

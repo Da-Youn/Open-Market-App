@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface TypeChangeProps {
@@ -7,35 +6,31 @@ interface TypeChangeProps {
   page: string;
 }
 
-const TypeChange: React.FC<TypeChangeProps> = ({
-  userType,
-  setUserType,
-  page,
-}) => {
+const TypeChange = (props: TypeChangeProps) => {
   const handleBuyerLogin = () => {
-    setUserType('BUYER');
+    props.setUserType('BUYER');
   };
 
   const handleSellerLogin = () => {
-    setUserType('SELLER');
+    props.setUserType('SELLER');
   };
 
   return (
     <TypeChangeWrap>
       <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
       <TypeChangeBtn
-        className={`type-btn ${userType === 'BUYER' ? '' : 'disable'}`}
+        className={`type-btn ${props.userType === 'BUYER' ? '' : 'disable'}`}
         type='button'
         onClick={handleBuyerLogin}
       >
-        구매회원 {page === 'login' ? '로그인' : '가입'}
+        구매회원 {props.page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
       <TypeChangeBtn
-        className={`type-btn ${userType === 'SELLER' ? '' : 'disable'}`}
+        className={`type-btn ${props.userType === 'SELLER' ? '' : 'disable'}`}
         type='button'
         onClick={handleSellerLogin}
       >
-        판매회원 {page === 'login' ? '로그인' : '가입'}
+        판매회원 {props.page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
     </TypeChangeWrap>
   );

@@ -1,22 +1,21 @@
-import React, {
-  useState,
-  useEffect,
-  ChangeEvent,
-  MouseEventHandler,
-} from 'react';
+import { useState, useEffect, ChangeEvent, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../common/Button';
+
 import { AxiosError } from 'axios';
+import { axiosInstance } from 'src/api/axiosInstance';
+
+import Input from '../common/Input';
+import Button from '../common/Button';
 import TypeChange from '../common/TypeChange';
 import { FormWrap, ErrorMsg, ValidMsg } from '../common/Form';
-import Input from '../common/Input';
+
+import UpArrow from '../../assets/icon-up-arrow.svg';
+import DownArrow from '../../assets/icon-down-arrow.svg';
 import CheckOn from '../../assets/icon-check-on.svg';
 import CheckOff from '../../assets/icon-check-off.svg';
 import CheckBox from '../../assets/check-box.svg';
 import CheckBoxFilled from '../../assets/check-fill-box.svg';
-import DownArrow from '../../assets/icon-down-arrow.svg';
-import UpArrow from '../../assets/icon-up-arrow.svg';
-import { axiosInstance } from 'src/api/axiosInstance';
+
 import {
   AccountInfoWrap,
   IdInput,
@@ -44,7 +43,7 @@ interface UserInput {
 
 type PhoneNumState = [string, string, string];
 
-const SignupForm: React.FC<SignupFormProps> = () => {
+const SignupForm = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState<UserInput>({
     username: '',

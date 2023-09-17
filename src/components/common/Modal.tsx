@@ -1,6 +1,7 @@
-import React, { ReactNode, MouseEventHandler } from 'react';
-import Button from './Button';
+import { ReactNode, MouseEventHandler } from 'react';
 import styled from 'styled-components';
+
+import Button from './Button';
 import DeleteIcon from '../../assets/icon-delete.svg';
 
 export interface ModalProps {
@@ -10,15 +11,9 @@ export interface ModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  children,
-  type,
-  setIsOpen,
-  acceptBtnClick,
-  ...props
-}) => {
+const Modal = (props: ModalProps) => {
   const typeData =
-    type === 'moveCart'
+    props.type === 'moveCart'
       ? {
           desc: (
             <p>
@@ -30,19 +25,19 @@ const Modal: React.FC<ModalProps> = ({
           cancel: '쇼핑 계속하기',
           accept: '장바구니 이동',
         }
-      : type === 'editCart'
+      : props.type === 'editCart'
       ? {
-          desc: children,
+          desc: props.children,
           cancel: '취소',
           accept: '수정',
         }
-      : type === 'deleteProduct'
+      : props.type === 'deleteProduct'
       ? {
           desc: <p>상품을 삭제하시겠습니까?</p>,
           cancel: '취소',
           accept: '확인',
         }
-      : type === 'checkLogin'
+      : props.type === 'checkLogin'
       ? {
           desc: (
             <p>
@@ -54,7 +49,7 @@ const Modal: React.FC<ModalProps> = ({
           cancel: '아니오',
           accept: '예',
         }
-      : type === 'outOfStockError'
+      : props.type === 'outOfStockError'
       ? {
           desc: (
             <p>
@@ -66,7 +61,7 @@ const Modal: React.FC<ModalProps> = ({
           cancel: '아니오',
           accept: '다른 상품 보기',
         }
-      : type === 'lackOfStockError'
+      : props.type === 'lackOfStockError'
       ? {
           desc: (
             <p>
@@ -81,11 +76,11 @@ const Modal: React.FC<ModalProps> = ({
       : {};
 
   const handleModalClose = () => {
-    setIsOpen(false);
+    props.setIsOpen(false);
   };
 
   const handleCancelBtn = () => {
-    setIsOpen(false);
+    props.setIsOpen(false);
   };
 
   return (
@@ -105,7 +100,7 @@ const Modal: React.FC<ModalProps> = ({
           {typeData.cancel}
         </Button>
         <Button
-          onClick={acceptBtnClick}
+          onClick={props.acceptBtnClick}
           width='120px'
           fontWeight='400'
           $padding='10px 0'

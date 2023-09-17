@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { usePostCart } from 'src/hooks/useCart';
 import { useGetProduct } from 'src/hooks/useProduct';
 
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
+
 import {
   ProductCardWrap,
   ImgSection,
@@ -18,9 +20,7 @@ import {
   SubmitButtonWrap,
 } from './ProductDetailCardStyle';
 
-export interface ProductDetailCardProps {}
-
-const ProductDetailCard: React.FC<ProductDetailCardProps> = () => {
+const ProductDetailCard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const productId = location.state;

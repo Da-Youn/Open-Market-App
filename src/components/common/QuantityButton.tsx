@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
+
 export interface QuantityButtonProps {
   stock: number;
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
+
 const QuantityButton = (props: QuantityButtonProps) => {
   const handleQuantityDec = () => {
     if (props.quantity > 1) {

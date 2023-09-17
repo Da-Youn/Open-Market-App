@@ -1,8 +1,8 @@
-import React from 'react';
 import Header from '../../components/common/Header.tsx';
 import Footer from 'src/components/common/Footer.tsx';
 import CartForm from 'src/components/Cart/CartForm.tsx';
-export default function Cart() {
+
+const Cart = () => {
   return (
     <div>
       <Header id='top' />
@@ -10,4 +10,6 @@ export default function Cart() {
       <Footer />
     </div>
   );
-}
+};
+
+export default Cart;

@@ -6,18 +6,14 @@ interface LoginErrorProps {
   loginError: string;
 }
 
-const LoginError: React.FC<LoginErrorProps> = ({
-  idError,
-  pwError,
-  loginError,
-}) => {
+const LoginError = (props: LoginErrorProps) => {
   return (
     <>
-      {(idError || pwError || loginError) && (
+      {(props.idError || props.pwError || props.loginError) && (
         <ErrorMsg>
-          {idError || pwError
+          {props.idError || props.pwError
             ? '아이디 또는 비밀번호를 입력해 주세요.'
-            : loginError}
+            : props.loginError}
         </ErrorMsg>
       )}
     </>

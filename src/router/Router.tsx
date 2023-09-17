@@ -1,11 +1,12 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+
+import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
-import Cart from '../pages/Cart/Cart';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
-const Router: React.FC = () => {
+
+const Router = () => {
   return (
     <BrowserRouter>
       <Routes>

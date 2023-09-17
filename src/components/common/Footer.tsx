@@ -1,11 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
-import InstaIcon from '../../assets/icon-insta.svg';
-import FacebookIcon from '../../assets/icon-fb.svg';
-import YoutubeIcon from '../../assets/icon-yt.svg';
-export interface FooterProps {}
 
-const Footer: React.FC<FooterProps> = () => {
+import YoutubeIcon from '../../assets/icon-yt.svg';
+import FacebookIcon from '../../assets/icon-fb.svg';
+import InstaIcon from '../../assets/icon-insta.svg';
+
+const Footer = () => {
   return (
     <FooterWrap>
       <FooterContents>
