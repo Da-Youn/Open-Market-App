@@ -46,7 +46,7 @@ export const usePostCart = () => {
   };
 
   return useMutation(async (data: CartReqTypes) => addCart(data), {
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
     },
     onError: (error: any) => {
@@ -75,7 +75,29 @@ export const useGetCart = () => {
   const { data, isLoading } = useQuery(['cart'], () => getCart());
 
   return {
-    cartData: data,
+    cartList: data,
     isCartListLoading: isLoading,
   };
+};
+
+export const usePutCart = (cart_item_id: number) => {
+  const queryClient = useQueryClient();
+
+  const aditCart = async (data: CartReqTypes) => {
+    const res = await userInstance.put<ApiResponse<CartResTypes>>(
+      `/cart/${cart_item_id}/`,
+      data,
+    );
+    console.log(res);
+    return res;
+  };
+
+  return useMutation((data: CartReqTypes) => aditCart(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['cart']);
+    },
+    onError: (error: any) => {
+      throw error;
+    },
+  });
 };

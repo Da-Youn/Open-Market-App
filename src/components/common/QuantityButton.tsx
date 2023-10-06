@@ -3,22 +3,28 @@ import styled from 'styled-components';
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
 
-export interface QuantityButtonProps {
+interface QuantityButtonProps {
   stock: number;
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const QuantityButton = (props: QuantityButtonProps) => {
+const QuantityButton = ({
+  stock,
+  quantity,
+  setQuantity,
+}: QuantityButtonProps) => {
+  // 수량 감소
   const handleQuantityDec = () => {
-    if (props.quantity > 1) {
-      props.setQuantity((prev) => prev - 1);
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
     }
   };
 
+  // 수량 증가
   const handleQuantityInc = () => {
-    if (props.quantity < props.stock) {
-      props.setQuantity((prev) => prev + 1);
+    if (quantity < stock) {
+      setQuantity((prev) => prev + 1);
     }
   };
 
@@ -27,15 +33,15 @@ const QuantityButton = (props: QuantityButtonProps) => {
       <button
         type='button'
         onClick={handleQuantityDec}
-        disabled={props.stock > 0 ? false : true}
+        disabled={stock > 0 ? false : true}
       >
         <img src={MinusIcon} alt='감소 버튼' />
       </button>
-      <p>{props.quantity}</p>
+      <p>{quantity}</p>
       <button
         type='button'
         onClick={handleQuantityInc}
-        disabled={props.stock > 0 ? false : true}
+        disabled={stock > quantity ? false : true}
       >
         <img src={PlusIcon} alt='증가 버튼' />
       </button>

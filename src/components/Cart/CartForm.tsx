@@ -19,7 +19,7 @@ const CartForm = () => {
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
   const [amount, setAmount] = useState<AmountType>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const { cartData } = useGetCart();
+  const { cartList } = useGetCart();
 
   // 상품 전체 선택
   useEffect(() => {
@@ -31,7 +31,7 @@ const CartForm = () => {
   useEffect(() => {
     const amounts = Object.values(amount);
     // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
-    if (cartData && cartData.length === amounts.length) {
+    if (cartList && cartList.length === amounts.length) {
       setCheckBox(CheckBoxFilledIcon);
     } else {
       setCheckBox(CheckBoxIcon);
@@ -69,11 +69,11 @@ const CartForm = () => {
         </CartListCol>
         <CartList>
           <h2 className='a11y-hidden'>장바구니 상품 정보</h2>
-          {cartData &&
-            cartData.map((cartItem: any) => (
+          {cartList &&
+            cartList.map((cartItem: any) => (
               <CartItem
                 key={cartItem.product_id}
-                data={cartItem}
+                cartItem={cartItem}
                 isAllChecked={isAllChecked}
                 setIsAllChecked={setIsAllChecked}
                 amount={amount}
