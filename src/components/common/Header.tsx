@@ -41,7 +41,7 @@ const Header = (props: HeaderProps) => {
       </div>
 
       <div className='header-right'>
-        <Link to='/cart'>
+        <Link to='/my/cart'>
           <img src={CartIcon} alt='장바구니 아이콘' />
           <p>장바구니</p>
         </Link>

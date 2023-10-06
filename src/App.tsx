@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import Router from './router/Router';
+import AutoRouter from './router/AutoRouter';
 import GlobalStyle from './style/GlobalStyle';
 
 const App = () => {
   return (
     <Wrap>
       <GlobalStyle />
-      <Router />
+      <AutoRouter />
     </Wrap>
   );
 };
