@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
 
+import { useGetProduct } from 'src/hooks/useProduct';
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
 import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
-type AmountDataType = {
-  [key: number]: string;
+type AmountType = {
+  [key: number]: number;
 };
 
 interface CartItemProps {
@@ -16,28 +17,40 @@ interface CartItemProps {
   data: any;
   isAllChecked: boolean | null;
   setIsAllChecked: React.Dispatch<React.SetStateAction<boolean | null>>;
-  amountData: AmountDataType;
-  setAmountData: React.Dispatch<React.SetStateAction<AmountDataType>>;
+  amount: AmountType;
+  setAmount: React.Dispatch<React.SetStateAction<AmountType>>;
 }
 
-const CartItem = (props: CartItemProps) => {
-  const itemData = props.data;
+const CartItem = ({
+  data,
+  isAllChecked,
+  setIsAllChecked,
+  amount,
+  setAmount,
+}: CartItemProps) => {
+  const itemData = useGetProduct(data.product_id).productData;
   const [quantity, setQuantity] = useState<number>(1);
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
-
   //장바구니 수량 변경
-
   useEffect(() => {
-    if (props.isAllChecked === false) {
-      props.setAmountData({});
+    if (isAllChecked === false) {
+      setAmount({});
       setCheckBox(CheckBoxIcon);
-    } else if (props.isAllChecked === true) {
+    } else if (isAllChecked === true) {
       setCheckBox(CheckBoxFilledIcon);
       AddAmount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.isAllChecked]);
+  }, [isAllChecked]);
 
+  useEffect(() => {
+    if (checkBox === CheckBoxFilledIcon) {
+      AddAmount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity]);
+
+  // 체크 박스 활성화
   const handleCheckBoxActive = () => {
     if (checkBox === CheckBoxIcon) {
       AddAmount();
@@ -46,18 +59,26 @@ const CartItem = (props: CartItemProps) => {
     }
   };
 
+  // 체크 시 : 가격 추가하기
   const AddAmount = () => {
-    props.setAmountData((prev) => ({
-      ...prev,
-      [itemData.product_id]: itemData.price,
-    }));
-    setCheckBox(CheckBoxFilledIcon);
+    if (itemData.price && itemData.product_id) {
+      const totalAmount = quantity * itemData.price;
+      setAmount((prev) => ({
+        ...prev,
+        [itemData.product_id]: totalAmount,
+      }));
+      setCheckBox(CheckBoxFilledIcon);
+    }
   };
+
+  // 체크 시 : 가격 삭제하기
   const DeleteAmount = () => {
-    const newData: AmountDataType = { ...props.amountData };
-    delete newData[itemData.product_id];
-    props.setAmountData(newData);
-    setCheckBox(CheckBoxIcon);
+    if (itemData) {
+      const newData: AmountType = { ...amount };
+      delete newData[itemData && itemData.product_id];
+      setAmount(newData);
+      setCheckBox(CheckBoxIcon);
+    }
   };
 
   return (

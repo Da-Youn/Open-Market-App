@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useGetCart, useGetCarDetail } from 'src/hooks/useCart.tsx';
+import { useGetCart } from 'src/hooks/useCart.tsx';
 
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
@@ -10,19 +10,16 @@ import MinusIcon from '../../assets/icon-minus-line.svg';
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
 import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
-export interface CartListProps {}
-
-type AmountDataType = {
-  [key: number]: string;
+export type AmountType = {
+  [key: number]: number;
 };
 
 const CartForm = () => {
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
-  const [amountData, setAmountData] = useState<AmountDataType>({});
+  const [amount, setAmount] = useState<AmountType>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const { cartData } = useGetCart();
-  const cartDetailData = useGetCarDetail(cartData);
 
   // 상품 전체 선택
   useEffect(() => {
@@ -32,20 +29,17 @@ const CartForm = () => {
   }, [isAllChecked]);
 
   useEffect(() => {
-    const amounts = Object.values(amountData);
+    const amounts = Object.values(amount);
     // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
-    if (cartDetailData && cartDetailData.length === amounts.length) {
+    if (cartData && cartData.length === amounts.length) {
       setCheckBox(CheckBoxFilledIcon);
     } else {
       setCheckBox(CheckBoxIcon);
     }
     // 선택한 상품 총합계금액 계산
-    const sum = amounts.reduce(
-      (acc, currentValue) => acc + parseInt(currentValue),
-      0,
-    );
+    const sum = amounts.reduce((acc, currentValue) => acc + currentValue, 0);
     setTotalAmount(sum);
-  }, [amountData]);
+  }, [amount]);
 
   const handleCheckBoxActive = () => {
     if (checkBox === CheckBoxIcon) {
@@ -75,15 +69,15 @@ const CartForm = () => {
         </CartListCol>
         <CartList>
           <h2 className='a11y-hidden'>장바구니 상품 정보</h2>
-          {cartDetailData &&
-            cartDetailData.map((cartItem: any) => (
+          {cartData &&
+            cartData.map((cartItem: any) => (
               <CartItem
                 key={cartItem.product_id}
                 data={cartItem}
                 isAllChecked={isAllChecked}
                 setIsAllChecked={setIsAllChecked}
-                amountData={amountData}
-                setAmountData={setAmountData}
+                amount={amount}
+                setAmount={setAmount}
               />
             ))}
         </CartList>
