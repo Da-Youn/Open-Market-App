@@ -3,11 +3,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { AxiosError } from 'axios';
 
-import { useRecoilState } from 'recoil';
-import { cartDetailAtom } from 'src/atoms/cartAtom';
-
-import { ProductTypes } from './useProduct';
-
 import {
   axiosInstance,
   urlInstance,
@@ -20,6 +15,7 @@ interface ErrorResponse {
 }
 
 interface ApiResponse<T> {
+  map: any;
   data: T;
   length: number;
   forEach(arg0: (item: CartResTypes) => void): unknown;
@@ -82,36 +78,4 @@ export const useGetCart = () => {
     cartData: data,
     isCartListLoading: isLoading,
   };
-};
-
-export const useGetCarDetail = (cartData: any) => {
-  const [cartDetailData, setCartDetailData] =
-    useRecoilState<any>(cartDetailAtom);
-
-  useEffect(() => {
-    if (cartData && cartData.length > 0) {
-      const fetchData = async () => {
-        const newData = [];
-
-        const getProduct = async (
-          product_id: number,
-        ): Promise<ProductTypes> => {
-          const res = await urlInstance.get(`/products/${product_id}/`);
-          return res.data;
-        };
-
-        for (const item of cartData) {
-          const productData = await getProduct(item.product_id);
-          newData.push(productData);
-        }
-
-        setCartDetailData(newData);
-      };
-
-      fetchData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartData]);
-
-  return cartDetailData;
 };
