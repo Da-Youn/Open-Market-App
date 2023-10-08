@@ -32,6 +32,7 @@ export interface CartResTypes {
   cart_item_id?: number;
   product_id?: number;
   quantity?: number;
+  detail?: string;
 }
 
 export const usePostCart = () => {
@@ -83,7 +84,7 @@ export const useGetCart = () => {
 export const usePutCart = (cart_item_id: number) => {
   const queryClient = useQueryClient();
 
-  const aditCart = async (data: CartReqTypes) => {
+  const editCart = async (data: CartReqTypes) => {
     const res = await userInstance.put<ApiResponse<CartResTypes>>(
       `/cart/${cart_item_id}/`,
       data,
@@ -92,9 +93,30 @@ export const usePutCart = (cart_item_id: number) => {
     return res;
   };
 
-  return useMutation((data: CartReqTypes) => aditCart(data), {
+  return useMutation((data: CartReqTypes) => editCart(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
+    },
+    onError: (error: any) => {
+      throw error;
+    },
+  });
+};
+
+export const useDeleteCart = () => {
+  const queryClient = useQueryClient();
+
+  const deleteCart = async (cart_item_id: number) => {
+    const res = await userInstance.delete<ApiResponse<CartResTypes>>(
+      `/cart/${cart_item_id}`,
+    );
+
+    return res;
+  };
+
+  return useMutation((cart_item_id: number) => deleteCart(cart_item_id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('cart');
     },
     onError: (error: any) => {
       throw error;

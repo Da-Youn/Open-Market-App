@@ -55,8 +55,10 @@ export const useGetProduct = (product_id: number) => {
     },
   );
 
+  const isProductLoading = isLoading || productData === initialProductState;
+
   return {
     productData: productData,
-    isproductLoading: isLoading,
+    isproductLoading: isProductLoading,
   };
 };

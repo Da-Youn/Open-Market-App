@@ -8,7 +8,7 @@ export interface ModalProps {
   children?: ReactNode;
   acceptBtnClick?: MouseEventHandler<HTMLButtonElement>;
   type: string;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Modal = (props: ModalProps) => {
@@ -31,7 +31,7 @@ const Modal = (props: ModalProps) => {
           cancel: '취소',
           accept: '수정',
         }
-      : props.type === 'deleteProduct'
+      : props.type === 'deleteCart'
       ? {
           desc: <p>상품을 삭제하시겠습니까?</p>,
           cancel: '취소',
@@ -76,38 +76,42 @@ const Modal = (props: ModalProps) => {
       : {};
 
   const handleModalClose = () => {
-    props.setIsOpen(false);
+    props.setModalOpen(false);
   };
 
   const handleCancelBtn = () => {
-    props.setIsOpen(false);
+    props.setModalOpen(false);
   };
 
   return (
     <ModalWrap>
       {typeData.desc}
       <ModalBtnWrap>
-        <Button
-          onClick={handleCancelBtn}
-          width='120px'
-          $bgColor='var(--white)'
-          color='var(--sub-font-color)'
-          $border='1px solid var(--border-color)'
-          fontWeight='400'
-          $padding='10px 0'
-          fontSize='var(--font-sm)'
-        >
-          {typeData.cancel}
-        </Button>
-        <Button
-          onClick={props.acceptBtnClick}
-          width='120px'
-          fontWeight='400'
-          $padding='10px 0'
-          fontSize='var(--font-sm)'
-        >
-          {typeData.accept}
-        </Button>
+        {typeData.cancel && (
+          <Button
+            onClick={handleCancelBtn}
+            width='120px'
+            $bgColor='var(--white)'
+            color='var(--sub-font-color)'
+            $border='1px solid var(--border-color)'
+            fontWeight='400'
+            $padding='10px 0'
+            fontSize='var(--font-sm)'
+          >
+            {typeData.cancel}
+          </Button>
+        )}
+        {typeData.accept && (
+          <Button
+            onClick={props.acceptBtnClick}
+            width='120px'
+            fontWeight='400'
+            $padding='10px 0'
+            fontSize='var(--font-sm)'
+          >
+            {typeData.accept}
+          </Button>
+        )}
       </ModalBtnWrap>
       <DeleteBtn onClick={handleModalClose}>
         <img src={DeleteIcon} alt='' />
@@ -132,7 +136,7 @@ export const ModalWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+  z-index: 100;
   border-radius: 10px;
   background: var(--white);
   border: 1px solid var(--border-color);

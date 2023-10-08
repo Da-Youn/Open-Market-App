@@ -24,36 +24,41 @@ const ProductDetailCard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const productId = location.state;
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
+  const [amount, setAmount] = useState<number>(0);
   const [modalType, setModalType] = useState<string>('moveCart');
-  const { productData } = useGetProduct(productId);
+  const { productData, isproductLoading } = useGetProduct(productId);
   const usePostCartMutate = usePostCart();
 
   const stock = Number(productData.stock);
 
   const handleAddCart = async () => {
     try {
-      return await usePostCartMutate.mutateAsync({
+      const response = await usePostCartMutate.mutateAsync({
         product_id: productId,
         quantity: quantity,
         is_active: false,
       });
+      if (response) {
+        setModalOpen(true);
+        return response;
+      }
     } catch (error: any) {
       // 예외 메시지를 이용해 모달 타입 설정
+
       if (error.message === 'lackOfStockError') {
         setModalType('lackOfStockError');
       } else if (error.message === 'outOfStockError') {
         setModalType('outOfStockError');
       }
-
-      setIsOpen(true);
+      setModalOpen(true);
     }
   };
 
   const handleAcceptBtn = async () => {
     if (modalType === 'moveCart') {
-      navigate('/cart');
+      navigate('/my/cart');
     } else {
       navigate('/');
     }
@@ -61,7 +66,7 @@ const ProductDetailCard = () => {
 
   return (
     <>
-      {productData !== null && (
+      {!isproductLoading && (
         <ProductCardWrap>
           <h1 className='a11y-hidden'>상품 상세 정보</h1>
           <ImgSection>
@@ -80,7 +85,10 @@ const ProductDetailCard = () => {
                 <strong>{productData.product_name}</strong>
               </ProductName>
               <p aria-label='상품 가격'>
-                <strong>{'10000'.toLocaleString()}</strong>원
+                <strong>
+                  {productData.price && productData.price.toLocaleString()}
+                </strong>
+                원
               </p>
             </ProductInfo>
 
@@ -103,7 +111,11 @@ const ProductDetailCard = () => {
                     총 수량 <span>{quantity}</span>개
                   </p>
                   <p>
-                    <span>{(quantity * 10000).toLocaleString()}</span>원
+                    <span>
+                      {productData.price &&
+                        (quantity * productData.price).toLocaleString()}
+                    </span>
+                    원
                   </p>
                 </div>
               </ProductTotalAmount>
@@ -128,10 +140,10 @@ const ProductDetailCard = () => {
             </ProductForm>
           </InfoFormSection>
 
-          {isOpen && (
+          {modalOpen && (
             <Modal
               type={modalType}
-              setIsOpen={setIsOpen}
+              setModalOpen={setModalOpen}
               acceptBtnClick={handleAcceptBtn}
             />
           )}

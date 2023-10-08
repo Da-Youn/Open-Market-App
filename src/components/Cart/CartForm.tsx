@@ -17,7 +17,7 @@ export type AmountType = {
 const CartForm = () => {
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
-  const [amount, setAmount] = useState<AmountType>({});
+  const [itemAmount, setItemAmount] = useState<AmountType>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const { cartList } = useGetCart();
 
@@ -29,7 +29,7 @@ const CartForm = () => {
   }, [isAllChecked]);
 
   useEffect(() => {
-    const amounts = Object.values(amount);
+    const amounts = Object.values(itemAmount);
     // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
     if (cartList && cartList.length === amounts.length) {
       setCheckBox(CheckBoxFilledIcon);
@@ -39,7 +39,7 @@ const CartForm = () => {
     // 선택한 상품 총합계금액 계산
     const sum = amounts.reduce((acc, currentValue) => acc + currentValue, 0);
     setTotalAmount(sum);
-  }, [amount]);
+  }, [itemAmount]);
 
   const handleCheckBoxActive = () => {
     if (checkBox === CheckBoxIcon) {
@@ -76,8 +76,8 @@ const CartForm = () => {
                 cartItem={cartItem}
                 isAllChecked={isAllChecked}
                 setIsAllChecked={setIsAllChecked}
-                amount={amount}
-                setAmount={setAmount}
+                itemAmount={itemAmount}
+                setItemAmount={setItemAmount}
               />
             ))}
         </CartList>
