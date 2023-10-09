@@ -55,11 +55,13 @@ const TypeChangeBtn = styled.button`
     border-radius: 10px 10px 0 0;
     padding: 20px 0 38px;
     font-weight: 700;
+    color: var(--main-color);
     background-color: var(--white);
   }
 
   &.disable {
     background-color: var(--sub-color);
+    color: var(--font-color);
     border-bottom: 1px solid var(--border-color);
   }
 `;

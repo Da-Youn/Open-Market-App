@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from './Button';
 
 import UserIcon from '../../assets/icon-user.svg';
-import CoralLogo from '../../assets/logo-coral.png';
+import BrickLogo from '../../assets/logo-brick.png';
 import SearchIcon from '../../assets/icon-search.svg';
 import CartIcon from '../../assets/icon-shopping-cart.svg';
 import ShoppingBagImg from '../../assets/icon-shopping-bag.svg';
@@ -29,7 +29,7 @@ const Header = (props: HeaderProps) => {
       <div className='header-left'>
         <h1>
           <Link to='/'>
-            <img src={CoralLogo} alt='호두 로고 이미지' />
+            <img src={BrickLogo} alt='호두 로고 이미지' />
           </Link>
         </h1>
         <form>
