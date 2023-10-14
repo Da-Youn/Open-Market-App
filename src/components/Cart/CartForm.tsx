@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { usePostOrder } from 'src/hooks/useOrder';
 import { useGetCart } from 'src/hooks/useCart.tsx';
 
 import CartItem from './CartItem.tsx';
@@ -10,16 +13,27 @@ import MinusIcon from '../../assets/icon-minus-line.svg';
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
 import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
-export type AmountType = {
-  [key: number]: number;
+export type SelectedItemType = {
+  amount: number;
+  quantity: number;
+  shipFee: number;
 };
 
+interface SelectedItem {
+  [key: number]: SelectedItemType;
+}
+
 const CartForm = () => {
+  const navigate = useNavigate();
+  const username = localStorage.getItem('username');
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
-  const [itemAmount, setItemAmount] = useState<AmountType>({});
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [totalShipFee, setTotalShipFee] = useState<number>(0);
+
   const { cartList } = useGetCart();
+  const usePostOrderMutate = usePostOrder();
 
   // 상품 전체 선택
   useEffect(() => {
@@ -29,7 +43,7 @@ const CartForm = () => {
   }, [isAllChecked]);
 
   useEffect(() => {
-    const amounts = Object.values(itemAmount);
+    const amounts = Object.values(selectedItem);
     // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
     if (cartList && cartList.length === amounts.length) {
       setCheckBox(CheckBoxFilledIcon);
@@ -37,9 +51,17 @@ const CartForm = () => {
       setCheckBox(CheckBoxIcon);
     }
     // 선택한 상품 총합계금액 계산
-    const sum = amounts.reduce((acc, currentValue) => acc + currentValue, 0);
-    setTotalAmount(sum);
-  }, [itemAmount]);
+    const sumShipFee = Object.values(selectedItem).reduce((acc, curr) => {
+      return acc + curr.shipFee;
+    }, 0);
+    const sumAmount = Object.values(selectedItem).reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
+
+    setTotalShipFee(sumShipFee);
+    setTotalAmount(sumAmount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
 
   const handleCheckBoxActive = () => {
     if (checkBox === CheckBoxIcon) {
@@ -48,6 +70,28 @@ const CartForm = () => {
     } else if (checkBox === CheckBoxFilledIcon) {
       setCheckBox(CheckBoxIcon);
       setIsAllChecked(false);
+    }
+  };
+
+  const handlePostOrder = async () => {
+    const orderData = {
+      order_kind: 'cart_order',
+      receiver: username || '이름',
+      receiver_phone_number: '01000000000',
+      address: '주소',
+      address_message: '배송 메시지',
+      payment_method: 'CARD',
+      total_price: totalAmount + totalShipFee,
+    };
+
+    try {
+      const response = await usePostOrderMutate.mutateAsync(orderData);
+      if (response) {
+        navigate('/my/order');
+      }
+    } catch (error: any) {
+      // 예외 메시지를 이용해 모달 타입 설정
+      console.error(error);
     }
   };
 
@@ -76,8 +120,8 @@ const CartForm = () => {
                 cartItem={cartItem}
                 isAllChecked={isAllChecked}
                 setIsAllChecked={setIsAllChecked}
-                itemAmount={itemAmount}
-                setItemAmount={setItemAmount}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
               />
             ))}
         </CartList>
@@ -103,17 +147,22 @@ const CartForm = () => {
           <AmountCalcInfo>
             <p>배송비</p>
             <p>
-              <span>0</span> 원
+              <span>{totalShipFee.toLocaleString()}</span> 원
             </p>
           </AmountCalcInfo>
           <AmountCalcInfo>
             <p>결제 예정 금액</p>
             <p>
-              <strong>{totalAmount}</strong> 원
+              <strong>{(totalAmount + totalShipFee).toLocaleString()}</strong>{' '}
+              원
             </p>
           </AmountCalcInfo>
         </TotalAmountBox>
-        <Button width='220px' fontSize='var(--font-lg)'>
+        <Button
+          onClick={handlePostOrder}
+          width='220px'
+          fontSize='var(--font-lg)'
+        >
           주문하기
         </Button>
       </CartFormBox>

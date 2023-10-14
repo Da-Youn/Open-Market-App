@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
+import { usePutCart } from 'src/hooks/useCart';
+import { usePostOrder } from 'src/hooks/useOrder';
+import { useDeleteCart } from 'src/hooks/useCart';
+import { useGetProduct } from 'src/hooks/useProduct';
+
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
-
-import { usePutCart } from 'src/hooks/useCart';
-import { useDeleteCart } from 'src/hooks/useCart';
-import { useGetProduct } from 'src/hooks/useProduct';
 
 import { QuantityButtonWrapper } from '../common/QuantityButton';
 import DeleteIcon from '../../assets/icon-delete.svg';
@@ -16,50 +18,65 @@ import MinusIcon from '../../assets/icon-minus-line.svg';
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
 import CheckBoxFilledIcon from '../../assets/check-fill-box(circle).svg';
 
-type AmountType = {
-  [key: number]: number;
+export type SelectedItemType = {
+  amount: number;
+  quantity: number;
+  shipFee: number;
 };
 
+interface SelectedItem {
+  [key: number]: SelectedItemType;
+}
 interface CartItemProps {
   key: number;
   cartItem: any;
   isAllChecked: boolean | null;
   setIsAllChecked: React.Dispatch<React.SetStateAction<boolean | null>>;
-  itemAmount: AmountType;
-  setItemAmount: React.Dispatch<React.SetStateAction<AmountType>>;
+
+  selectedItem: SelectedItem;
+  setSelectedItem: React.Dispatch<React.SetStateAction<SelectedItem>>;
 }
 
 const CartItem = ({
   cartItem,
   isAllChecked,
   setIsAllChecked,
-  itemAmount,
-  setItemAmount,
-}: CartItemProps) => {
-  const itemDetail = useGetProduct(cartItem.product_id).productData;
 
+  selectedItem,
+  setSelectedItem,
+}: CartItemProps) => {
+  const navigate = useNavigate();
+  const { productData: itemDetail, isProductLoading } = useGetProduct(
+    cartItem.product_id,
+  );
   const [quantity, setQuantity] = useState<number>(cartItem.quantity);
-  const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
+  const [isActive, setIsActive] = useState<boolean>(cartItem.is_active);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [btnType, setBtnType] = useState<string>('');
   const usePutCartMutate = usePutCart(cartItem.cart_item_id);
   const useDeleteCartMutate = useDeleteCart();
+  const usePostOrderMutate = usePostOrder();
 
-  //장바구니 수량 변경
+  useEffect(() => {
+    console.log('아니', cartItem.is_active, itemDetail);
+    handleSetActiveItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!isProductLoading]);
+
+  // 첫 렌더링 시 장바구니 수량 변경
   useEffect(() => {
     if (isAllChecked === false) {
-      setItemAmount({});
-      setCheckBox(CheckBoxIcon);
+      DeleteAmount();
+      setSelectedItem({});
     } else if (isAllChecked === true) {
-      setCheckBox(CheckBoxFilledIcon);
       AddAmount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAllChecked]);
 
+  // 수량 변경 시 isActive === true인 상품이라면 업데이트
   useEffect(() => {
-    if (checkBox === CheckBoxFilledIcon) {
+    if (isActive) {
       AddAmount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,32 +84,57 @@ const CartItem = ({
 
   // 체크 박스 활성화
   const handleCheckBoxActive = () => {
-    if (checkBox === CheckBoxIcon) {
+    if (!isActive) {
       AddAmount();
-    } else if (checkBox === CheckBoxFilledIcon) {
+    } else if (isActive) {
       DeleteAmount();
     }
   };
 
-  // 체크 시 : 가격 추가하기
-  const AddAmount = () => {
+  const handleSetActiveItem = () => {
     if (itemDetail.price && itemDetail.product_id) {
-      const totalAmount = quantity * itemDetail.price;
-      setItemAmount((prev) => ({
+      setSelectedItem((prev) => ({
         ...prev,
-        [itemDetail.product_id]: totalAmount,
+        [itemDetail.product_id]: {
+          amount: quantity * itemDetail.price,
+          quantity,
+          shipFee: itemDetail.shipping_fee,
+        },
       }));
-      setCheckBox(CheckBoxFilledIcon);
+      setIsActive(true);
+    }
+  };
+
+  // 체크 시 : 가격 추가하기
+  const AddAmount = async () => {
+    handleSetActiveItem();
+    try {
+      await usePutCartMutate.mutateAsync({
+        product_id: cartItem.product_id,
+        quantity: quantity,
+        is_active: true,
+      });
+    } catch (error: any) {
+      console.error(error);
     }
   };
 
   // 체크 시 : 가격 삭제하기
-  const DeleteAmount = () => {
+  const DeleteAmount = async () => {
     if (itemDetail) {
-      const newData: AmountType = { ...itemAmount };
+      const newData: SelectedItem = { ...selectedItem };
       delete newData[itemDetail && itemDetail.product_id];
-      setItemAmount(newData);
-      setCheckBox(CheckBoxIcon);
+      setSelectedItem(newData);
+      setIsActive(false);
+    }
+    try {
+      await usePutCartMutate.mutateAsync({
+        product_id: cartItem.product_id,
+        quantity: quantity,
+        is_active: false,
+      });
+    } catch (error: any) {
+      console.error(error);
     }
   };
 
@@ -113,7 +155,7 @@ const CartItem = ({
       const response = await usePutCartMutate.mutateAsync({
         product_id: cartItem.product_id,
         quantity: quantity,
-        is_active: false,
+        is_active: isActive,
       });
 
       if (response) {
@@ -126,7 +168,7 @@ const CartItem = ({
   };
 
   // 장바구니 상품 삭제
-  const HandleDeleteBtn = async () => {
+  const handleDeleteBtn = async () => {
     try {
       const response = await useDeleteCartMutate.mutateAsync(
         cartItem.cart_item_id,
@@ -134,9 +176,9 @@ const CartItem = ({
 
       if (response) {
         // 선택상태에서 총금액에 포함된 상품 가격 제거
-        const newData: AmountType = { ...itemAmount };
+        const newData: SelectedItem = { ...selectedItem };
         delete newData[itemDetail && cartItem.product_id];
-        setItemAmount(newData);
+        setSelectedItem(newData);
         setModalOpen(false);
       }
     } catch (error) {
@@ -145,70 +187,107 @@ const CartItem = ({
     }
   };
 
+  const handlePostOrder = async () => {
+    const username = localStorage.getItem('username');
+    const orderData = {
+      product_id: cartItem.product_id,
+      quantity: quantity,
+      order_kind: 'cart_one_order',
+      receiver: username || '이름',
+      receiver_phone_number: '01000000000',
+      address: '주소',
+      address_message: '배송 메시지',
+      payment_method: 'CARD',
+      total_price: quantity * itemDetail.price + itemDetail.shipping_fee,
+    };
+
+    try {
+      const response = await usePostOrderMutate.mutateAsync(orderData);
+      if (response) {
+        navigate('/my/order');
+      }
+    } catch (error: any) {
+      // 예외 메시지를 이용해 모달 타입 설정
+      console.error(error);
+    }
+  };
+
   return (
-    <CartItemLayout>
-      <CheckBtn onClick={handleCheckBoxActive}>
-        <p className='a11y-hidden'>상품 선택 버튼</p>
-        <img src={checkBox} alt='상품 선택 버튼 이미지' />
-      </CheckBtn>
-      <CartItemImg src={itemDetail.image} alt='' />
-      <CartItemInfo>
-        <div>
-          <p>{itemDetail.store_name}</p>
-          <h3>{itemDetail.product_name}</h3>
-          <strong>{itemDetail.price.toLocaleString()}원</strong>
-        </div>
-        <span>택배배송 / 무료배송</span>
-      </CartItemInfo>
-      <div>
-        <QuantityButtonWrapper>
-          <button type='button' onClick={handleEditModalOpen}>
-            <img src={MinusIcon} alt='감소 버튼' />
-          </button>
-          <p>{quantity}</p>
-          <button type='button' onClick={handleEditModalOpen}>
-            <img src={PlusIcon} alt='증가 버튼' />
-          </button>
-        </QuantityButtonWrapper>
-      </div>
-      <CartItemAmount>
-        <strong>{(quantity * itemDetail.price).toLocaleString()}원</strong>
-        <Button
-          width='130px'
-          fontWeight='400'
-          fontSize='var(--font-sm)'
-          $padding='10px'
-        >
-          주문하기
-        </Button>
-      </CartItemAmount>
-      <DeleteBtn type='button' onClick={handleDeleteModalOpen}>
-        <img src={DeleteIcon} alt='삭제 버튼 이미지' />
-      </DeleteBtn>
-      {modalOpen && modalType === 'editCart' && (
-        <Modal
-          type={modalType}
-          setModalOpen={setModalOpen}
-          acceptBtnClick={handleEditBtn}
-        >
-          <QuantityButton
-            stock={itemDetail.stock}
-            quantity={quantity}
-            setQuantity={setQuantity}
+    itemDetail.image &&
+    !isProductLoading && (
+      <CartItemLayout>
+        <CheckBtn onClick={handleCheckBoxActive}>
+          <p className='a11y-hidden'>상품 선택 버튼</p>
+          <img
+            src={isActive === true ? CheckBoxFilledIcon : CheckBoxIcon}
+            alt='상품 선택 버튼 이미지'
           />
-        </Modal>
-      )}
-      {modalOpen && modalType === 'deleteCart' && (
-        <Modal
-          type={modalType}
-          setModalOpen={setModalOpen}
-          acceptBtnClick={HandleDeleteBtn}
-        />
-      )}
-      {modalOpen && modalType === 'deleteComplete' && (
-        <Modal type={modalType} setModalOpen={setModalOpen} />
-      )}
-    </CartItemLayout>
+        </CheckBtn>
+        <CartItemImg src={itemDetail.image} alt='' />
+        <CartItemInfo>
+          <div>
+            <p>{itemDetail.store_name}</p>
+            <h3>{itemDetail.product_name}</h3>
+            <strong>{itemDetail.price?.toLocaleString()}원</strong>
+          </div>
+          <span>
+            택배배송 /{' '}
+            {itemDetail.shipping_fee
+              ? `${itemDetail.shipping_fee?.toLocaleString()}원`
+              : `무료배송`}
+          </span>
+        </CartItemInfo>
+        <div>
+          <QuantityButtonWrapper>
+            <button type='button' onClick={handleEditModalOpen}>
+              <img src={MinusIcon} alt='감소 버튼' />
+            </button>
+            <p>{quantity}</p>
+            <button type='button' onClick={handleEditModalOpen}>
+              <img src={PlusIcon} alt='증가 버튼' />
+            </button>
+          </QuantityButtonWrapper>
+        </div>
+        <CartselectedItem>
+          <strong>{(quantity * itemDetail.price)?.toLocaleString()}원</strong>
+          <Button
+            width='130px'
+            fontWeight='400'
+            fontSize='var(--font-sm)'
+            $padding='10px'
+            onClick={handlePostOrder}
+          >
+            주문하기
+          </Button>
+        </CartselectedItem>
+        <DeleteBtn type='button' onClick={handleDeleteModalOpen}>
+          <img src={DeleteIcon} alt='삭제 버튼 이미지' />
+        </DeleteBtn>
+        {modalOpen && modalType === 'editCart' && (
+          <Modal
+            type={modalType}
+            setModalOpen={setModalOpen}
+            acceptBtnClick={handleEditBtn}
+          >
+            <QuantityButton
+              stock={itemDetail.stock}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
+          </Modal>
+        )}
+        {modalOpen && modalType === 'deleteCart' && (
+          <Modal
+            type={modalType}
+            setModalOpen={setModalOpen}
+            acceptBtnClick={handleDeleteBtn}
+          />
+        )}
+        {modalOpen && modalType === 'deleteComplete' && (
+          <Modal type={modalType} setModalOpen={setModalOpen} />
+        )}
+      </CartItemLayout>
+    )
   );
 };
 
@@ -231,6 +310,9 @@ const CartItemImg = styled.img`
   width: 160px;
   height: 160px;
   border-radius: 10px;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+  object-position: 50% 0;
 `;
 
 const CartItemInfo = styled.div`
@@ -263,7 +345,7 @@ const CartItemInfo = styled.div`
   }
 `;
 
-const CartItemAmount = styled.div`
+const CartselectedItem = styled.div`
   width: 100%;
   max-width: 300px;
   text-align: center;
