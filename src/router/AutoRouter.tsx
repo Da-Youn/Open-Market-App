@@ -12,6 +12,9 @@ import Order from '../pages/Order/Order';
 import Signup from '../pages/Signup/Signup';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
 
+import Header from 'src/components/common/Header';
+import Footer from 'src/components/common/Footer';
+
 type RouterItem = {
   path: string;
   element: JSX.Element;
@@ -50,6 +53,7 @@ const Authorization = ({ redirectTo, children }: AuthorizationProps) => {
 const AutoRouter = () => {
   return (
     <Router basename='/'>
+      <Header id='top' />
       <Routes>
         {RouterInfo.map((route) => {
           return (
@@ -69,6 +73,7 @@ const AutoRouter = () => {
           );
         })}
       </Routes>
+      <Footer />
     </Router>
   );
 };

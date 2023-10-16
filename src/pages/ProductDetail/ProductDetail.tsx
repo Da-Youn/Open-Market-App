@@ -1,17 +1,13 @@
 import styled from 'styled-components';
 
-import Header from 'src/components/common/Header';
-import Footer from 'src/components/common/Footer';
 import ProductDetailCard from 'src/components/ProductDetail/ProductDetailCard';
 
 const ProductDetail = () => {
   return (
     <>
-      <Header id='top'></Header>
       <Main>
         <ProductDetailCard />
       </Main>
-      <Footer />
     </>
   );
 };
