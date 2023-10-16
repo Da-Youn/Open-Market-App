@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface ButtonProps {
   children: ReactNode;
   type?: string;
+  $minWidth?: string;
   $maxWidth?: string;
   width?: string;
   $padding?: string;
@@ -29,6 +30,7 @@ const Button = (props: ButtonProps) => {
 
 const ButtonStyle = styled.button<ButtonProps>`
   box-sizing: border-box;
+  min-width: ${(props: { $minWidth: string }) => props.$minWidth};
   max-width: ${(props: { $maxWidth: string }) => props.$maxWidth};
   width: ${(props: { width: string }) => (props.width ? props.width : '100%')};
   margin-top: ${(props: { $mgTop: string }) => props.$mgTop || '0px'};
