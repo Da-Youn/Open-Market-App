@@ -8,9 +8,9 @@ import {
 import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
+import Order from '../pages/Order/Order';
 import Signup from '../pages/Signup/Signup';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
-import { type } from '@testing-library/user-event/dist/type';
 
 type RouterItem = {
   path: string;
@@ -25,6 +25,7 @@ const RouterInfo: RouterItem[] = [
   { path: '/my/page', element: <Login />, withAuthorization: true },
   { path: '/my/seller_center', element: <Signup />, withAuthorization: true },
   { path: '/my/cart', element: <Cart />, withAuthorization: true },
+  { path: '/my/order', element: <Order />, withAuthorization: true },
   {
     path: '/products/:id',
     element: <ProductDetail />,
@@ -33,16 +34,12 @@ const RouterInfo: RouterItem[] = [
 ];
 
 interface AuthorizationProps {
-  isAuthenticated: string | null;
   redirectTo: string;
   children: React.ReactNode;
 }
 
-const Authorization = ({
-  isAuthenticated,
-  redirectTo,
-  children,
-}: AuthorizationProps) => {
+const Authorization = ({ redirectTo, children }: AuthorizationProps) => {
+  const isAuthenticated: string | null = localStorage.getItem('token');
   if (isAuthenticated) {
     return <>{children}</>;
   } else {
@@ -51,8 +48,6 @@ const Authorization = ({
 };
 
 const AutoRouter = () => {
-  const isAuthenticated: string | null = localStorage.getItem('token');
-
   return (
     <Router basename='/'>
       <Routes>
@@ -63,10 +58,7 @@ const AutoRouter = () => {
               path={route.path}
               element={
                 route.withAuthorization ? (
-                  <Authorization
-                    isAuthenticated={isAuthenticated}
-                    redirectTo='/account/login'
-                  >
+                  <Authorization redirectTo='/account/login'>
                     {route.element}
                   </Authorization>
                 ) : (
