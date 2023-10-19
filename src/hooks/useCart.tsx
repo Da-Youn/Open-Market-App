@@ -9,44 +9,48 @@ import {
   userInstance,
 } from 'src/api/axiosInstance';
 
-interface ErrorResponse {
-  FAIL_message: string;
-  // 다른 필요한 속성들도 추가할 수 있습니다.
-}
-
 interface ApiResponse<T> {
-  map: any;
-  data: T;
   length: number;
-  forEach(arg0: (item: CartResTypes) => void): unknown;
+  data: T;
+  forEach(arg0: (item: CartListRes) => void): unknown;
+  map(
+    arg0: (cartItem: any) => import('react/jsx-runtime').JSX.Element,
+  ): unknown;
 }
 
-export interface CartReqTypes {
+interface CartListRes {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: CartItemRes[];
+}
+
+interface CartItemRes {
+  my_cart: number;
+  cart_item_id: number;
   product_id: number;
   quantity: number;
-  is_active: boolean; // 장바구니 내 상품 활성화 버튼, 같이 보내지 않으면 False
 }
 
-export interface CartResTypes {
-  my_cart?: number;
-  cart_item_id?: number;
-  product_id?: number;
-  quantity?: number;
-  detail?: string;
+export interface CartReq {
+  product_id: number;
+  quantity: number;
+  check?: boolean;
+  is_active?: boolean; // 기본값은 false
 }
 
 export const usePostCart = () => {
   const queryClient = useQueryClient();
 
-  const addCart = async (data: CartReqTypes) => {
-    const res = await userInstance.post<ApiResponse<CartResTypes>>(
+  const addCart = async (data: CartReq) => {
+    const res = await userInstance.post<ApiResponse<CartListRes>>(
       `/cart/`,
       data,
     );
     return res.data;
   };
 
-  return useMutation(async (data: CartReqTypes) => addCart(data), {
+  return useMutation(async (data: CartReq) => addCart(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
     },
@@ -68,7 +72,7 @@ export const usePostCart = () => {
 };
 
 export const useGetCart = () => {
-  const getCart = async (): Promise<ApiResponse<CartResTypes>> => {
+  const getCart = async (): Promise<ApiResponse<CartListRes>> => {
     const res = await userInstance.get(`/cart/`);
     return res.data.results;
   };
@@ -84,16 +88,12 @@ export const useGetCart = () => {
 export const usePutCart = (cart_item_id: number) => {
   const queryClient = useQueryClient();
 
-  const editCart = async (data: CartReqTypes) => {
-    const res = await userInstance.put<ApiResponse<CartResTypes>>(
-      `/cart/${cart_item_id}/`,
-      data,
-    );
-    console.log(res);
+  const editCart = async (data: CartReq) => {
+    const res = await userInstance.put<CartReq>(`/cart/${cart_item_id}/`, data);
     return res;
   };
 
-  return useMutation((data: CartReqTypes) => editCart(data), {
+  return useMutation((data: CartReq) => editCart(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
     },
@@ -107,9 +107,7 @@ export const useDeleteCart = () => {
   const queryClient = useQueryClient();
 
   const deleteCart = async (cart_item_id: number) => {
-    const res = await userInstance.delete<ApiResponse<CartResTypes>>(
-      `/cart/${cart_item_id}`,
-    );
+    const res = await userInstance.delete(`/cart/${cart_item_id}`);
 
     return res;
   };
