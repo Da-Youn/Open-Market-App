@@ -53,7 +53,7 @@ const ProductList = () => {
           <ProductBtn
             key={product.product_id}
             onClick={() =>
-              navigate(`/products/${product.product_id}`, {
+              navigate(`/product/${product.product_id}`, {
                 state: product.product_id,
               })
             }

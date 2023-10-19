@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const SignupWrap = styled.div`
-  margin: 130px auto;
+  margin: 0px auto 130px;
   padding: 0 25px;
   header,
   main {

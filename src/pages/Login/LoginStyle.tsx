@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const LoginWrap = styled.div`
-  margin: 130px auto 0;
+  margin: 0px auto 130px;
   padding: 0 25px;
   header,
   main {

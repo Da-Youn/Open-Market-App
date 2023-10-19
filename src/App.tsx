@@ -13,6 +13,7 @@ const App = () => {
 
 const Wrap = styled.div`
   min-width: 396px;
+  padding-top: 90px;
   font-size: var(--font-sm);
 `;
 

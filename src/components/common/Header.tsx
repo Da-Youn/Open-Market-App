@@ -86,18 +86,24 @@ const Header = (props: HeaderProps) => {
   );
 };
 
-const HeaderLayout = styled.div`
+const HeaderLayout = styled.header`
+  position: fixed;
+  top: 0;
+
+  margin-bottom: 90px;
   width: 100%;
   height: 90px;
   margin: auto;
+  background-color: #fff;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 60px;
+  z-index: 100;
 `;
 
-export const HeaderBox = styled.header`
+export const HeaderBox = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: auto;
