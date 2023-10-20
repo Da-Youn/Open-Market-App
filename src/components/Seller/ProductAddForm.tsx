@@ -1,12 +1,85 @@
 import styled from 'styled-components';
+import { useRef, useState, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePostProduct, ProductReq } from 'src/hooks/useProduct';
 
 import Button from 'src/components/common/Button';
 
 import ImgUploadIcon from 'src/assets/icon-img.svg';
 
-export interface ProductAddFormProps {}
+type ProductImageProps = {
+  display: string;
+};
+
+export interface ProductAddFormProps {
+  image: string;
+}
 
 const ProductAddForm = (props: ProductAddFormProps) => {
+  const navigate = useNavigate();
+  const usePostProductMutate = usePostProduct();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<string>('');
+  const [inputValues, setInputValues] = useState<ProductReq>({
+    product_name: '',
+    image: null,
+    price: 0,
+    shipping_method: '',
+    shipping_fee: 0,
+    stock: 0,
+    product_info: '',
+  });
+
+  console.log(inputValues);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setInputValues((prevInputValues) => ({
+      ...prevInputValues,
+      [name]: value.trim(),
+    }));
+  };
+
+  const handleImageUpload = () => {
+    fileInputRef.current?.click(); // Check if fileInputRef.current exists before trying to access its properties
+  };
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+    setInputValues((prevInputValues) => ({
+      ...prevInputValues,
+      [name]: file,
+    }));
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (reader.readyState === 2) {
+        setImage(reader.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSaveBtn = async () => {
+    try {
+      const response = await usePostProductMutate.mutateAsync(inputValues);
+      if (response) {
+        alert('상품이 등록되었습니다.');
+        navigate(-1);
+      }
+    } catch (error: any) {
+      // 예외 메시지를 이용해 모달 타입 설정
+      console.error(error);
+    }
+  };
+
   return (
     <ProductAddFormWrap>
       <h3 className='a11y-hidden'>상품 등록 폼</h3>
@@ -15,22 +88,44 @@ const ProductAddForm = (props: ProductAddFormProps) => {
           <ProductAddImgBox htmlFor='image'>
             <p>상품 이미지</p>
             <div>
-              <img src='' alt='상품 이미지' />
-              <button>
+              <ProductImage
+                src={image}
+                alt='상품 이미지'
+                display={image ? 'block' : 'none'}
+              />
+              <button type='button' onClick={handleImageUpload}>
                 <img src={ImgUploadIcon} alt='이미지 업로드 버튼' />
-                <input type='file' id='image' accept='image/*' />
+                <input
+                  type='file'
+                  id='image'
+                  name='image'
+                  accept='image/jpg, image/jpeg, image/png'
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                />
               </button>
             </div>
           </ProductAddImgBox>
           <ProductAddInfoBox>
             <label htmlFor='product-name'>
               <p>상품명</p>
-              <input type='text' id='product-name' />
+              <input
+                type='text'
+                id='product-name'
+                name='product_name'
+                onChange={handleInputChange}
+              />
             </label>
             <label htmlFor='price'>
               <p>판매가</p>
               <div>
-                <input type='number' id='price' /> <span>원</span>
+                <input
+                  type='number'
+                  id='price'
+                  name='price'
+                  onChange={handleInputChange}
+                />
+                <span>원</span>
               </div>
             </label>
 
@@ -39,15 +134,18 @@ const ProductAddForm = (props: ProductAddFormProps) => {
               <RadioInput>
                 <input
                   type='radio'
-                  name='shipping-method'
+                  name='shipping_method'
                   id='shipping-method1'
-                  checked
+                  value='PARCEL'
+                  onChange={handleInputChange}
                 />
                 <label htmlFor='shipping-method1'>택배, 소포, 등기</label>
                 <input
                   type='radio'
-                  name='shipping-method'
+                  name='DELIVERY'
                   id='shipping-method2'
+                  value='직접배송(화물배달)'
+                  onChange={handleInputChange}
                 />
                 <label htmlFor='shipping-method2'>직접배송(화물배달)</label>
               </RadioInput>
@@ -56,13 +154,25 @@ const ProductAddForm = (props: ProductAddFormProps) => {
             <label htmlFor='shipping-fee'>
               <p>기본 배송비</p>
               <div>
-                <input type='number' id='shipping-fee' /> <span>원</span>
+                <input
+                  type='number'
+                  id='shipping-fee'
+                  name='shipping_fee'
+                  onChange={handleInputChange}
+                />
+                <span>원</span>
               </div>
             </label>
             <label htmlFor='stock'>
               <p>재고</p>
               <div>
-                <input type='number' id='stock' /> <span>개</span>
+                <input
+                  type='number'
+                  id='stock'
+                  name='stock'
+                  onChange={handleInputChange}
+                />
+                <span>개</span>
               </div>
             </label>
           </ProductAddInfoBox>
@@ -70,7 +180,11 @@ const ProductAddForm = (props: ProductAddFormProps) => {
         <ProductAddDescBox>
           <label htmlFor='product-info'>
             <p>상품 상세 정보</p>
-            <textarea id='product-info' />
+            <textarea
+              id='product-info'
+              name='product_info'
+              onChange={handleInputChange}
+            />
           </label>
         </ProductAddDescBox>
         <ProductAddBtnBox>
@@ -81,7 +195,9 @@ const ProductAddForm = (props: ProductAddFormProps) => {
           >
             취소
           </Button>
-          <Button width='200px'>저장하기</Button>
+          <Button onClick={handleSaveBtn} width='200px'>
+            저장하기
+          </Button>
         </ProductAddBtnBox>
       </ProductAddFormBox>
     </ProductAddFormWrap>
@@ -116,18 +232,12 @@ const ProductAddImgBox = styled.label`
     width: 454px;
     height: 454px;
     background: #c4c4c4;
+    box-shadow: 0px 1px 2px 0px rgba(118, 118, 118, 0.35);
 
-    & + img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 0 0;
-    }
     button {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      bottom: 30px;
+      right: 30px;
 
       input {
         display: none;
@@ -135,6 +245,15 @@ const ProductAddImgBox = styled.label`
     }
   }
 `;
+
+const ProductImage = styled.img<ProductImageProps>`
+  display: ${(props: { display: string }) => props.display};
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0 0;
+`;
+
 const ProductAddInfoBox = styled.div`
   width: 100%;
 
