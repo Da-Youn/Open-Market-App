@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'src/components/common/Button';
 import ProductTable from 'src/components/Seller/DashBoard/ProductTable';
@@ -8,11 +9,22 @@ import PlusIcon from 'src/assets/icon-plus.svg';
 export interface SellerProps {}
 
 const SellerDashBoard = (props: SellerProps) => {
+  const navigate = useNavigate();
+
+  const handleBtnClick = () => {
+    navigate(`/seller/product-add`);
+  };
+
   return (
     <SellerLayout>
       <SellerHeader>
         <h2>대시보드</h2>
-        <UploadBtn width='168px' fontSize='var(--font-md)' fontWeight='400'>
+        <UploadBtn
+          onClick={handleBtnClick}
+          width='168px'
+          fontSize='var(--font-md)'
+          fontWeight='400'
+        >
           <img src={PlusIcon} alt='더하기 아이콘' />
           상품 업로드
         </UploadBtn>
