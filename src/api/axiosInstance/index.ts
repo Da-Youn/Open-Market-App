@@ -29,7 +29,15 @@ const userInstance: AxiosInstance = axios.create({
   },
 });
 
+const imgInstance: AxiosInstance = axios.create({
+  ...commonConfig,
+  headers: {
+    Authorization: `JWT ${AUTH_TOKEN}`,
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
 // url값만 사용하는 인스턴스
 const urlInstance: AxiosInstance = axios.create(commonConfig);
 
-export { axiosInstance, userInstance, urlInstance };
+export { axiosInstance, userInstance, urlInstance, imgInstance };

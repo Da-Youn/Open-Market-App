@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useGetProducts, Product } from 'src/hooks/useProduct';
+import { useGetProducts, ProductRes } from 'src/hooks/useProduct';
 
 interface OrderItemType {
-  data: Product;
+  data: ProductRes;
   orderQuantity: number;
 }
 
