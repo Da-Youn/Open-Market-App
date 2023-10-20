@@ -23,7 +23,7 @@ const Header = (props: HeaderProps) => {
 
   const handleSellerBtnClick = () => {
     // navigate 함수를 이용하여 페이지 이동
-    navigate('/my/seller_center');
+    navigate('/seller/dashboard');
   };
 
   if (currPage.startsWith('/account')) return null;
@@ -36,9 +36,9 @@ const Header = (props: HeaderProps) => {
             <Link to='/'>
               <img src={BrickLogo} alt='호두 로고 이미지' />
             </Link>
-            {currPage === '/my/seller_center' && '판매자 센터'}
+            {currPage.startsWith('/seller') && '판매자 센터'}
           </h1>
-          {currPage !== '/my/seller_center' && (
+          {!currPage.startsWith('/seller') && (
             <form>
               <input type='text' placeholder='상품을 검색해보세요!' />
               <button type='submit'>
@@ -71,14 +71,16 @@ const Header = (props: HeaderProps) => {
               </Link>
             </>
           ) : (
-            <SellerBtn
-              width='168px'
-              fontWeight='400'
-              onClick={handleSellerBtnClick}
-            >
-              <img src={ShoppingBagImg} alt='' />
-              판매자 센터
-            </SellerBtn>
+            !currPage.startsWith('/seller') && (
+              <SellerBtn
+                width='168px'
+                fontWeight='400'
+                onClick={handleSellerBtnClick}
+              >
+                <img src={ShoppingBagImg} alt='' />
+                판매자 센터
+              </SellerBtn>
+            )
           )}
         </div>
       </HeaderBox>

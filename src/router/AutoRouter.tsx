@@ -10,6 +10,8 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Order from '../pages/Order/Order';
 import Signup from '../pages/Signup/Signup';
+import SellerDashBoard from 'src/pages/Seller/SellerDashBoard';
+import ProductAdd from 'src/pages/Seller/ProductAdd';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
 
 import Header from 'src/components/common/Header';
@@ -26,11 +28,21 @@ const RouterInfo: RouterItem[] = [
   { path: '/account/login', element: <Login />, withAuthorization: false },
   { path: '/account/signup', element: <Signup />, withAuthorization: false },
   { path: '/my/page', element: <Login />, withAuthorization: true },
-  { path: '/my/seller_center', element: <Signup />, withAuthorization: true },
+
   { path: '/my/cart', element: <Cart />, withAuthorization: true },
   { path: '/my/order', element: <Order />, withAuthorization: true },
   {
-    path: '/products/:id',
+    path: '/seller/dashboard',
+    element: <SellerDashBoard />,
+    withAuthorization: true,
+  },
+  {
+    path: '/seller/product-add',
+    element: <ProductAdd />,
+    withAuthorization: true,
+  },
+  {
+    path: '/product/:id',
     element: <ProductDetail />,
     withAuthorization: false,
   },
@@ -64,16 +76,19 @@ const AutoRouter = () => {
                 route.withAuthorization ? (
                   <Authorization redirectTo='/account/login'>
                     {route.element}
+                    {route.path.startsWith('/account') ? null : <Footer />}
                   </Authorization>
                 ) : (
-                  route.element
+                  <>
+                    {route.element}
+                    {route.path.startsWith('/account') ? null : <Footer />}
+                  </>
                 )
               }
             />
           );
         })}
       </Routes>
-      <Footer />
     </Router>
   );
 };
