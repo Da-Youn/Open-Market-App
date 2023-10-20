@@ -26,7 +26,7 @@ const ProductTable = (props: ProductTableProps) => {
                 <div>
                   <img src={itemDetail.image} alt='상품 이미지 ' />
                   <div>
-                    <p>딥러닝 개발자 무릎 담요</p>
+                    <p>{itemDetail.product_name}</p>
                     <p>
                       재고 : <span>{itemDetail.stock}</span>개
                     </p>
