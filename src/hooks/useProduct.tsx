@@ -8,6 +8,9 @@ import {
 } from 'src/api/axiosInstance';
 
 export interface Product {
+  map(
+    arg0: (product: any) => import('react/jsx-runtime').JSX.Element,
+  ): import('react').ReactNode;
   product_id: number;
   created_at: string;
   updated_at: string;
@@ -67,5 +70,18 @@ export const useGetProducts = (productIds: number[] | undefined) => {
   return {
     productsData,
     isLoading,
+  };
+};
+export const useGetSellerProducts = () => {
+  const getProduct = async (): Promise<Product> => {
+    const res = await userInstance.get(`/seller/`);
+    return res.data.results;
+  };
+
+  const { data, isLoading } = useQuery(['seller'], () => getProduct());
+
+  return {
+    productsData: data,
+    isLoading: isLoading,
   };
 };

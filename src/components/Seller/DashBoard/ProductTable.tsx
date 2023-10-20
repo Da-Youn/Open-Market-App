@@ -1,8 +1,13 @@
 import styled from 'styled-components';
-
+import { useGetSellerProducts } from 'src/hooks/useProduct';
 export interface ProductTableProps {}
 
 const ProductTable = (props: ProductTableProps) => {
+  const { productsData, isLoading } = useGetSellerProducts();
+  console.log(productsData);
+
+  if (!productsData || isLoading) return null;
+
   return (
     <ProductTableLayout>
       <ProductTableBox>
@@ -15,86 +20,28 @@ const ProductTable = (props: ProductTableProps) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div>
-                <img src='' alt='상품 이미지 ' />
+          {productsData.map((itemDetail) => (
+            <tr key={itemDetail.product_id}>
+              <td>
                 <div>
-                  <p>딥러닝 개발자 무릎 담요</p>
-                  <p>
-                    재고 : <span>370</span>개
-                  </p>
+                  <img src={itemDetail.image} alt='상품 이미지 ' />
+                  <div>
+                    <p>딥러닝 개발자 무릎 담요</p>
+                    <p>
+                      재고 : <span>{itemDetail.stock}</span>개
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td>17,500원</td>
-            <td>
-              <EditBtn>수정</EditBtn>
-            </td>
-            <td>
-              <DeleteBtn>삭제</DeleteBtn>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div>
-                <img src='' alt='상품 이미지 ' />
-                <div>
-                  <p>딥러닝 개발자 무릎 담요</p>
-                  <p>
-                    재고 : <span>370</span>개
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td>17,500원</td>
-            <td>
-              <EditBtn>수정</EditBtn>
-            </td>
-            <td>
-              <DeleteBtn>삭제</DeleteBtn>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div>
-                <img src='' alt='상품 이미지 ' />
-                <div>
-                  <p>딥러닝 개발자 무릎 담요</p>
-                  <p>
-                    재고 : <span>370</span>개
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td>17,500원</td>
-            <td>
-              <EditBtn>수정</EditBtn>
-            </td>
-            <td>
-              <DeleteBtn>삭제</DeleteBtn>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div>
-                <img src='' alt='상품 이미지 ' />
-                <div>
-                  <p>딥러닝 개발자 무릎 담요</p>
-                  <p>
-                    재고 : <span>370</span>개
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td>17,500원</td>
-            <td>
-              <EditBtn>수정</EditBtn>
-            </td>
-            <td>
-              <DeleteBtn>삭제</DeleteBtn>
-            </td>
-          </tr>
+              </td>
+              <td>{itemDetail.price?.toLocaleString()}원</td>
+              <td>
+                <EditBtn>수정</EditBtn>
+              </td>
+              <td>
+                <DeleteBtn>삭제</DeleteBtn>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </ProductTableBox>
     </ProductTableLayout>
