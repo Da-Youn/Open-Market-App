@@ -47,3 +47,25 @@ export const useGetProduct = (product_id: number) => {
     isProductLoading: isLoading,
   };
 };
+
+export const useGetProducts = (productIds: number[] | undefined) => {
+  const getProduct = async (productId: number): Promise<Product> => {
+    const res = await urlInstance.get(`/products/${productId}/`);
+    return res.data;
+  };
+
+  const { data: productsData = [], isLoading } = useQuery(
+    ['products', productIds],
+    async () => {
+      if (productIds === undefined) {
+        return [];
+      }
+      return Promise.all(productIds.map((productId) => getProduct(productId)));
+    },
+  );
+
+  return {
+    productsData,
+    isLoading,
+  };
+};

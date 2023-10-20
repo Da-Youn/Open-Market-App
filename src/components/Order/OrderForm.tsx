@@ -2,9 +2,24 @@ import styled from 'styled-components';
 
 import Button from '../common/Button';
 
-export interface OrderFormProps {}
+type OrderInfo = {
+  addressMessage: string | undefined;
+  address: string | undefined;
+  phoneNumber: string[] | undefined;
+  receiver: string | undefined;
+  totalPrice: number | undefined;
+};
 
-const OrderForm = (props: OrderFormProps) => {
+export interface OrderFormProps {
+  orderInfo: OrderInfo | undefined;
+}
+
+const OrderForm = ({ orderInfo }: OrderFormProps) => {
+  if (!orderInfo) {
+    return null;
+  }
+
+  const { addressMessage, address, phoneNumber, receiver } = orderInfo;
   return (
     <OrderFormLayout>
       <h2>배송정보</h2>
@@ -12,40 +27,74 @@ const OrderForm = (props: OrderFormProps) => {
         <legend>주문자 정보</legend>
         <label htmlFor='username'>
           <p>이름</p>
-          <input type='text' name='username' />
+          <input type='text' id='username' defaultValue={receiver} />
         </label>
-        <label htmlFor='phone'>
+        <label htmlFor='userPhone1'>
           <p>휴대폰</p>
-          <input type='tel' name='phone' className='phone-first' />
-          <span>-</span>
-          <input type='tel' name='phone' className='phone-mid' />
-          <span>-</span>
-          <input type='tel' name='phone' className='phone-last' />
+          <div>
+            <input
+              type='tel'
+              id='userPhone1'
+              className='phone-first'
+              defaultValue={phoneNumber && phoneNumber[0]}
+            />
+            <span>-</span>
+            <input
+              type='tel'
+              id='userPhone2'
+              className='phone-mid'
+              defaultValue={phoneNumber && phoneNumber[1]}
+            />
+            <span>-</span>
+            <input
+              type='tel'
+              id='userPhone3'
+              className='phone-last'
+              defaultValue={phoneNumber && phoneNumber[2]}
+            />
+          </div>
         </label>
-        <label htmlFor='email'>
+        <label htmlFor='userEmail'>
           <p>이메일</p>
-          <input type='email' name='email' />
+          <input type='email' id='userEmail' name='userEmail' />
         </label>
       </fieldset>
       <fieldset>
-        <legend>배송지 정보</legend>{' '}
-        <label htmlFor='username'>
+        <legend>배송지 정보</legend>
+        <label htmlFor='receiverName'>
           <p>수령인</p>
-          <input type='text' name='username' />
+          <input type='text' id='receiverName' defaultValue={receiver} />
         </label>
-        <label htmlFor='phone'>
+        <label htmlFor='receiverPhone1'>
           <p>휴대폰</p>
-          <input type='tel' name='phone' className='phone-first' />
-          <span>-</span>
-          <input type='tel' name='phone' className='phone-mid' />
-          <span>-</span>
-          <input type='tel' name='phone' className='phone-last' />
+          <div>
+            <input
+              type='tel'
+              id='receiverPhone1'
+              className='phone-first'
+              defaultValue={phoneNumber && phoneNumber[0]}
+            />
+            <span>-</span>
+            <input
+              type='tel'
+              id='receiverPhone2'
+              className='phone-mid'
+              defaultValue={phoneNumber && phoneNumber[1]}
+            />
+            <span>-</span>
+            <input
+              type='tel'
+              id='receiverPhone3'
+              className='phone-last'
+              defaultValue={phoneNumber && phoneNumber[2]}
+            />
+          </div>
         </label>
-        <label htmlFor='adress'>
+        <label htmlFor='addressSearch'>
           <p>배송주소</p>
           <div>
             <div>
-              <input type='search' name='adress' />
+              <input type='search' id='addressSearch' />
               <Button
                 type='submit'
                 width='154px'
@@ -57,15 +106,24 @@ const OrderForm = (props: OrderFormProps) => {
                 우편번호 조회
               </Button>
             </div>
-            <input type='text' name='adress' />
-            <input type='text' name='adress' />
+            <input type='text' id='deliveryAddress1' defaultValue={address} />
+            <input type='text' id='deliveryAddress2' />
+          </div>
+        </label>
+        <label htmlFor='deliveryMessage'>
+          <p>배송 메시지</p>
+          <div>
+            <input
+              type='search'
+              id='deliveryMessage'
+              defaultValue={addressMessage}
+            />
           </div>
         </label>
       </fieldset>
     </OrderFormLayout>
   );
 };
-
 const OrderFormLayout = styled.form`
   margin-bottom: 70px;
 
@@ -94,6 +152,7 @@ const OrderFormLayout = styled.form`
       display: flex;
     }
     input {
+      padding-left: 10px;
       height: 40px;
       border: 1px solid var(--border-color);
     }

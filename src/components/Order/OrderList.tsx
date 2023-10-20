@@ -1,8 +1,57 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useGetProducts, Product } from 'src/hooks/useProduct';
 
-export interface OrderListProps {}
+interface OrderItemType {
+  data: Product;
+  orderQuantity: number;
+}
 
-const OrderList = (props: OrderListProps) => {
+export interface OrderListProps {
+  orderList: number[] | undefined;
+  orderQuantity: number[] | undefined;
+  totalPrice: number | undefined;
+  setShipFee: React.Dispatch<React.SetStateAction<number[]>>;
+  setPrice: React.Dispatch<React.SetStateAction<number[]>>;
+}
+
+const OrderList = ({
+  orderList,
+  orderQuantity,
+  totalPrice,
+  setShipFee,
+  setPrice,
+}: OrderListProps) => {
+  const [productIds, setProductIds] = useState<number[] | undefined>(orderList);
+  const [orderItems, setOrderItems] = useState<OrderItemType[]>([]);
+
+  useEffect(() => {
+    if (orderList && orderQuantity) {
+      const ids = orderList.map((item) => item);
+      setProductIds(ids);
+    }
+  }, [orderList, orderQuantity]);
+
+  const { productsData, isLoading } = useGetProducts(productIds);
+
+  useEffect(() => {
+    if (orderQuantity && productsData.length > 0) {
+      const items = productsData.map((orderItem, index) => ({
+        data: orderItem,
+        orderQuantity: orderQuantity[index],
+      }));
+      const shippingFees = items.map((item) => item.data.shipping_fee || 0);
+      const prices = items.map((item) => item.data.price || 0);
+      setOrderItems(items);
+      setShipFee(shippingFees);
+      setPrice(prices);
+    }
+  }, [isLoading]);
+
+  if (!orderList || !productIds || isLoading || !orderQuantity || !totalPrice) {
+    return null;
+  }
+
   return (
     <OrderListLayout>
       <OrderListCol role='columnheader'>
@@ -13,25 +62,31 @@ const OrderList = (props: OrderListProps) => {
       </OrderListCol>
       <OrderListBox>
         <h2 className='a11y-hidden'>주문 내역</h2>
-        <OrderItem>
-          <div>
-            <img src='' alt='' />
+        {orderItems.map((orderItem, i) => (
+          <OrderItem key={orderItem.data.product_id}>
             <div>
-              <p>백엔드글로벌</p>
-              <h3>딥러닝 개발자 무릎 담요</h3>
-              <p>수량 : 1개</p>
+              <img src={orderItem.data.image} alt='상품 이미지' />
+              <div>
+                <p>{orderItem.data.store_name}</p>
+                <h3>{orderItem.data.product_name}</h3>
+                <p>수량 : 1개</p>
+              </div>
             </div>
-          </div>
-          <div>-</div>
-          <div>무료배송</div>
-          <div>
-            <strong>17,500원</strong>
-          </div>
-        </OrderItem>
+            <div>-</div>
+            <div>
+              {orderItem.data.shipping_fee
+                ? `${orderItem.data.shipping_fee?.toLocaleString()}원`
+                : `무료배송`}
+            </div>
+            <div>
+              <strong>{orderItem.data.price?.toLocaleString()}원</strong>
+            </div>
+          </OrderItem>
+        ))}
       </OrderListBox>
       <OrderTotal>
         <p>
-          총 주문금액<strong>46,500원</strong>
+          총 주문금액<strong>{totalPrice.toLocaleString()}원</strong>
         </p>
       </OrderTotal>
     </OrderListLayout>
@@ -93,7 +148,8 @@ const OrderItem = styled.li`
     margin-right: 36px;
     object-fit: cover;
     aspect-ratio: 1/1;
-    object-position: 50% 0;
+    object-position: 0 0;
+    box-shadow: 0px 1px 2px 0px rgba(118, 118, 118, 0.25);
   }
 
   h3,

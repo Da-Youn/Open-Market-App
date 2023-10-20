@@ -4,32 +4,84 @@ import Button from '../common/Button';
 import CheckBoxIcon from '../../assets/check-box.svg';
 import CheckFillBoxIcon from '../../assets/check-fill-box.svg';
 
-export interface PaymentFormProps {}
+export interface PaymentFormProps {
+  payment: string | undefined;
+  totalPrice: number | undefined;
+  price: number[] | undefined;
+  shipFee: number[] | undefined;
+}
 
-const PaymentForm = (props: PaymentFormProps) => {
+const PaymentForm = ({
+  payment,
+  totalPrice,
+  price,
+  shipFee,
+}: PaymentFormProps) => {
+  ///CARD, DEPOSIT, PHONE_PAYMENT, NAVERPAY, KAKAOPAY
+
+  if (!payment || !totalPrice || !price || !shipFee) return null;
+
+  const prices = price?.reduce((a, c) => a + c, 0);
+  const shipFees = shipFee?.reduce((a, c) => a + c, 0);
+
   return (
     <PaymentLayout>
       <PaymentFormBox>
         <h2>결제수단</h2>
         <div>
           <label htmlFor='card'>
-            <input type='radio' name='payment' id='card' value='bank' checked />
+            <input
+              type='radio'
+              name='payment'
+              id='card'
+              value='CARD'
+              checked={payment === 'CARD'}
+              onChange={() => {}}
+            />
             신용/체크카드
           </label>
           <label htmlFor='bank'>
-            <input type='radio' name='payment' id='bank' value='bank' />
+            <input
+              type='radio'
+              name='payment'
+              id='bank'
+              value='DEPOSIT'
+              checked={payment === 'DEPOSIT'}
+              onChange={() => {}}
+            />
             무통장 입금
           </label>
           <label htmlFor='phone'>
-            <input type='radio' name='payment' id='phone' value='phone' />
+            <input
+              type='radio'
+              name='payment'
+              id='phone'
+              value='PHONE_PAYMENT'
+              checked={payment === 'PHONE_PAYMENT'}
+              onChange={() => {}}
+            />
             휴대폰 결제
           </label>
           <label htmlFor='naver'>
-            <input type='radio' name='payment' id='naver' value='naver' />
+            <input
+              type='radio'
+              name='payment'
+              id='naver'
+              value='NAVERPAY'
+              checked={payment === 'NAVERPAY'}
+              onChange={() => {}}
+            />
             네이버페이
           </label>
           <label htmlFor='kakao'>
-            <input type='radio' name='payment' id='kakao' value='kakao' />
+            <input
+              type='radio'
+              name='payment'
+              id='kakao'
+              value='KAKAOPAY'
+              checked={payment === 'KAKAOPAY'}
+              onChange={() => {}}
+            />
             카카오페이
           </label>
         </div>
@@ -42,24 +94,24 @@ const PaymentForm = (props: PaymentFormProps) => {
             <li>
               <h3>- 상품금액</h3>
               <p>
-                <span>dd</span>원
+                <span>{prices?.toLocaleString()}</span>원
               </p>
             </li>
             <li>
               <h3>- 할인금액</h3>
               <p>
-                <span>dd</span>원
+                <span>0</span>원
               </p>
             </li>
             <li>
               <h3>- 배송비</h3>
               <p>
-                <span>dd</span>원
+                <span>{shipFees?.toLocaleString()}</span>원
               </p>
             </li>
             <li>
               <h3>- 결제금액</h3>
-              <strong>dd원</strong>
+              <strong>{totalPrice?.toLocaleString()}원</strong>
             </li>
           </ul>
           <TotalPaymentSubmit>

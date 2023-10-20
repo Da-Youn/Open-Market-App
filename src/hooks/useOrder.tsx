@@ -11,12 +11,7 @@ interface ApiResponse<T> {
   count: number;
   next: null | string;
   previous: null | string;
-  results: T[];
-}
-
-interface OrderItem {
-  product_id: number;
-  quantity: number;
+  results: OrderRes[];
 }
 
 export interface OrderReq {
@@ -33,7 +28,8 @@ export interface OrderReq {
 interface OrderRes {
   buyer: number;
   order_number: number;
-  order_items: OrderItem[];
+  order_items: number[];
+  order_quantity: number[];
   receiver: string;
   receiver_phone_number: string;
   address: string;
@@ -61,20 +57,16 @@ export const usePostOrder = () => {
   });
 };
 
-const initialOrderState: ApiResponse<OrderRes> = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
-};
+const initialOrderState: OrderRes | undefined = undefined;
 
 export const useGetOrder = () => {
-  const [orderData, setOrderData] =
-    useState<ApiResponse<OrderRes>>(initialOrderState);
+  const [orderData, setOrderData] = useState<OrderRes | undefined>(
+    initialOrderState,
+  );
 
-  const getProduct = async (): Promise<ApiResponse<OrderRes>> => {
+  const getProduct = async (): Promise<OrderRes> => {
     const res = await userInstance.get(`/order/`);
-    return res.data;
+    return res.data.results[0];
   };
 
   const { isLoading } = useQuery(['order'], () => getProduct(), {

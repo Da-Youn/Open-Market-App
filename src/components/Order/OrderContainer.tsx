@@ -1,26 +1,73 @@
 import styled from 'styled-components';
 
 import { useGetOrder } from 'src/hooks/useOrder';
-import { useLocation } from 'react-router-dom';
 
 import OrderList from './OrderList';
 import OrderForm from './OrderForm';
 import PaymentForm from './PaymentForm';
 
-import Button from '../common/Button';
-import CheckBoxIcon from '../../assets/check-box.svg';
-import CheckFillBoxIcon from '../../assets/check-fill-box.svg';
+import { useState } from 'react';
 
 const OrderContainer = () => {
+  const [price, setPrice] = useState<number[]>([]);
+  const [shipFee, setShipFee] = useState<number[]>([]);
   const { orderData, isOrderLoading } = useGetOrder();
-  console.log(orderData);
+
+  let orderList, orderQuantity, orderInfo, payment, totalPrice;
+
+  const formatPhoneNumber = (phoneNumber: string | undefined) => {
+    if (!phoneNumber) {
+      return [];
+    }
+
+    let formattedNumber: string[] = [];
+    const regex1 = /(\d{2})(\d{4})(\d{4})/;
+    const regex2 = /(\d{3})(\d{3,4})(\d{4})/;
+    if (phoneNumber.length === 10 && phoneNumber.startsWith('02')) {
+      formattedNumber = phoneNumber.replace(regex1, '$1,$2,$3').split(',');
+    } else if (phoneNumber.length === 10) {
+      formattedNumber = phoneNumber.replace(regex2, '$1,$2,$3').split(',');
+    } else if (phoneNumber.length === 11 && phoneNumber.startsWith('02')) {
+      formattedNumber = phoneNumber.replace(regex1, '$1,$2,$3').split(',');
+    } else if (phoneNumber.length === 11) {
+      formattedNumber = phoneNumber.replace(regex2, '$1,$2,$3').split(',');
+    }
+    return formattedNumber;
+  };
+
+  if (!isOrderLoading) {
+    orderList = orderData?.order_items;
+    orderQuantity = orderData?.order_quantity;
+    totalPrice = orderData?.total_price;
+    orderInfo = {
+      receiver: orderData?.receiver,
+      phoneNumber: formatPhoneNumber(orderData?.receiver_phone_number),
+      address: orderData?.address,
+      addressMessage: orderData?.address_message,
+      totalPrice: orderData?.total_price,
+    };
+    payment = orderData?.payment_method;
+  }
 
   return (
     <OrderLayout>
       <h1>주문 / 결제하기</h1>
-      <OrderList />
-      <OrderForm />
-      <PaymentForm />
+      <OrderList
+        orderList={orderList}
+        orderQuantity={orderQuantity}
+        totalPrice={totalPrice}
+        setPrice={setPrice}
+        setShipFee={setShipFee}
+      />
+      <OrderForm orderInfo={orderInfo} />
+      {price && shipFee && (
+        <PaymentForm
+          payment={payment}
+          totalPrice={totalPrice}
+          price={price}
+          shipFee={shipFee}
+        />
+      )}
     </OrderLayout>
   );
 };
