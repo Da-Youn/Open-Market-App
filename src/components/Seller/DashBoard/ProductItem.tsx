@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ProductRes } from 'src/hooks/useProduct';
@@ -7,6 +8,11 @@ export interface ProductItemProps {
 }
 
 const ProductItem = ({ itemDetail }: ProductItemProps) => {
+  const navigate = useNavigate();
+  const handleEditBtnClick = () => {
+    navigate(`/seller/product-edit`, { state: itemDetail });
+  };
+
 
   return (
     <ProductItemLayout>
@@ -23,6 +29,7 @@ const ProductItem = ({ itemDetail }: ProductItemProps) => {
       </td>
       <td>{itemDetail.price?.toLocaleString()}원</td>
       <td>
+        <EditBtn onClick={handleEditBtnClick}>수정</EditBtn>
       </td>
       <td>
       </td>

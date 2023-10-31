@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 import ProductAddForm from 'src/components/Seller/ProductAddForm';
+import ProductEditForm from 'src/components/Seller/ProductEditForm';
+export interface ProductResistrationProps {
+  type: string;
+}
 
-export interface ProductResistrationProps {}
-
-const ProductAdd = (props: ProductResistrationProps) => {
+const ProductAdd = ({ type }: ProductResistrationProps) => {
   return (
     <ProductAddLayout>
-      <h2>상품 등록</h2>
+      <h2>상품 {type === 'add' ? '등록' : '수정'}</h2>
       <ProductAddBox>
         <ProductAddNote>
           <p>*상품 등록 주의사항</p>
@@ -29,7 +31,9 @@ const ProductAdd = (props: ProductResistrationProps) => {
             이것이다.
           </div>
         </ProductAddNote>
-        <ProductAddForm />
+        {/* 페이지 타입에 따라 폼컴포넌트 렌더링 */}
+        {type === 'add' && <ProductAddForm />}
+        {type === 'edit' && <ProductEditForm />}
       </ProductAddBox>
     </ProductAddLayout>
   );

@@ -1,41 +1,30 @@
-import styled from 'styled-components';
-import { useRef, useState, ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { usePostProduct, ProductReq } from 'src/hooks/useProduct';
+import { useState, ChangeEvent } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { usePutProduct, ProductReq } from 'src/hooks/useProduct';
 
 import Button from 'src/components/common/Button';
-
-import ImgUploadIcon from 'src/assets/icon-img.svg';
 
 import {
   ProductFormWrap,
   ProductFormBox,
-  ProductImgBox,
   ProductInfoBox,
   RadioInput,
   ProductDescBox,
   ProductBtnBox,
 } from './ProductFormStyle';
 
-type ProductImageProps = {
-  display: string;
-};
-
-const ProductAddForm = () => {
-  // console.log(data);
+const ProductEditForm = () => {
+  const data = useLocation().state;
   const navigate = useNavigate();
-  const usePostProductMutate = usePostProduct();
+  const usePutProductMutate = usePutProduct(data.product_id);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [image, setImage] = useState<string>('');
   const [inputValues, setInputValues] = useState<ProductReq>({
-    product_name: '',
-    image: null,
-    price: 0,
-    shipping_method: '',
-    shipping_fee: 0,
-    stock: 0,
-    product_info: '',
+    product_name: data.product_name,
+    price: data.price,
+    shipping_method: data.shipping_method,
+    shipping_fee: data.shipping_fee,
+    stock: data.stock,
+    product_info: data.product_info,
   });
 
   const handleInputChange = (
@@ -48,36 +37,11 @@ const ProductAddForm = () => {
     }));
   };
 
-  const handleImageUpload = () => {
-    fileInputRef.current?.click(); // Check if fileInputRef.current exists before trying to access its properties
-  };
-
-  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { name } = e.target;
-    const file = e.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-    setInputValues((prevInputValues) => ({
-      ...prevInputValues,
-      [name]: file,
-    }));
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result as string);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleSaveBtnClick = async () => {
     try {
-      const response = await usePostProductMutate.mutateAsync(inputValues);
+      const response = await usePutProductMutate.mutateAsync(inputValues);
       if (response) {
-        alert('상품이 등록되었습니다.');
+        alert('상품이 수정되었습니다.');
         navigate(`/seller/dashboard`);
       }
     } catch (error: any) {
@@ -91,35 +55,15 @@ const ProductAddForm = () => {
       <h3 className='a11y-hidden'>상품 등록 폼</h3>
       <ProductFormBox>
         <div>
-          <ProductImgBox htmlFor='image'>
-            <p>상품 이미지</p>
-            <div>
-              <ProductImage
-                src={image}
-                alt='상품 이미지'
-                display={image ? 'block' : 'none'}
-              />
-              <button type='button' onClick={handleImageUpload}>
-                <img src={ImgUploadIcon} alt='이미지 업로드 버튼' />
-                <input
-                  type='file'
-                  id='image'
-                  name='image'
-                  accept='image/jpg, image/jpeg, image/png'
-                  ref={fileInputRef}
-                  onChange={handleImageChange}
-                />
-              </button>
-            </div>
-          </ProductImgBox>
           <ProductInfoBox>
-            <label>
+            <label htmlFor='product-name'>
               <p>상품명</p>
               <input
                 type='text'
                 id='product-name'
                 name='product_name'
                 onChange={handleInputChange}
+                value={data && inputValues.product_name}
               />
             </label>
             <label htmlFor='price'>
@@ -130,6 +74,7 @@ const ProductAddForm = () => {
                   id='price'
                   name='price'
                   onChange={handleInputChange}
+                  value={data && inputValues.price}
                 />
                 <span>원</span>
               </div>
@@ -144,6 +89,7 @@ const ProductAddForm = () => {
                   id='shipping-method1'
                   value='PARCEL'
                   onChange={handleInputChange}
+                  checked={data && inputValues.shipping_method === 'PARCEL'}
                 />
                 <label htmlFor='shipping-method1'>택배, 소포, 등기</label>
                 <input
@@ -152,6 +98,7 @@ const ProductAddForm = () => {
                   id='shipping-method2'
                   value='DELIVERY'
                   onChange={handleInputChange}
+                  checked={data && inputValues.shipping_method === 'DELIVERY'}
                 />
                 <label htmlFor='shipping-method2'>직접배송(화물배달)</label>
               </RadioInput>
@@ -165,6 +112,7 @@ const ProductAddForm = () => {
                   id='shipping-fee'
                   name='shipping_fee'
                   onChange={handleInputChange}
+                  value={data && inputValues.shipping_fee}
                 />
                 <span>원</span>
               </div>
@@ -177,6 +125,7 @@ const ProductAddForm = () => {
                   id='stock'
                   name='stock'
                   onChange={handleInputChange}
+                  value={data && inputValues.stock}
                 />
                 <span>개</span>
               </div>
@@ -190,6 +139,7 @@ const ProductAddForm = () => {
               id='product-info'
               name='product_info'
               onChange={handleInputChange}
+              value={data && inputValues.product_info}
             />
           </label>
         </ProductDescBox>
@@ -210,12 +160,4 @@ const ProductAddForm = () => {
   );
 };
 
-const ProductImage = styled.img<ProductImageProps>`
-  display: ${(props: { display: string }) => props.display};
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 0 0;
-`;
-
-export default ProductAddForm;
+export default ProductEditForm;

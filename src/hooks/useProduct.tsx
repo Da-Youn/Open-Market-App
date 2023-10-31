@@ -106,7 +106,28 @@ export const usePostProduct = () => {
     return res.data;
   };
 
-  return useMutation(async (data: ProductReq) => addCart(data), {
+
+export const usePutProduct = (product_id: number) => {
+  const queryClient = useQueryClient();
+
+  const editCart = async (data: ProductReq) => {
+    const res = await imgInstance.put<ProductReq>(
+      `/products/${product_id}/`,
+      data,
+    );
+    return res.data;
+  };
+
+  return useMutation(async (data: ProductReq) => editCart(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['product']);
+    },
+    onError: (error: any) => {
+      throw error;
+    },
+  });
+};
+
     onSuccess: () => {
       queryClient.invalidateQueries(['product']);
     },

@@ -11,7 +11,7 @@ import Login from '../pages/Login/Login';
 import Order from '../pages/Order/Order';
 import Signup from '../pages/Signup/Signup';
 import SellerDashBoard from 'src/pages/Seller/SellerDashBoard';
-import ProductAdd from 'src/pages/Seller/ProductAdd';
+import ProductForm from 'src/pages/Seller/ProductForm';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
 
 import Header from 'src/components/common/Header';
@@ -38,7 +38,12 @@ const RouterInfo: RouterItem[] = [
   },
   {
     path: '/seller/product-add',
-    element: <ProductAdd />,
+    element: <ProductForm type='add' />,
+    withAuthorization: true,
+  },
+  {
+    path: '/seller/product-edit',
+    element: <ProductForm type='edit' />,
     withAuthorization: true,
   },
   {
