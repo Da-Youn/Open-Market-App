@@ -146,7 +146,7 @@ const CartItem = ({
 
   const handleDeleteModalOpen = () => {
     setModalOpen(true);
-    setModalType('deleteCart');
+    setModalType('deleteProduct');
   };
 
   // 장바구니 수량 변경
@@ -276,15 +276,12 @@ const CartItem = ({
             />
           </Modal>
         )}
-        {modalOpen && modalType === 'deleteCart' && (
+        {modalOpen && modalType === 'deleteProduct' && (
           <Modal
             type={modalType}
             setModalOpen={setModalOpen}
             acceptBtnClick={handleDeleteBtn}
           />
-        )}
-        {modalOpen && modalType === 'deleteComplete' && (
-          <Modal type={modalType} setModalOpen={setModalOpen} />
         )}
       </CartItemLayout>
     )

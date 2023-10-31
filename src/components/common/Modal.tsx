@@ -31,7 +31,7 @@ const Modal = (props: ModalProps) => {
           cancel: '취소',
           accept: '수정',
         }
-      : props.type === 'deleteCart'
+      : props.type === 'deleteProduct'
       ? {
           desc: <p>상품을 삭제하시겠습니까?</p>,
           cancel: '취소',
@@ -114,7 +114,7 @@ const Modal = (props: ModalProps) => {
         )}
       </ModalBtnWrap>
       <DeleteBtn onClick={handleModalClose}>
-        <img src={DeleteIcon} alt='' />
+        <img src={DeleteIcon} alt='삭제 버튼' />
       </DeleteBtn>
     </ModalWrap>
   );
@@ -153,7 +153,6 @@ const ModalBtnWrap = styled.div`
 const DeleteBtn = styled.button`
   position: absolute;
   top: 18px;
-
   right: 18px;
   width: 18px;
   height: 18px;

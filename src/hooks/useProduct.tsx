@@ -102,11 +102,20 @@ export const useGetSellerProducts = () => {
 export const usePostProduct = () => {
   const queryClient = useQueryClient();
 
-  const addCart = async (data: ProductReq) => {
+  const addProduct = async (data: ProductReq) => {
     const res = await imgInstance.post<ProductReq>(`/products/`, data);
     return res.data;
   };
 
+  return useMutation(async (data: ProductReq) => addProduct(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['product']);
+    },
+    onError: (error: any) => {
+      throw error;
+    },
+  });
+};
 
 export const usePutProduct = (product_id: number) => {
   const queryClient = useQueryClient();
@@ -129,11 +138,20 @@ export const usePutProduct = (product_id: number) => {
   });
 };
 
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+
+  const deleteProduct = async (product_id: number) => {
+    const res = await imgInstance.delete(`/products/${product_id}`);
+    return res;
+  };
+
+  return useMutation(async (product_id: number) => deleteProduct(product_id), {
     onSuccess: () => {
       queryClient.invalidateQueries(['product']);
     },
     onError: (error: any) => {
-      console.error(error);
+      throw error;
     },
   });
 };

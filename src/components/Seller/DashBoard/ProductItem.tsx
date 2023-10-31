@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ProductRes } from 'src/hooks/useProduct';
+import { useDeleteProduct } from 'src/hooks/useProduct';
+
+import Modal from 'src/components/common/Modal';
 
 export interface ProductItemProps {
   itemDetail: ProductRes;
@@ -9,10 +13,32 @@ export interface ProductItemProps {
 
 const ProductItem = ({ itemDetail }: ProductItemProps) => {
   const navigate = useNavigate();
+  const useDeleteProductMutate = useDeleteProduct();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<string>('');
+
   const handleEditBtnClick = () => {
     navigate(`/seller/product-edit`, { state: itemDetail });
   };
 
+  const handleDeleteBtnClick = () => {
+    setModalOpen(true);
+    setModalType('deleteProduct');
+  };
+
+  const handleAcceptBtnClick = async () => {
+    try {
+      const response = await useDeleteProductMutate.mutateAsync(
+        itemDetail.product_id,
+      );
+
+      if (response) {
+        alert('상품이 삭제되었습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <ProductItemLayout>
@@ -32,7 +58,15 @@ const ProductItem = ({ itemDetail }: ProductItemProps) => {
         <EditBtn onClick={handleEditBtnClick}>수정</EditBtn>
       </td>
       <td>
+        <DeleteBtn onClick={handleDeleteBtnClick}>삭제</DeleteBtn>
       </td>
+      {modalOpen && modalType === 'deleteProduct' && (
+        <Modal
+          type={modalType}
+          setModalOpen={setModalOpen}
+          acceptBtnClick={handleAcceptBtnClick}
+        />
+      )}
     </ProductItemLayout>
   );
 };
