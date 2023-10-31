@@ -87,7 +87,8 @@ export const useGetProducts = (productIds: number[] | undefined) => {
 export const useGetSellerProducts = () => {
   const getProduct = async (): Promise<ProductRes> => {
     const res = await userInstance.get(`/seller/`);
-    return res.data.results;
+
+    return res.data.results.length ? res.data.results : [];
   };
 
   const { data, isLoading } = useQuery(['product'], () => getProduct());
