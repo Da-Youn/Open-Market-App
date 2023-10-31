@@ -93,6 +93,7 @@ const ProductDetailCard = () => {
   };
 
   return (
+    productData &&
     !isProductLoading && (
       <ProductCardWrap>
         <h1 className='a11y-hidden'>상품 상세 정보</h1>
@@ -103,7 +104,6 @@ const ProductDetailCard = () => {
             alt={`${productData.product_name} 이미지`}
           />
         </ImgSection>
-
         <InfoFormSection>
           <ProductInfo>
             <h2 className='a11y-hidden'>상품 정보</h2>
@@ -112,7 +112,10 @@ const ProductDetailCard = () => {
               <strong>{productData.product_name}</strong>
             </ProductName>
             <p aria-label='상품 가격'>
-              <strong>{productData.price?.toLocaleString()}</strong>원
+              <strong>
+                {productData.price?.toLocaleString()}
+              </strong>
+              원
             </p>
           </ProductInfo>
 
