@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { useGetSellerProducts } from 'src/hooks/useProduct';
-export interface ProductTableProps {}
 
-const ProductTable = (props: ProductTableProps) => {
+import { useGetSellerProducts } from 'src/hooks/useProduct';
+
+import ProductItem from './ProductItem';
+
+const ProductTable = () => {
   const { productsData, isLoading } = useGetSellerProducts();
-  console.log(productsData);
 
   if (!productsData || isLoading) return null;
 
@@ -21,26 +22,7 @@ const ProductTable = (props: ProductTableProps) => {
         </thead>
         <tbody>
           {productsData.map((itemDetail) => (
-            <tr key={itemDetail.product_id}>
-              <td>
-                <div>
-                  <img src={itemDetail.image} alt='상품 이미지 ' />
-                  <div>
-                    <p>{itemDetail.product_name}</p>
-                    <p>
-                      재고 : <span>{itemDetail.stock}</span>개
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td>{itemDetail.price?.toLocaleString()}원</td>
-              <td>
-                <EditBtn>수정</EditBtn>
-              </td>
-              <td>
-                <DeleteBtn>삭제</DeleteBtn>
-              </td>
-            </tr>
+            <ProductItem key={itemDetail.product_id} itemDetail={itemDetail} />
           ))}
         </tbody>
       </ProductTableBox>
@@ -79,73 +61,12 @@ const ProductTableBox = styled.table`
     display: fixed;
   }
 
-  th,
-  td {
+  th {
     margin: 0px 30px;
     padding: 16px 30px;
     vertical-align: middle;
     font-size: var(--font-md);
     border-bottom: 1px solid var(--border-color);
-  }
-
-  td:not(td:first-child) {
-    text-align: center;
-  }
-
-  td div {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-
-    div {
-      align-items: stretch;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: 0 0;
-    }
-
-    p {
-      font-size: var(--font-md);
-    }
-
-    p:last-child {
-      font-size: var(--font-sm);
-      color: var(--sub-font-color);
-    }
-  }
-
-  td:nth-child(2) {
-    width: 30%;
-  }
-  td:nth-child(3),
-  td:nth-child(4) {
-    width: 0%;
-  }
-  button {
-    width: 80px;
-    height: 40px;
-    border-radius: 5px;
-  }
-`;
-
-const EditBtn = styled.button`
-  color: #fff;
-  background-color: var(--main-color);
-`;
-const DeleteBtn = styled.button`
-  color: var(--sub-font-color);
-  background-color: var (--white);
-  border: 1.5px solid var(--border-color);
-  &:hover {
-    color: #000;
-    border-color: #000;
   }
 `;
 
