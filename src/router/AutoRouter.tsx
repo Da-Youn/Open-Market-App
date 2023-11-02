@@ -22,11 +22,16 @@ type RouterItem = {
   path: string;
   element: JSX.Element;
   withAuthorization: boolean;
+  search?: string;
 };
 
 const RouterInfo: RouterItem[] = [
   { path: '/', element: <Home />, withAuthorization: false },
-  { path: '/search', element: <Search />, withAuthorization: false },
+  {
+    path: '/search/:keyword',
+    element: <Search />,
+    withAuthorization: false,
+  },
   { path: '/account/login', element: <Login />, withAuthorization: false },
   { path: '/account/signup', element: <Signup />, withAuthorization: false },
   { path: '/my/page', element: <Login />, withAuthorization: true },

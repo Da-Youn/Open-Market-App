@@ -1,13 +1,31 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchIcon from '../../assets/icon-search.svg';
 
 export interface SearchProps {}
 
 const SearchForm = (props: SearchProps) => {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(`/search/${inputValue}`);
+  };
+
   return (
-    <SearchWrap>
-      <input type='text' placeholder='상품을 검색해보세요!' />
-      <button type='submit'>
+    <SearchWrap onSubmit={handleInputSubmit}>
+      <input
+        type='text'
+        placeholder='상품을 검색해보세요!'
+        onChange={handleInputChange}
+      />
+      <button type='button' onClick={handleInputSubmit}>
         <img src={SearchIcon} alt='' />
       </button>
     </SearchWrap>

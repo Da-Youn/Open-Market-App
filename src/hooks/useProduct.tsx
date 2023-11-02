@@ -84,6 +84,31 @@ export const useGetProducts = (productIds: number[] | undefined) => {
   };
 };
 
+export const useGetSearchProducts = (keyword: string | null) => {
+  const [data, setData] = useState<ProductRes>(
+    initialProductState as ProductRes,
+  );
+  const getProduct = async (keyword: string | null): Promise<ProductRes> => {
+    const res = await urlInstance.get(`/products/?search=${keyword}`);
+    return res.data.results;
+  };
+
+  const { isLoading } = useQuery(
+    ['product', keyword],
+    () => getProduct(keyword),
+    {
+      onSuccess: (data) => {
+        setData(data);
+      },
+    },
+  );
+
+  return {
+    data,
+    isLoading,
+  };
+};
+
 export const useGetSellerProducts = () => {
   const getProduct = async (): Promise<ProductRes> => {
     const res = await userInstance.get(`/seller/`);
