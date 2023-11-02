@@ -9,6 +9,7 @@ import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Order from '../pages/Order/Order';
+import Search from '../pages/Search/Search';
 import Signup from '../pages/Signup/Signup';
 import SellerDashBoard from 'src/pages/Seller/SellerDashBoard';
 import ProductForm from 'src/pages/Seller/ProductForm';
@@ -25,6 +26,7 @@ type RouterItem = {
 
 const RouterInfo: RouterItem[] = [
   { path: '/', element: <Home />, withAuthorization: false },
+  { path: '/search', element: <Search />, withAuthorization: false },
   { path: '/account/login', element: <Login />, withAuthorization: false },
   { path: '/account/signup', element: <Signup />, withAuthorization: false },
   { path: '/my/page', element: <Login />, withAuthorization: true },
