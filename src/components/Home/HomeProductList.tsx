@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import ProductList from '../common/ProductList';
 
 interface Product {
   product_id: string;
@@ -15,8 +16,7 @@ interface ProductListData {
   next: string;
 }
 
-const ProductList = () => {
-  const navigate = useNavigate();
+const HomeProductList = () => {
   const [data, setData] = useState<Product[]>([]);
   const [nextPage, setNextPage] = useState<string>('');
 
@@ -47,30 +47,13 @@ const ProductList = () => {
   };
 
   return (
-    <ProductListWrap>
-      <ProductWrap>
-        {data.map((product) => (
-          <ProductBtn
-            key={product.product_id}
-            onClick={() =>
-              navigate(`/product/${product.product_id}`, {
-                state: product.product_id,
-              })
-            }
-          >
-            <img src={product.image} alt={product.product_name} />
-            <p className='store-name'>{product.store_name}</p>
-            <p className='product-name'>{product.product_name}</p>
-            <p className='price'>{product.price.toLocaleString()}원</p>
-          </ProductBtn>
-        ))}
-      </ProductWrap>
+    <ProductList data={data}>
       {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>}
-    </ProductListWrap>
+    </ProductList>
   );
 };
 
-export default ProductList;
+export default HomeProductList;
 
 export const ProductListWrap = styled.section`
   display: flex;
