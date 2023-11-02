@@ -7,9 +7,7 @@ const SellerMenuBar = (props: SellerMenuBarProps) => {
     <SellerMenuBarLayout>
       <ul>
         <li>
-          <button>
-            판매중인 상품(3) <span>1</span>
-          </button>
+          <button type='button'>판매중인 상품</button>
         </li>
         <li>
           <button>
@@ -18,7 +16,7 @@ const SellerMenuBar = (props: SellerMenuBarProps) => {
         </li>
         <li>
           <button>
-            문의/리뷰<span>2</span>
+            문의/리뷰<span>1</span>
           </button>
         </li>
         <li>
@@ -49,7 +47,7 @@ const SellerMenuBarLayout = styled.section`
     position: relative;
   }
 
-  li:not(li:last-child)::after {
+  li:not(li:last-child, )::after {
     content: '';
     display: block;
     position: absolute;
@@ -87,17 +85,17 @@ const SellerMenuBarLayout = styled.section`
     background-color: var(--main-color);
   }
 
-  button:hover {
-    background: var(--hover-color);
-  }
-
-  button:focus {
+  li:first-child button {
     background: var(--main-color);
     color: var(--white);
     span {
       background: var(--white);
       color: var(--main-color);
     }
+  }
+
+  button:hover {
+    background: var(--hover-color);
   }
 `;
 
