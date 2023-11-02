@@ -1,8 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from './Button';
-import { useLocation } from 'react-router-dom';
+import SearchForm from './SearchForm';
+
 import UserIcon from '../../assets/icon-user.svg';
 import BrickLogo from '../../assets/logo-brick.png';
 import SearchIcon from '../../assets/icon-search.svg';
@@ -39,14 +40,7 @@ const Header = (props: HeaderProps) => {
             </Link>
             {currPage.startsWith('/seller') && '판매자 센터'}
           </h1>
-          {!currPage.startsWith('/seller') && (
-            <form>
-              <input type='text' placeholder='상품을 검색해보세요!' />
-              <button type='submit'>
-                <img src={SearchIcon} alt='' />
-              </button>
-            </form>
-          )}
+          {!currPage.startsWith('/seller') && <SearchForm />}
         </div>
         <div className='header-right'>
           {isLoggedIn && (
@@ -138,30 +132,6 @@ export const HeaderBox = styled.div`
         width: 160px;
         vertical-align: bottom;
       }
-    }
-
-    form {
-      width: 400px;
-      height: 46px;
-      border: 2px solid var(--main-color);
-      border-radius: 50px;
-      padding: 0 22px;
-      color: var(--sub-font-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    button {
-      width: 28px;
-      height: 28px;
-      display: inline-block;
-      margin-right: 0;
-    }
-
-    input {
-      width: 100%;
     }
   }
 
