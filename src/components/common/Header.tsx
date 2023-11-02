@@ -18,6 +18,7 @@ const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
   const currPage = useLocation().pathname;
   const token = localStorage.getItem('token');
+  const userName = localStorage.getItem('username');
   const userType = localStorage.getItem('user_type');
   const isLoggedIn = !!token;
 
@@ -48,6 +49,11 @@ const Header = (props: HeaderProps) => {
           )}
         </div>
         <div className='header-right'>
+          {isLoggedIn && (
+            <UserName>
+              <span>{userName}</span>님
+            </UserName>
+          )}
           {!isLoggedIn ? (
             <>
               <Link to='/account/login'>
@@ -171,6 +177,17 @@ export const HeaderBox = styled.div`
       }
       color: var(--main-color);
     }
+  }
+`;
+
+const UserName = styled.p`
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 20px;
+  span {
+    font-size: var(--font-md);
+    margin-right: 4px;
+    font-weight: 700;
   }
 `;
 
