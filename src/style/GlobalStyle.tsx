@@ -61,7 +61,8 @@ const GlobalStyle = createGlobalStyle`
 		list-style: none;
 	}
 	button {
-		border: 0;
+		border: 0;  
+		color: #000;
 		background: transparent;
 		font-family: inherit;
 		cursor: pointer;
