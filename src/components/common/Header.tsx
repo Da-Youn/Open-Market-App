@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from './Button';
 import SearchForm from './SearchForm';
+import MypageDropDown from './MypageDropDown';
 
 import UserIcon from '../../assets/icon-user.svg';
 import BrickLogo from '../../assets/logo-brick.png';
@@ -22,7 +24,7 @@ const Header = (props: HeaderProps) => {
   const userName = localStorage.getItem('username');
   const userType = localStorage.getItem('user_type');
   const isLoggedIn = !!token;
-
+  const [isOpened, setIsOpened] = useState(false);
   const handleSellerBtnClick = () => {
     // navigate 함수를 이용하여 페이지 이동
     navigate('/seller/dashboard');
@@ -30,10 +32,18 @@ const Header = (props: HeaderProps) => {
 
   if (currPage.startsWith('/account')) return null;
 
+  const handleBtnClick = () => {
+    if (isOpened) {
+      setIsOpened(false);
+    } else {
+      setIsOpened(true);
+    }
+  };
+
   return (
     <HeaderLayout id={props.id}>
       <HeaderBox>
-        <div className='header-left'>
+        <HeaderSection className='header-left'>
           <h1>
             <Link to='/'>
               <img src={BrickLogo} alt='호두 로고 이미지' />
@@ -41,13 +51,8 @@ const Header = (props: HeaderProps) => {
             {currPage.startsWith('/seller') && '판매자 센터'}
           </h1>
           {!currPage.startsWith('/seller') && <SearchForm />}
-        </div>
-        <div className='header-right'>
-          {isLoggedIn && (
-            <UserName>
-              <span>{userName}</span>님
-            </UserName>
-          )}
+        </HeaderSection>
+        <HeaderSection className='header-right'>
           {!isLoggedIn ? (
             <>
               <Link to='/account/login'>
@@ -65,10 +70,15 @@ const Header = (props: HeaderProps) => {
                 <img src={CartIcon} alt='장바구니 아이콘' />
                 <p>장바구니</p>
               </Link>
-              <Link to='/my/page'>
-                <img src={UserIcon} alt='유저 아이콘' />
-                <p>마이페이지</p>
-              </Link>
+              <div>
+                <MyPageBtn onClick={handleBtnClick}>
+                  <img src={UserIcon} alt='유저 아이콘' />
+                  <p>
+                    <span>{userName}</span> 님
+                  </p>
+                </MyPageBtn>
+                <MypageDropDown isOpened={isOpened} />
+              </div>
             </>
           ) : (
             !currPage.startsWith('/seller') && (
@@ -82,7 +92,7 @@ const Header = (props: HeaderProps) => {
               </SellerBtn>
             )
           )}
-        </div>
+        </HeaderSection>
       </HeaderBox>
     </HeaderLayout>
   );
@@ -105,18 +115,18 @@ const HeaderLayout = styled.header`
   z-index: 100;
 `;
 
+export const HeaderSection = styled.section`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+`;
+
 export const HeaderBox = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: auto;
   display: flex;
   justify-content: space-between;
-
-  & div {
-    display: flex;
-    gap: 26px;
-    align-items: center;
-  }
 
   & .header-left {
     gap: 26px;
@@ -138,8 +148,10 @@ export const HeaderBox = styled.div`
   & .header-right {
     a {
       text-align: center;
+      padding: 0;
       color: var(--sub-font-color);
     }
+
     a:hover {
       img {
         filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg)
@@ -148,16 +160,32 @@ export const HeaderBox = styled.div`
       color: var(--main-color);
     }
   }
+  a + div {
+    position: relative;
+  }
 `;
 
-const UserName = styled.p`
-  border: 1px solid var(--border-color);
-  padding: 12px 16px;
-  border-radius: 20px;
-  span {
-    font-size: var(--font-md);
-    margin-right: 4px;
-    font-weight: 700;
+const MyPageBtn = styled.button`
+  p {
+    margin-top: -2px;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2px 10px;
+    span {
+      color: #000;
+      font-weight: 700;
+    }
+  }
+
+  &:hover {
+    img {
+      filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg)
+        brightness(97%) contrast(95%);
+    }
+    &,
+    span {
+      color: var(--main-color);
+    }
   }
 `;
 
