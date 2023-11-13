@@ -46,11 +46,7 @@ const Header = (props: HeaderProps) => {
   };
 
   return (
-    <HeaderLayout
-      id={props.id}
-      $padding={isMobile ? '0 20px' : '0 50px'}
-      $justifyContent={isMobile ? 'center' : 'space-between'}
-    >
+    <HeaderLayout id={props.id} $padding={isMobile ? '0 10px' : '0 50px'}>
       <HeaderBox>
         <HeaderSection className='header-left' $gap={isMobile ? '6px' : '26px'}>
           <h1>
@@ -117,7 +113,6 @@ const HeaderLayout = styled.header`
   margin-bottom: 90px;
   width: 100%;
   height: 90px;
-  margin: auto;
   background-color: #fff;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -133,8 +128,7 @@ export const HeaderBox = styled.div`
   margin: auto;
   display: flex;
   gap: 10px;
-  justify-content: ${(props: { $justifyContent: string }) =>
-    props.$justifyContent || 'space-between'};
+  justify-content: space-between;
 `;
 
 export const HeaderSection = styled.section`
@@ -181,6 +175,9 @@ export const HeaderSection = styled.section`
   }
 
   @media (max-width: 787px) {
+    &.header-left {
+      width: 200px;
+    }
     a p,
     button p {
       display: none;

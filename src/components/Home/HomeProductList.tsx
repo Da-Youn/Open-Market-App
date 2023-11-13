@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 
 import ProductList from '../common/ProductList';
@@ -55,52 +56,6 @@ const HomeProductList = () => {
 
 export default HomeProductList;
 
-export const ProductListWrap = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const ProductWrap = styled.div`
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 380px); /* 3개의 열을 동일한 너비로 설정 */
-  padding-top: 80px;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  gap: 70px;
-
-  & .store-name {
-    color: #767676;
-    margin-bottom: 10px;
-  }
-
-  & .product-name {
-    font-size: var(--font-md);
-    margin-bottom: 10px;
-  }
-
-  & .price {
-    font-size: var(--font-lg);
-    font-weight: 700;
-  }
-`;
-
-export const ProductBtn = styled.button`
-  margin-bottom: 8px;
-  text-align: left;
-  img {
-    width: 380px;
-    height: 380px;
-    object-fit: cover;
-    object-position: 0 0;
-    margin-bottom: 16px;
-    border: 1px solid #c4c4c4;
-    border-radius: 10px;
-  }
-`;
-
 export const NextBtn = styled.button`
   width: 500px;
   height: 70px;
@@ -114,5 +69,9 @@ export const NextBtn = styled.button`
   &:hover {
     background-color: var(--main-color);
     color: #fff;
+  }
+
+  @media (max-width: 787px) {
+    width: 300px;
   }
 `;

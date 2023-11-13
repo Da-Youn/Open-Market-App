@@ -76,6 +76,19 @@ export const ProductWrap = styled.div`
     font-size: var(--font-lg);
     font-weight: 700;
   }
+  @media (max-width: 1228px) {
+    grid-template-columns: repeat(3, 300px);
+    gap: 50px;
+    padding-top: 40px;
+  }
+  @media (max-width: 1028px) {
+    grid-template-columns: repeat(2, 320px);
+    gap: 50px;
+  }
+  @media (max-width: 430px) {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
 `;
 
 export const ProductBtn = styled.button`
@@ -90,20 +103,23 @@ export const ProductBtn = styled.button`
     border: 1px solid #c4c4c4;
     border-radius: 10px;
   }
-`;
+  @media (max-width: 1228px) {
+    img {
+      width: 300px;
+      height: 300px;
+    }
+  }
+  @media (max-width: 1028px) {
+    img {
+      width: 320px;
+      height: 320px;
+    }
+  }
 
-export const NextBtn = styled.button`
-  width: 500px;
-  height: 70px;
-  border: 3px solid var(--main-color);
-  font-size: var(--font-lg);
-  color: var(--main-color);
-  border-radius: 20px;
-  text-align: center;
-  margin: 100px auto 0;
-
-  &:hover {
-    background-color: var(--main-color);
-    color: #fff;
+  @media (max-width: 430px) {
+    img {
+      width: 320px;
+      height: 320px;
+    }
   }
 `;

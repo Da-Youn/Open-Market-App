@@ -41,14 +41,14 @@ const SearchForm = (props: SearchProps) => {
 const SearchWrap = styled.form`
   width: 100%;
   max-width: 400px;
-  min-width: 180px;
+  min-width: 200px;
   height: ${(props: { height: string }) => props.height};
   border: 2px solid var(--main-color);
   border-radius: 50px;
   padding: 0 18px 0 22px;
   color: var(--sub-font-color);
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
   gap: 10px;
 
