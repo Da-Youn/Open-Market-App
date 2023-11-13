@@ -11,6 +11,7 @@ import Login from '../pages/Login/Login';
 import Order from '../pages/Order/Order';
 import Search from '../pages/Search/Search';
 import Signup from '../pages/Signup/Signup';
+import MyPage from 'src/pages/MyPage/MyPage';
 import SellerDashBoard from 'src/pages/Seller/SellerDashBoard';
 import ProductForm from 'src/pages/Seller/ProductForm';
 import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
@@ -34,7 +35,7 @@ const RouterInfo: RouterItem[] = [
   },
   { path: '/account/login', element: <Login />, withAuthorization: false },
   { path: '/account/signup', element: <Signup />, withAuthorization: false },
-  { path: '/my/page', element: <Login />, withAuthorization: true },
+  { path: '/my/page', element: <MyPage />, withAuthorization: true },
 
   { path: '/my/cart', element: <Cart />, withAuthorization: true },
   { path: '/my/order', element: <Order />, withAuthorization: true },

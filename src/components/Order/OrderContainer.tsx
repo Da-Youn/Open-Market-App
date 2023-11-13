@@ -11,8 +11,8 @@ import { useState } from 'react';
 const OrderContainer = () => {
   const [price, setPrice] = useState<number[]>([]);
   const [shipFee, setShipFee] = useState<number[]>([]);
-  const { orderData, isOrderLoading } = useGetOrder();
-
+  const { orderData: data, isOrderLoading } = useGetOrder();
+  const orderData = data?.results[0];
   let orderList, orderQuantity, orderInfo, payment, totalPrice;
 
   const formatPhoneNumber = (phoneNumber: string | undefined) => {
