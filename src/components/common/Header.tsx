@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 
 import Button from './Button';
@@ -8,6 +9,7 @@ import MypageDropDown from './MypageDropDown';
 
 import UserIcon from '../../assets/icon-user.svg';
 import BrickLogo from '../../assets/logo-brick.png';
+import MobileLogo from '../../assets/logo-brick(mobile).png';
 import SearchIcon from '../../assets/icon-search.svg';
 import SignupIcon from '../../assets/icon-signup.svg';
 import CartIcon from '../../assets/icon-shopping-cart.svg';
@@ -25,10 +27,8 @@ const Header = (props: HeaderProps) => {
   const userType = localStorage.getItem('user_type');
   const isLoggedIn = !!token;
   const [isOpened, setIsOpened] = useState(false);
-  const handleSellerBtnClick = () => {
-    // navigate 함수를 이용하여 페이지 이동
-    navigate('/seller/dashboard');
-  };
+
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
 
   if (currPage.startsWith('/account')) return null;
 
@@ -40,13 +40,26 @@ const Header = (props: HeaderProps) => {
     }
   };
 
+  const handleSellerBtnClick = () => {
+    // navigate 함수를 이용하여 페이지 이동
+    navigate('/seller/dashboard');
+  };
+
   return (
-    <HeaderLayout id={props.id}>
+    <HeaderLayout
+      id={props.id}
+      $padding={isMobile ? '0 20px' : '0 50px'}
+      $justifyContent={isMobile ? 'center' : 'space-between'}
+    >
       <HeaderBox>
-        <HeaderSection className='header-left'>
+        <HeaderSection className='header-left' $gap={isMobile ? '6px' : '26px'}>
           <h1>
             <Link to='/'>
-              <img src={BrickLogo} alt='호두 로고 이미지' />
+              <img
+                src={isMobile ? MobileLogo : BrickLogo}
+                alt='마켓브릭 로고 이미지'
+                width={isMobile ? '50px' : '160px'}
+              />
             </Link>
             {currPage.startsWith('/seller') && '판매자 센터'}
           </h1>
@@ -101,7 +114,6 @@ const Header = (props: HeaderProps) => {
 const HeaderLayout = styled.header`
   position: fixed;
   top: 0;
-
   margin-bottom: 90px;
   width: 100%;
   height: 90px;
@@ -111,14 +123,8 @@ const HeaderLayout = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 60px;
+  padding: ${(props: { $padding: string }) => props.$padding};
   z-index: 100;
-`;
-
-export const HeaderSection = styled.section`
-  display: flex;
-  gap: 20px;
-  align-items: center;
 `;
 
 export const HeaderBox = styled.div`
@@ -126,10 +132,19 @@ export const HeaderBox = styled.div`
   max-width: 1280px;
   margin: auto;
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+  justify-content: ${(props: { $justifyContent: string }) =>
+    props.$justifyContent || 'space-between'};
+`;
 
-  & .header-left {
-    gap: 26px;
+export const HeaderSection = styled.section`
+  display: flex;
+
+  align-items: center;
+
+  &.header-left {
+    gap: ${(props: { $gap: string }) => props.$gap};
+
     h1 {
       display: flex;
       margin-right: 4px;
@@ -139,13 +154,14 @@ export const HeaderBox = styled.div`
       font-weight: 700;
 
       img {
-        width: 160px;
+        width: ${(props: { width: string }) => props.width};
         vertical-align: bottom;
       }
     }
   }
 
-  & .header-right {
+  &.header-right {
+    gap: 16px;
     a {
       text-align: center;
       padding: 0;
@@ -162,6 +178,13 @@ export const HeaderBox = styled.div`
   }
   a + div {
     position: relative;
+  }
+
+  @media (max-width: 787px) {
+    a p,
+    button p {
+      display: none;
+    }
   }
 `;
 
