@@ -330,9 +330,12 @@ const CheckBtn = styled.button`
 const CartItemBox = styled.div`
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+
   ${media.desktop(`
     gap: 16px;
+      `)}
+  ${media.tablet(`
+    flex-direction:column;
       `)}
 `;
 const CartItemInfo = styled.div`
@@ -416,6 +419,8 @@ const CartItemDesc = styled.div`
 `;
 
 const FlexColumn = styled.div`
+  width: 100%;
+  min-width: 120px;
   height: 100%;
   padding: 0 40px;
   display: flex;
@@ -436,7 +441,9 @@ const FlexColumn = styled.div`
 const QuantityButtonWrapper = styled(FlexColumn)`
   gap: 12px;
 `;
-const CartDelivery = styled(FlexColumn)``;
+const CartDelivery = styled(FlexColumn)`
+  text-align: center;
+`;
 
 const CartSelectedItem = styled(FlexColumn)`
   padding: 0 60px;
