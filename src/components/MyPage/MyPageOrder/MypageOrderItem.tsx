@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
 import { ProductRes } from 'src/hooks/useProduct';
 
 export interface MypageOrderItemProps {
@@ -61,7 +62,10 @@ const ItemImageBox = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 10px;
-
+  ${media.tablet(`
+    width: 80px;
+    height: 80px;
+      `)}
   img {
     width: 100%;
     height: 100%;

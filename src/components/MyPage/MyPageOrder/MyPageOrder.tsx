@@ -43,7 +43,7 @@ const MyPageOrderLayout = styled.section`
 
 const MyPageOrderBox = styled.ul`
   width: 100%;
-  min-width: 330px;
+
   display: flex;
   flex-direction: column;
   gap: 12px;

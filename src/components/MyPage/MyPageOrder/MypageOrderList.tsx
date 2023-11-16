@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
 import { OrderResult } from 'src/hooks/useOrder';
 import { useGetProducts, useGetProduct } from 'src/hooks/useProduct';
 
@@ -42,7 +43,10 @@ const MypageOrderListLayout = styled.ul`
   background-color: var(--white);
   width: 100%;
   border-radius: 10px;
-  padding: 20px 25px;
+  padding: 20px;
+  ${media.mobile(`
+    padding: 15px;
+      `)}
 `;
 
 const OrderListInfoBox = styled.div`
