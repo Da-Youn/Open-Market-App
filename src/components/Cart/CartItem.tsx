@@ -9,6 +9,7 @@ import { useGetProduct } from 'src/hooks/useProduct';
 
 import Modal from '../common/Modal';
 import Button from '../common/Button';
+import { media } from 'src/style/mediaQuery';
 import QuantityButton from '../common/QuantityButton';
 
 import { QuantityButtonBox } from '../common/QuantityButton';
@@ -313,27 +314,26 @@ const CartItemLayout = styled.li`
   padding: 20px;
   border-radius: 10px;
   border: 2px solid var(--sub-border-color);
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     flex-direction: column;
-  }
+      `)}
 `;
 const CheckBtn = styled.button`
   width: 20px;
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     display: flex;
     flex-direction: column;
     align-items: stretch;
-  }
+      `)}
 `;
 
 const CartItemBox = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     gap: 16px;
-  }
+      `)}
 `;
 const CartItemInfo = styled.div`
   width: 100%;
@@ -343,11 +343,12 @@ const CartItemInfo = styled.div`
   justify-content: space-around;
   align-items: center;
   border-right: 1px solid var(--border-color);
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     border: 0;
     max-width: 100%;
-  }
+      `)}
 `;
+
 const CartItemAmount = styled.div`
   width: 100%;
   max-width: 650px;
@@ -359,7 +360,7 @@ const CartItemAmount = styled.div`
   p {
     font-size: var(--font-xs);
   }
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     width: 100%;
     max-width: 100%;
     gap: 16px;
@@ -367,7 +368,7 @@ const CartItemAmount = styled.div`
     p {
       font-size: var(--font-sm);
     }
-  }
+      `)}
 `;
 
 const CartItemImg = styled.img`
@@ -377,9 +378,11 @@ const CartItemImg = styled.img`
   object-fit: cover;
   aspect-ratio: 1/1;
   object-position: 50% 0;
-  @media (max-width: 7380px) {
+  ${media.tablet(`
     width: 120px;
     height: 120px;
+      `)}
+  @media (max-width: 7380px) {
   }
 `;
 
@@ -421,14 +424,13 @@ const FlexColumn = styled.div`
   align-items: center;
   gap: 16px;
   border-right: 1px solid var(--border-color);
-
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     width: 100%;
     padding: 0;
     flex-direction: row;
     justify-content: space-between;
     border: 0;
-  }
+      `)}
 `;
 
 const QuantityButtonWrapper = styled(FlexColumn)`
@@ -455,13 +457,13 @@ const CartSelectedItem = styled(FlexColumn)`
     font-weight: 700;
     color: var(--error-color);
   }
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     padding: 0;
     flex-direction: column;
     div {
       flex-direction: row;
     }
-  }
+      `)}
 `;
 
 const DeleteBtn = styled.button`

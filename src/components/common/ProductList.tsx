@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { ProductRes } from 'src/hooks/useProduct';
 
+import { media } from 'src/style/mediaQuery';
+
 interface Product {
   product_id: string;
   image: string;
@@ -76,19 +78,15 @@ export const ProductWrap = styled.div`
     font-size: var(--font-lg);
     font-weight: 700;
   }
-  @media (max-width: 1228px) {
-    grid-template-columns: repeat(3, 300px);
-    gap: 50px;
-    padding-top: 40px;
-  }
-  @media (max-width: 1028px) {
+
+  ${media.desktop(`
     grid-template-columns: repeat(2, 320px);
     gap: 50px;
-  }
-  @media (max-width: 430px) {
+      `)}
+  ${media.mobile(`
     grid-template-columns: 1fr;
     gap: 30px;
-  }
+      `)}
 `;
 
 export const ProductBtn = styled.button`
@@ -102,24 +100,13 @@ export const ProductBtn = styled.button`
     margin-bottom: 16px;
     border: 1px solid #c4c4c4;
     border-radius: 10px;
-  }
-  @media (max-width: 1228px) {
-    img {
-      width: 300px;
-      height: 300px;
-    }
-  }
-  @media (max-width: 1028px) {
-    img {
-      width: 320px;
-      height: 320px;
-    }
-  }
-
-  @media (max-width: 430px) {
-    img {
-      width: 320px;
-      height: 320px;
-    }
+    ${media.desktop(`
+    width: 320px;
+    height: 320px;
+      `)}
+    ${media.mobile(`
+    width: 320px;
+    height: 320px;
+      `)}
   }
 `;

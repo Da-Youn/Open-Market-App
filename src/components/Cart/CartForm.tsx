@@ -7,6 +7,7 @@ import { useGetCart } from 'src/hooks/useCart.tsx';
 
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
+import { media } from 'src/style/mediaQuery.ts';
 
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
@@ -226,23 +227,35 @@ const TotalAmountBox = styled.div`
   justify-content: space-around;
   text-align: center;
   position: relative;
-  @media (max-width: 1300px) {
+  ${media.desktop(`
     height: 200px;
     padding: 30px 50px;
     flex-direction: column;
-  }
+      `)}
 `;
 const AmountCalcInfo = styled.div`
   width: 100%;
   p:first-child {
     margin-bottom: 12px;
+    ${media.desktop(`
+        margin: 0;
+      `)}
   }
   p:last-child {
     height: 30px;
+    ${media.desktop(`
+        margin: 0;
+      `)}
   }
   span {
     font-size: 24px;
     font-weight: 700;
+  }
+  span,
+  strong {
+    ${media.desktop(`
+        font-size: var(--font-md);
+      `)}
   }
 
   &:last-child {
@@ -260,19 +273,11 @@ const AmountCalcInfo = styled.div`
       background-color: red;
     }
   }
-  @media (max-width: 1300px) {
-    p:first-child,
-    p:last-child {
-      margin: 0;
-    }
-    span,
-    strong {
-      font-size: var(--font-md);
-    }
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  ${media.desktop(`
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      `)}
 `;
 
 const IconStyle = styled.div`
@@ -286,9 +291,9 @@ const IconStyle = styled.div`
   justify-content: center;
   transform: translate(-50%, 0);
   background-color: #fff;
-  @media (max-width: 1300px) {
-    display: none;
-  }
+  ${media.desktop(`
+      display: none;
+      `)}
 `;
 
 const MinusIconStyle = styled(IconStyle)`

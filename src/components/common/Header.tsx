@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import Button from './Button';
 import SearchForm from './SearchForm';
+import { media } from 'src/style/mediaQuery';
 import MypageDropDown from './MypageDropDown';
 
 import UserIcon from '../../assets/icon-user.svg';
@@ -97,7 +98,7 @@ const Header = (props: HeaderProps) => {
                 onClick={handleSellerBtnClick}
               >
                 <img src={ShoppingBagImg} alt='' />
-                판매자 센터
+                <p>판매자 센터</p>
               </SellerBtn>
             )
           )}
@@ -112,6 +113,7 @@ const HeaderLayout = styled.header`
   top: 0;
   margin-bottom: 90px;
   width: 100%;
+  min-width: 360px;
   height: 90px;
   background-color: #fff;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
@@ -146,12 +148,18 @@ export const HeaderSection = styled.section`
       gap: 12px;
       font-size: 30px;
       font-weight: 700;
+      ${media.tablet(`
+        font-size: var(--font-lg);
+      `)}
 
       img {
         width: ${(props: { width: string }) => props.width};
         vertical-align: bottom;
       }
     }
+    ${media.tablet(`
+         width: 200px;
+      `)}
   }
 
   &.header-right {
@@ -173,16 +181,12 @@ export const HeaderSection = styled.section`
   a + div {
     position: relative;
   }
-
-  @media (max-width: 787px) {
-    &.header-left {
-      width: 200px;
-    }
+  ${media.tablet(`
     a p,
     button p {
       display: none;
     }
-  }
+      `)}
 `;
 
 const MyPageBtn = styled.button`
@@ -215,6 +219,10 @@ const SellerBtn = styled(Button)`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  color: #fff;
+  ${media.tablet(`
+    width: 50px;
+      `)}
 `;
 
 export default Header;

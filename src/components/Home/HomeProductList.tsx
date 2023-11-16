@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
 import ProductList from '../common/ProductList';
 
 interface Product {
@@ -70,8 +70,7 @@ export const NextBtn = styled.button`
     background-color: var(--main-color);
     color: #fff;
   }
-
-  @media (max-width: 787px) {
-    width: 300px;
-  }
+  ${media.tablet(`
+     width: 300px;
+      `)}
 `;

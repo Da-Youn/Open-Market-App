@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
+
 export interface MyPageMenuBarProps {}
 
 const MyPageMenuBar = (props: MyPageMenuBarProps) => {
@@ -82,6 +84,9 @@ const MyPageMenuBarLayout = styled.section`
   li button:not(li:first-child button):hover {
     background: var(--hover-color);
   }
+  ${media.tablet(`
+    max-width: 100%;
+      `)}
 `;
 
 export default MyPageMenuBar;
