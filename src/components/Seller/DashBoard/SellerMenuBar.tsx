@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
+
 export interface SellerMenuBarProps {}
 
 const SellerMenuBar = (props: SellerMenuBarProps) => {
@@ -97,6 +99,9 @@ const SellerMenuBarLayout = styled.section`
   button:hover {
     background: var(--hover-color);
   }
+  ${media.tablet(`
+      max-width: 100%;
+      `)}
 `;
 
 export default SellerMenuBar;

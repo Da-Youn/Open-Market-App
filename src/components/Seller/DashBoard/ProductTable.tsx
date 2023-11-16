@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useGetSellerProducts } from 'src/hooks/useProduct';
 
 import ProductItem from './ProductItem';
+import { media } from 'src/style/mediaQuery';
 
 const ProductTable = () => {
   const { productsData, isLoading } = useGetSellerProducts();
@@ -63,10 +64,14 @@ const ProductTableBox = styled.table`
 
   th {
     margin: 0px 30px;
-    padding: 16px 30px;
+    padding: 12px;
     vertical-align: middle;
     font-size: var(--font-md);
     border-bottom: 1px solid var(--border-color);
+    ${media.tablet(`
+      padding: 12px;
+      font-size: var(--font-xs);
+      `)}
   }
 `;
 

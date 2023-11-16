@@ -1,6 +1,7 @@
-import styled from 'styled-components';
 import { useRef, useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { usePostProduct, ProductReq } from 'src/hooks/useProduct';
 
 import Button from 'src/components/common/Button';

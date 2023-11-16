@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
 import ProductAddForm from 'src/components/Seller/ProductAddForm';
 import ProductEditForm from 'src/components/Seller/ProductEditForm';
+
 export interface ProductResistrationProps {
   type: string;
 }
@@ -55,6 +57,9 @@ const ProductAddLayout = styled.main`
 const ProductAddBox = styled.div`
   display: flex;
   gap: 50px;
+  ${media.desktop(`
+    flex-direction: column;
+      `)}
 `;
 const ProductAddNote = styled.section`
   p {
@@ -69,6 +74,9 @@ const ProductAddNote = styled.section`
     word-break: keep-all;
     font-size: var(--font-xs);
     background-color: var(--hover-color);
+    ${media.desktop(`
+    width: 100%;
+      `)}
   }
 `;
 

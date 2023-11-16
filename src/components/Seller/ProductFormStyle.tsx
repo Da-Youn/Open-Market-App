@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
+
 const ProductFormWrap = styled.section`
   width: 100%;
 `;
@@ -9,6 +11,9 @@ const ProductFormBox = styled.form`
     display: flex;
     gap: 30px;
     margin-bottom: 40px;
+    ${media.tablet(`
+      flex-direction: column;
+      `)}
   }
 
   label,
@@ -24,13 +29,16 @@ const ProductFormBox = styled.form`
   }
 `;
 const ProductImgBox = styled.label`
-  position: relative;
-
   div {
-    width: 454px;
-    height: 454px;
+    position: relative;
+    width: 450px;
+    height: 450px;
     background: #c4c4c4;
     box-shadow: 0px 1px 2px 0px rgba(118, 118, 118, 0.35);
+    ${media.desktop(`
+    width: 300px;
+    height: 300px;
+      `)}
 
     button {
       position: absolute;
@@ -113,6 +121,7 @@ const ProductInfoBox = styled.div`
 // 배송방법 radio 커스텀
 const RadioInput = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   input {
     display: none;
@@ -120,7 +129,10 @@ const RadioInput = styled.div`
 
   label {
     cursor: pointer;
-    width: 220px;
+    width: 100%;
+    max-width: 220px;
+    min-width: 170px;
+    padding: 0 20px;
     height: 54px;
     display: flex;
     align-items: center;
@@ -157,9 +169,19 @@ const ProductDescBox = styled.div`
 const ProductBtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
+  flex-direction: row;
   button {
     width: 200px;
+    ${media.mobile(`
+    width: 130px;
+  `)}
   }
+
+  ${media.tablet(`
+  flex-direction: row;
+  align-items: flex-end;
+
+  `)}
 `;
 
 export {

@@ -6,6 +6,7 @@ import { ProductRes } from 'src/hooks/useProduct';
 import { useDeleteProduct } from 'src/hooks/useProduct';
 
 import Modal from 'src/components/common/Modal';
+import { media } from 'src/style/mediaQuery';
 
 export interface ProductItemProps {
   itemDetail: ProductRes;
@@ -80,6 +81,10 @@ const ProductItemLayout = styled.tr`
     vertical-align: middle;
     font-size: var(--font-md);
     border-bottom: 1px solid var(--border-color);
+    ${media.tablet(`
+      padding: 12px;
+      font-size: var(--font-sm);
+      `)}
   }
 
   td:not(td:first-child) {
@@ -103,10 +108,16 @@ const ProductItemLayout = styled.tr`
       border-radius: 50%;
       object-fit: cover;
       object-position: 0 0;
+      ${media.mobile(`
+        display: none;
+      `)}
     }
 
     p {
       font-size: var(--font-md);
+      ${media.tablet(`
+        font-size: var(--font-sm);
+      `)}
     }
 
     p:last-child {
@@ -126,6 +137,10 @@ const ProductItemLayout = styled.tr`
     width: 80px;
     height: 40px;
     border-radius: 5px;
+    ${media.tablet(`
+      width: 50px;
+      font-size: var(--font-xs);
+      `)}
   }
 `;
 

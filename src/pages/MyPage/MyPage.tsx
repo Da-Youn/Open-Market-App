@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
 import MyPageMenuBar from 'src/components/MyPage/MyPageMenuBar';
 import MyPageOrder from 'src/components/MyPage/MyPageOrder/MyPageOrder';
 
@@ -39,6 +40,9 @@ const MyPageHeader = styled.section`
 const MyPageBox = styled.div`
   display: flex;
   gap: 50px;
+  ${media.tablet(`
+    flex-direction: column;
+      `)}
 `;
 
 export default MyPage;

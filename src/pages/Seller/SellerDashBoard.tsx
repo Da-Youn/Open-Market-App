@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import { media } from 'src/style/mediaQuery';
 import Button from 'src/components/common/Button';
 import ProductTable from 'src/components/Seller/DashBoard/ProductTable';
 import SellerMenuBar from 'src/components/Seller/DashBoard/SellerMenuBar';
@@ -40,7 +41,7 @@ const SellerDashBoard = (props: SellerProps) => {
 const SellerLayout = styled.main`
   max-width: 1440px;
   margin: auto;
-  padding: 40px;
+  padding: 30px;
   h2 {
     font-size: var(--font-xl);
     font-weight: 700;
@@ -65,6 +66,9 @@ const UploadBtn = styled(Button)`
 const SellerBox = styled.div`
   display: flex;
   gap: 30px;
+  ${media.tablet(`
+    flex-direction: column;
+      `)}
 `;
 
 export default SellerDashBoard;
