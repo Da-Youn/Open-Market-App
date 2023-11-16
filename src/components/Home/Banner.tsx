@@ -83,7 +83,7 @@ const BannerWrap = styled.div`
     border-radius: 50%;
     transform: translateY(-50%);
     z-index: 1;
-
+    background-color: rgba(255, 255, 255, 0.2);
     img {
       width: 100%;
       height: 100%;
@@ -91,7 +91,7 @@ const BannerWrap = styled.div`
   }
 
   button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.7);
   }
 
   .slick-dots {
