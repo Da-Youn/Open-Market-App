@@ -14,7 +14,8 @@ const ProductDetail = () => {
 
 const Main = styled.main`
   width: 100%;
-  margin-top: 80px;
+  margin-top: 60px;
+  padding: 30px;
 `;
 
 export default ProductDetail;

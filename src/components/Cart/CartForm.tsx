@@ -101,15 +101,10 @@ const CartForm = () => {
       <CartFormBox>
         <CartListCol role='columnheader'>
           <button onClick={handleCheckBoxActive}>
-            <p className='a11y-hidden'>목록 전체선택 버튼</p>
             <img src={checkBox} alt='장바구니 목록 전체선택 버튼 이미지' />
+            <p>전체선택</p>
           </button>
-          <span>
-            <p className='a11y-hidden'>이미지</p>
-          </span>
           <span>상품정보</span>
-          <span>수량</span>
-          <span>상품 금액</span>
         </CartListCol>
         <CartList>
           <h2 className='a11y-hidden'>장바구니 상품 정보</h2>
@@ -153,8 +148,7 @@ const CartForm = () => {
           <AmountCalcInfo>
             <p>결제 예정 금액</p>
             <p>
-              <strong>{(totalAmount + totalShipFee).toLocaleString()}</strong>{' '}
-              원
+              <strong>{(totalAmount + totalShipFee).toLocaleString()}</strong>원
             </p>
           </AmountCalcInfo>
         </TotalAmountBox>
@@ -193,6 +187,7 @@ const CartFormBox = styled.div`
 `;
 
 const CartListCol = styled.section`
+  position: relative;
   height: 60px;
   width: 100%;
   display: flex;
@@ -205,23 +200,11 @@ const CartListCol = styled.section`
   text-align: center;
 
   button {
-    padding: 0 20px 0 30px;
-  }
-
-  button + span {
-    min-width: 160px;
-  }
-  button + span + span {
-    min-width: 200px;
-    width: 430px;
-    padding-left: 20px;
-  }
-  button + span + span + span {
-    min-width: 150px;
-  }
-  button + span + span + span + span {
-    width: 100%;
-    max-width: 300px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    position: absolute;
+    left: 20px;
   }
 `;
 
@@ -243,6 +226,11 @@ const TotalAmountBox = styled.div`
   justify-content: space-around;
   text-align: center;
   position: relative;
+  @media (max-width: 1300px) {
+    height: 200px;
+    padding: 30px 50px;
+    flex-direction: column;
+  }
 `;
 const AmountCalcInfo = styled.div`
   width: 100%;
@@ -272,8 +260,23 @@ const AmountCalcInfo = styled.div`
       background-color: red;
     }
   }
+  @media (max-width: 1300px) {
+    p:first-child,
+    p:last-child {
+      margin: 0;
+    }
+    span,
+    strong {
+      font-size: var(--font-md);
+    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
-const MinusIconStyle = styled.div`
+
+const IconStyle = styled.div`
+  position: absolute;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -281,24 +284,20 @@ const MinusIconStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translate(-50%, 0);
+  background-color: #fff;
+  @media (max-width: 1300px) {
+    display: none;
+  }
+`;
 
-  position: absolute;
+const MinusIconStyle = styled(IconStyle)`
   left: 25%;
   transform: translate(-50%, 0);
   background-color: #fff;
 `;
-const PlusIconStyle = styled.div`
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: absolute;
+const PlusIconStyle = styled(IconStyle)`
   left: 50%;
-  transform: translate(-50%, 0);
-  background-color: #fff;
 `;
 
 export default CartForm;

@@ -29,7 +29,7 @@ const QuantityButton = ({
   };
 
   return (
-    <QuantityButtonWrapper>
+    <QuantityButtonBox>
       <button
         type='button'
         onClick={handleQuantityDec}
@@ -45,13 +45,13 @@ const QuantityButton = ({
       >
         <img src={PlusIcon} alt='증가 버튼' />
       </button>
-    </QuantityButtonWrapper>
+    </QuantityButtonBox>
   );
 };
 
 export default QuantityButton;
 
-export const QuantityButtonWrapper = styled.div`
+export const QuantityButtonBox = styled.div`
   width: 150px;
   height: 50px;
   display: flex;

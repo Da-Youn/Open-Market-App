@@ -11,7 +11,7 @@ import Modal from '../common/Modal';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
 
-import { QuantityButtonWrapper } from '../common/QuantityButton';
+import { QuantityButtonBox } from '../common/QuantityButton';
 import DeleteIcon from '../../assets/icon-delete.svg';
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
@@ -223,43 +223,58 @@ const CartItem = ({
             alt='상품 선택 버튼 이미지'
           />
         </CheckBtn>
-        <CartItemImg src={itemDetail.image} alt='' />
-        <CartItemInfo>
-          <div>
-            <p>{itemDetail.store_name}</p>
-            <h3>{itemDetail.product_name}</h3>
-            <strong>{itemDetail.price?.toLocaleString()}원</strong>
-          </div>
-          <span>
-            택배배송 /{' '}
-            {itemDetail.shipping_fee
-              ? `${itemDetail.shipping_fee?.toLocaleString()}원`
-              : `무료배송`}
-          </span>
-        </CartItemInfo>
-        <div>
-          <QuantityButtonWrapper>
-            <button type='button' onClick={handleEditModalOpen}>
-              <img src={MinusIcon} alt='감소 버튼' />
-            </button>
-            <p>{quantity}</p>
-            <button type='button' onClick={handleEditModalOpen}>
-              <img src={PlusIcon} alt='증가 버튼' />
-            </button>
-          </QuantityButtonWrapper>
-        </div>
-        <CartselectedItem>
-          <strong>{(quantity * itemDetail.price)?.toLocaleString()}원</strong>
-          <Button
-            width='130px'
-            fontWeight='400'
-            fontSize='var(--font-sm)'
-            $padding='10px'
-            onClick={handlePostOrder}
-          >
-            주문하기
-          </Button>
-        </CartselectedItem>
+        <CartItemBox>
+          <CartItemInfo>
+            <CartItemImg src={itemDetail.image} alt='' />
+            <CartItemDesc>
+              <div>
+                <p>{itemDetail.store_name}</p>
+                <h3>{itemDetail.product_name}</h3>
+                <strong>{itemDetail.price?.toLocaleString()}원</strong>
+              </div>
+            </CartItemDesc>
+          </CartItemInfo>
+          <CartItemAmount>
+            <QuantityButtonWrapper>
+              <p>주문 수량</p>
+              <QuantityButtonBox>
+                <button type='button' onClick={handleEditModalOpen}>
+                  <img src={MinusIcon} alt='감소 버튼' />
+                </button>
+                <p>{quantity}</p>
+                <button type='button' onClick={handleEditModalOpen}>
+                  <img src={PlusIcon} alt='증가 버튼' />
+                </button>
+              </QuantityButtonBox>
+            </QuantityButtonWrapper>
+            <CartDelivery>
+              <p>배송비</p>
+              <strong>
+                택배배송 /
+                {itemDetail.shipping_fee
+                  ? `${itemDetail.shipping_fee?.toLocaleString()}원`
+                  : `무료배송`}
+              </strong>
+            </CartDelivery>
+            <CartSelectedItem>
+              <div>
+                <p>주문 금액</p>
+                <strong>
+                  {(quantity * itemDetail.price)?.toLocaleString()}원
+                </strong>
+              </div>
+              <Button
+                width='130px'
+                fontWeight='400'
+                fontSize='var(--font-sm)'
+                $padding='10px'
+                onClick={handlePostOrder}
+              >
+                주문하기
+              </Button>
+            </CartSelectedItem>
+          </CartItemAmount>
+        </CartItemBox>
         <DeleteBtn type='button' onClick={handleDeleteModalOpen}>
           <img src={DeleteIcon} alt='삭제 버튼 이미지' />
         </DeleteBtn>
@@ -293,14 +308,66 @@ const CartItemLayout = styled.li`
   width: 100%;
   min-height: 200px;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 10px;
+
+  gap: 20px;
+  padding: 20px;
   border-radius: 10px;
   border: 2px solid var(--sub-border-color);
+  @media (max-width: 1300px) {
+    flex-direction: column;
+  }
 `;
 const CheckBtn = styled.button`
-  padding: 0 20px 0 30px;
+  width: 20px;
+  @media (max-width: 1300px) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const CartItemBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: 1300px) {
+    gap: 16px;
+  }
+`;
+const CartItemInfo = styled.div`
+  width: 100%;
+  max-width: 500px;
+  flex-grow: 0.4;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-right: 1px solid var(--border-color);
+  @media (max-width: 1300px) {
+    border: 0;
+    max-width: 100%;
+  }
+`;
+const CartItemAmount = styled.div`
+  width: 100%;
+  max-width: 650px;
+  flex-grow: 0.6;
+  display: flex;
+
+  align-items: center;
+
+  p {
+    font-size: var(--font-xs);
+  }
+  @media (max-width: 1300px) {
+    width: 100%;
+    max-width: 100%;
+    gap: 16px;
+    flex-direction: column;
+    p {
+      font-size: var(--font-sm);
+    }
+  }
 `;
 
 const CartItemImg = styled.img`
@@ -310,11 +377,14 @@ const CartItemImg = styled.img`
   object-fit: cover;
   aspect-ratio: 1/1;
   object-position: 50% 0;
+  @media (max-width: 7380px) {
+    width: 120px;
+    height: 120px;
+  }
 `;
 
-const CartItemInfo = styled.div`
-  min-width: 200px;
-  width: 430px;
+const CartItemDesc = styled.div`
+  width: 100%;
   padding-left: 20px;
   display: flex;
   flex-direction: column;
@@ -342,19 +412,55 @@ const CartItemInfo = styled.div`
   }
 `;
 
-const CartselectedItem = styled.div`
-  width: 100%;
-  max-width: 300px;
-  text-align: center;
+const FlexColumn = styled.div`
+  height: 100%;
+  padding: 0 40px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  gap: 26px;
+  gap: 16px;
+  border-right: 1px solid var(--border-color);
 
+  @media (max-width: 1300px) {
+    width: 100%;
+    padding: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 0;
+  }
+`;
+
+const QuantityButtonWrapper = styled(FlexColumn)`
+  gap: 12px;
+`;
+const CartDelivery = styled(FlexColumn)``;
+
+const CartSelectedItem = styled(FlexColumn)`
+  padding: 0 60px;
+  border: 0;
+  div {
+    gap: 6px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  button {
+    width: 100%;
+  }
   strong {
     font-size: var(--font-md);
     font-weight: 700;
     color: var(--error-color);
+  }
+  @media (max-width: 1300px) {
+    padding: 0;
+    flex-direction: column;
+    div {
+      flex-direction: row;
+    }
   }
 `;
 

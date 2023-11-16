@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const ProductCardWrap = styled.section`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
 `;
@@ -20,6 +21,8 @@ export const ImgSection = styled.div`
   }
 `;
 export const InfoFormSection = styled.div`
+  width: 100%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,6 +49,7 @@ export const ProductName = styled.p`
 
 export const ProductForm = styled.form`
   h2 + p {
+    margin-top: 16px;
     color: var(--sub-font-color);
   }
 `;
