@@ -8,6 +8,7 @@ import { usePostOrder } from 'src/hooks/useOrder';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
+import { getStorageItem } from 'src/util/handleStorageItem';
 
 import {
   ProductCardWrap,
@@ -25,8 +26,8 @@ const ProductDetailCard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const productId = location.state;
-  const username = localStorage.getItem('username');
-  const token = localStorage.getItem('token');
+  const username = getStorageItem('username');
+  const token = getStorageItem('token');
 
   const [quantity, setQuantity] = useState<number>(1);
   const [modalOpen, setModalOpen] = useState<boolean>(false);

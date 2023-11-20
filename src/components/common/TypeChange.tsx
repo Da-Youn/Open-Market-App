@@ -1,36 +1,50 @@
 import styled from 'styled-components';
 
+interface UserInput {
+  username: string;
+  password: string;
+}
+
 interface TypeChangeProps {
   userType: string;
   setUserType: React.Dispatch<React.SetStateAction<string>>;
+  setUserInput: React.Dispatch<React.SetStateAction<UserInput>>;
   page: string;
 }
 
-const TypeChange = (props: TypeChangeProps) => {
+const TypeChange = ({ userType, setUserType, setUserInput, page }: TypeChangeProps) => {
   const handleBuyerLogin = () => {
-    props.setUserType('BUYER');
+    setUserType('BUYER');
+    setUserInput({
+      username: 'buyer1',
+      password: 'hodu0910',
+    });
   };
 
   const handleSellerLogin = () => {
-    props.setUserType('SELLER');
+    setUserType('SELLER');
+    setUserInput({
+      username: 'seller1',
+      password: 'hodu0910',
+    });
   };
 
   return (
     <TypeChangeWrap>
       <h2 className='a11y-hidden'>회원 종류 선택하기</h2>
       <TypeChangeBtn
-        className={`type-btn ${props.userType === 'BUYER' ? '' : 'disable'}`}
+        className={`type-btn ${userType === 'BUYER' ? '' : 'disable'}`}
         type='button'
         onClick={handleBuyerLogin}
       >
-        구매회원 {props.page === 'login' ? '로그인' : '가입'}
+        구매회원 {page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
       <TypeChangeBtn
-        className={`type-btn ${props.userType === 'SELLER' ? '' : 'disable'}`}
+        className={`type-btn ${userType === 'SELLER' ? '' : 'disable'}`}
         type='button'
         onClick={handleSellerLogin}
       >
-        판매회원 {props.page === 'login' ? '로그인' : '가입'}
+        판매회원 {page === 'login' ? '로그인' : '가입'}
       </TypeChangeBtn>
     </TypeChangeWrap>
   );
@@ -67,3 +81,6 @@ const TypeChangeBtn = styled.button`
 `;
 
 export default TypeChange;
+function setUserInput(arg0: { username: string; password: string }) {
+  throw new Error('Function not implemented.');
+}

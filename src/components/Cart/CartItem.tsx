@@ -11,6 +11,7 @@ import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { media } from 'src/style/mediaQuery';
 import QuantityButton from '../common/QuantityButton';
+import { getStorageItem } from 'src/util/handleStorageItem';
 
 import { QuantityButtonBox } from '../common/QuantityButton';
 import DeleteIcon from '../../assets/icon-delete.svg';
@@ -47,9 +48,7 @@ const CartItem = ({
   setSelectedItem,
 }: CartItemProps) => {
   const navigate = useNavigate();
-  const { productData: itemDetail, isProductLoading } = useGetProduct(
-    cartItem.product_id,
-  );
+  const { productData: itemDetail, isProductLoading } = useGetProduct(cartItem.product_id);
   const [quantity, setQuantity] = useState<number>(cartItem.quantity);
   const [isActive, setIsActive] = useState<boolean>(cartItem.is_active);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -171,9 +170,7 @@ const CartItem = ({
   // 장바구니 상품 삭제
   const handleDeleteBtn = async () => {
     try {
-      const response = await useDeleteCartMutate.mutateAsync(
-        cartItem.cart_item_id,
-      );
+      const response = await useDeleteCartMutate.mutateAsync(cartItem.cart_item_id);
 
       if (response) {
         // 선택상태에서 총금액에 포함된 상품 가격 제거
@@ -189,7 +186,7 @@ const CartItem = ({
   };
 
   const handlePostOrder = async () => {
-    const username = localStorage.getItem('username');
+    const username = getStorageItem('username');
     const orderData = {
       product_id: cartItem.product_id,
       quantity: quantity,
@@ -219,10 +216,7 @@ const CartItem = ({
       <CartItemLayout>
         <CheckBtn onClick={handleCheckBoxActive}>
           <p className='a11y-hidden'>상품 선택 버튼</p>
-          <img
-            src={isActive === true ? CheckBoxFilledIcon : CheckBoxIcon}
-            alt='상품 선택 버튼 이미지'
-          />
+          <img src={isActive === true ? CheckBoxFilledIcon : CheckBoxIcon} alt='상품 선택 버튼 이미지' />
         </CheckBtn>
         <CartItemBox>
           <CartItemInfo>
@@ -251,18 +245,13 @@ const CartItem = ({
             <CartDelivery>
               <p>배송비</p>
               <strong>
-                택배배송 /
-                {itemDetail.shipping_fee
-                  ? `${itemDetail.shipping_fee?.toLocaleString()}원`
-                  : `무료배송`}
+                택배배송 /{itemDetail.shipping_fee ? `${itemDetail.shipping_fee?.toLocaleString()}원` : `무료배송`}
               </strong>
             </CartDelivery>
             <CartSelectedItem>
               <div>
                 <p>주문 금액</p>
-                <strong>
-                  {(quantity * itemDetail.price)?.toLocaleString()}원
-                </strong>
+                <strong>{(quantity * itemDetail.price)?.toLocaleString()}원</strong>
               </div>
               <Button
                 width='130px'
@@ -280,24 +269,12 @@ const CartItem = ({
           <img src={DeleteIcon} alt='삭제 버튼 이미지' />
         </DeleteBtn>
         {modalOpen && modalType === 'editCart' && (
-          <Modal
-            type={modalType}
-            setModalOpen={setModalOpen}
-            acceptBtnClick={handleEditBtn}
-          >
-            <QuantityButton
-              stock={itemDetail.stock}
-              quantity={quantity}
-              setQuantity={setQuantity}
-            />
+          <Modal type={modalType} setModalOpen={setModalOpen} acceptBtnClick={handleEditBtn}>
+            <QuantityButton stock={itemDetail.stock} quantity={quantity} setQuantity={setQuantity} />
           </Modal>
         )}
         {modalOpen && modalType === 'deleteProduct' && (
-          <Modal
-            type={modalType}
-            setModalOpen={setModalOpen}
-            acceptBtnClick={handleDeleteBtn}
-          />
+          <Modal type={modalType} setModalOpen={setModalOpen} acceptBtnClick={handleDeleteBtn} />
         )}
       </CartItemLayout>
     )

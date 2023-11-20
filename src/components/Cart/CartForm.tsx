@@ -8,6 +8,7 @@ import { useGetCart } from 'src/hooks/useCart.tsx';
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
 import { media } from 'src/style/mediaQuery.ts';
+import { getStorageItem } from 'src/util/handleStorageItem.jsx';
 
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
@@ -26,7 +27,7 @@ interface SelectedItem {
 
 const CartForm = () => {
   const navigate = useNavigate();
-  const username = localStorage.getItem('username');
+  const username = getStorageItem('username');
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({});
@@ -153,11 +154,7 @@ const CartForm = () => {
             </p>
           </AmountCalcInfo>
         </TotalAmountBox>
-        <Button
-          onClick={handlePostOrder}
-          width='220px'
-          fontSize='var(--font-lg)'
-        >
+        <Button onClick={handlePostOrder} width='220px' fontSize='var(--font-lg)'>
           주문하기
         </Button>
       </CartFormBox>

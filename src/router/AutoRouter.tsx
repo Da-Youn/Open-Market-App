@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home';
@@ -18,6 +13,8 @@ import ProductDetail from 'src/pages/ProductDetail/ProductDetail';
 
 import Header from 'src/components/common/Header';
 import Footer from 'src/components/common/Footer';
+
+import { getStorageItem } from 'src/util/handleStorageItem';
 
 type RouterItem = {
   path: string;
@@ -67,7 +64,7 @@ interface AuthorizationProps {
 }
 
 const Authorization = ({ redirectTo, children }: AuthorizationProps) => {
-  const isAuthenticated: string | null = localStorage.getItem('token');
+  const isAuthenticated = getStorageItem('token');
   if (isAuthenticated) {
     return <>{children}</>;
   } else {

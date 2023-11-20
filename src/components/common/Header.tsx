@@ -7,6 +7,7 @@ import Button from './Button';
 import SearchForm from './SearchForm';
 import { media } from 'src/style/mediaQuery';
 import MypageDropDown from './MypageDropDown';
+import { getStorageItem } from 'src/util/handleStorageItem';
 
 import UserIcon from '../../assets/icon-user.svg';
 import BrickLogo from '../../assets/logo-brick.png';
@@ -23,9 +24,10 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const navigate = useNavigate();
   const currPage = useLocation().pathname;
-  const token = localStorage.getItem('token');
-  const userName = localStorage.getItem('username');
-  const userType = localStorage.getItem('user_type');
+  const token = getStorageItem('token');
+  const userName = getStorageItem('username');
+  const userType = getStorageItem('user_type');
+
   const isLoggedIn = !!token;
   const [isOpened, setIsOpened] = useState(false);
 
@@ -92,11 +94,7 @@ const Header = (props: HeaderProps) => {
             </>
           ) : (
             !currPage.startsWith('/seller') && (
-              <SellerBtn
-                width='168px'
-                fontWeight='400'
-                onClick={handleSellerBtnClick}
-              >
+              <SellerBtn width='168px' fontWeight='400' onClick={handleSellerBtnClick}>
                 <img src={ShoppingBagImg} alt='' />
                 <p>판매자 센터</p>
               </SellerBtn>
@@ -172,8 +170,7 @@ export const HeaderSection = styled.section`
 
     a:hover {
       img {
-        filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg)
-          brightness(97%) contrast(95%);
+        filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg) brightness(97%) contrast(95%);
       }
       color: var(--main-color);
     }
@@ -203,8 +200,7 @@ const MyPageBtn = styled.button`
 
   &:hover {
     img {
-      filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg)
-        brightness(97%) contrast(95%);
+      filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg) brightness(97%) contrast(95%);
     }
     &,
     span {

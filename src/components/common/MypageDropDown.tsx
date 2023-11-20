@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { removeStorageItem } from 'src/util/handleStorageItem';
+
 import DropdownImg from 'src/assets/mypage_dropdown.svg';
 
 export interface MypageDropDownProps {
@@ -15,9 +17,10 @@ const MypageDropDown = ({ isOpened }: MypageDropDownProps) => {
   };
 
   const handleLogoutBtnClick = () => {
-    localStorage.removeItem('user_type');
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
+    removeStorageItem('user_type');
+    removeStorageItem('username');
+    removeStorageItem('token');
+
     alert('로그아웃 되었습니다.');
     navigate('/');
   };
