@@ -29,6 +29,8 @@ const SignupWrap = styled.div`
 `;
 
 const AccountInfoWrap = styled.div`
+  width: 100%;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -40,6 +42,7 @@ const AccountInfoWrap = styled.div`
 `;
 const IdInput = styled.div`
   div {
+    width: 100%;
     gap: 12px;
     flex-direction: row;
     justify-content: flex-end;
