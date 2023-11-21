@@ -1,8 +1,12 @@
+import React from 'react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useGetProducts, ProductRes } from 'src/hooks/useProduct';
 
+import { media } from 'src/style/mediaQuery';
+
 interface OrderItemType {
+  orderPrice: any;
   data: ProductRes;
   orderQuantity: number;
 }
@@ -55,16 +59,27 @@ const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderLi
         <h2 className='a11y-hidden'>주문 내역</h2>
         {orderItems.map((orderItem, i) => (
           <OrderItem key={orderItem.data.product_id}>
-            <div>
+            <OrderItemInfo>
               <img src={orderItem.data.image} alt='상품 이미지' />
               <div>
+                <h3 className='a11y-hidden'>상품 정보</h3>
                 <p>{orderItem.data.store_name}</p>
-                <h3>{orderItem.data.product_name}</h3>
+                <strong>{orderItem.data.product_name}</strong>
                 <p>수량 : {orderItem.orderQuantity}개</p>
               </div>
+            </OrderItemInfo>
+            <OrderItemAmount>
+              <h3>할인</h3>
               <p>-</p>
+            </OrderItemAmount>
+            <OrderItemAmount>
+              <h3>배송비</h3>
               <p>{orderItem.data.shipping_fee ? `${orderItem.data.shipping_fee?.toLocaleString()}원` : `무료배송`}</p>
+            </OrderItemAmount>
+            <OrderItemAmount>
+              <h3>상품 금액</h3>
               <strong>{orderItem.orderPrice?.toLocaleString()}원</strong>
+            </OrderItemAmount>
           </OrderItem>
         ))}
       </OrderListBox>
@@ -79,12 +94,15 @@ const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderLi
 
 const OrderListLayout = styled.section`
   width: 100%;
-  margin-bottom: 96px;
+  margin-bottom: 60px;
 `;
 
 const OrderListCol = styled.div`
   height: 60px;
   display: flex;
+  ${media.tablet(`
+     display:none
+      `)}
 
   align-items: center;
   margin-bottom: 16px;
@@ -101,6 +119,9 @@ const OrderListCol = styled.div`
 
 const OrderListBox = styled.ul`
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const OrderItem = styled.li`
@@ -109,20 +130,18 @@ const OrderItem = styled.li`
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
+  ${media.tablet(`  
+    height: 100%;
+    border-radius: 10px;
+    border:1px solid var(--border-color);
+    padding:20px;
+
+    flex-direction: column;  
+    align-items: stretch;
+
+      `)}
 
   div {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-    font-size: var(--font-md);
-    color: var(--sub-font-color);
-  }
-  div:first-child {
-    flex: 3;
-    align-items: center;
-    div {
-      display: block;
-    }
   }
 
   img {
@@ -143,12 +162,40 @@ const OrderItem = styled.li`
   }
 
   h3 {
+    display: none;
     margin: 6px 0 10px;
+    ${media.tablet(`  
+     display: block;
+      `)}
   }
+`;
 
-  p {
-    font-size: var(--font-xs);
+const OrderItemInfo = styled.div`
+  display: flex;
+  flex: 3;
+  align-items: center;
+
+  div {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
   }
+  ${media.tablet(`  
+     margin-bottom: 16px;
+      `)}
+`;
+const OrderItemAmount = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--sub-font-color);
+  ${media.tablet(`  
+     justify-content: space-between;
+      `)}
 `;
 
 const OrderTotal = styled.div`

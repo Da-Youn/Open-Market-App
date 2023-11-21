@@ -60,10 +60,11 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
         </label>
         <label htmlFor='userPhone1'>
           <p>휴대폰</p>
+          <PhoneNumInputBox>
             {phoneNumbers.map((phoneNumber, index) => (
               <React.Fragment key={index}>
-            <input
-              type='tel'
+                <input
+                  type='tel'
                   id={`userPhone${index + 1}`}
                   className={`phone-${index === 0 ? 'first' : index === 1 ? 'mid' : 'last'}`}
                   onChange={(e) => handlePhoneNum(e, index)}
@@ -71,6 +72,7 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
                 {index < phoneNumbers.length - 1 && <span>-</span>}
               </React.Fragment>
             ))}
+          </PhoneNumInputBox>
         </label>
         <label htmlFor='userEmail'>
           <p>이메일</p>
@@ -85,10 +87,11 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
         </label>
         <label htmlFor='receiverPhone1'>
           <p>휴대폰</p>
+          <PhoneNumInputBox>
             {phoneNumbers.map((phoneNumber, index) => (
               <React.Fragment key={index}>
-            <input
-              type='tel'
+                <input
+                  type='tel'
                   id={`userPhone${index + 1}`}
                   name='receiver_phone_number'
                   className={`phone-${index === 0 ? 'first' : index === 1 ? 'mid' : 'last'}`}
@@ -97,10 +100,11 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
                 {index < phoneNumbers.length - 1 && <span>-</span>}
               </React.Fragment>
             ))}
+          </PhoneNumInputBox>
         </label>
         <label htmlFor='addressSearch'>
           <p>배송주소</p>
-          <div>
+          <AdressInputBox>
             <div>
               <input type='search' id='addressSearch' />
               <Button
@@ -126,7 +130,8 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
                   />
                 </React.Fragment>
               ))}
-          </div>
+            </div>
+          </AdressInputBox>
         </label>
         <label htmlFor='deliveryMessage'>
           <p>배송 메시지</p>
@@ -144,6 +149,7 @@ const OrderFormLayout = styled.form`
   legend {
     font-size: var(--font-md);
     padding-bottom: 8px;
+    margin-bottom: 30px;
   }
   h2,
   legend {
@@ -151,7 +157,7 @@ const OrderFormLayout = styled.form`
   }
 
   fieldset {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 
   label {
@@ -159,42 +165,77 @@ const OrderFormLayout = styled.form`
     align-items: center;
     padding: 8px 0;
     border-bottom: 1px solid var(--border-color);
+    ${media.tablet(`
+      flex-direction:column;      
+      align-items:stretch;
+      gap:6px;
+       padding: 10px 0;
+      `)}
+
     p {
-      width: 100%;
-      min-width: 80px;
-      max-width: 170px;
-      display: flex;
+      min-width: 170px;
     }
     input {
+      width: 100%;
+      max-width: 300px;
       padding-left: 10px;
       height: 40px;
       border: 1px solid var(--border-color);
     }
-    .phone-first {
-      width: 80px;
-    }
-    .phone-mid,
-    .phone-last {
-      width: 100px;
-    }
-    span {
-      margin: 0 10px;
-    }
+  }
+`;
 
-    div {
-      max-width: 800px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      div {
-        flex-direction: row;
-        gap: 10px;
-      }
-    }
+const PhoneNumInputBox = styled.div`
+  align-items: center;
+  .phone-first {
+    width: 100%;
+    max-width: 80px;
+    ${media.mobile(`
+      max-width: 60px;    
+      `)}
+  }
+  .phone-mid,
+  .phone-last {
+    width: 100%;
+    max-width: 100px;
+    ${media.mobile(`
+      max-width: 70px;    
+      `)}
+  }
 
-    input[type='text'][name='address'] {
-    }
+  span {
+    margin: 0 6px;
+  }
+`;
+
+const AdressInputBox = styled.div`
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  div {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+
+  #addressSearch {
+    max-width: 150px;
+  }
+  #deliveryAddress1 {
+    max-width: 550px;
+  }
+  #deliveryAddress2 {
+    max-width: 250px;
+  }
+
+  .deliveryAddress {
+    ${media.mobile(`
+      flex-direction:column;      
+
+      `)}
   }
 `;
 
