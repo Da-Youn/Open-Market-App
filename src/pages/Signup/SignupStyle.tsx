@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { media } from 'src/style/mediaQuery';
+
 const SignupWrap = styled.div`
   margin: 0px auto 130px;
   padding: 0 25px;
@@ -45,10 +47,20 @@ const IdInput = styled.div`
     width: 100%;
     gap: 12px;
     flex-direction: row;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+
+    ${media.tablet(`
+    flex-direction: column;
+    align-items: flex-end;
+    button{
+      height:40px;
+    }      
+      `)}
     input {
+      width: 100%;
       flex-grow: 1;
+    }
+    button {
+      width: 150px;
     }
   }
 `;
@@ -159,10 +171,20 @@ const RegNumberInput = styled.div`
   div {
     gap: 12px;
     flex-direction: row;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    ${media.tablet(`
+    flex-direction: column;
+    align-items: flex-end;
+    button{
+
+      height:40px;
+    }          
+      `)}
     input {
+      width: 100%;
       flex-grow: 1;
+    }
+    button {
+      width: 150px;
     }
   }
 `;
