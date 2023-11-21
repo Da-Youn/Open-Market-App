@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 interface UserInput {
@@ -8,25 +9,29 @@ interface UserInput {
 interface TypeChangeProps {
   userType: string;
   setUserType: React.Dispatch<React.SetStateAction<string>>;
-  setUserInput: React.Dispatch<React.SetStateAction<UserInput>>;
+  setUserInput?: React.Dispatch<React.SetStateAction<UserInput>>;
   page: string;
 }
 
 const TypeChange = ({ userType, setUserType, setUserInput, page }: TypeChangeProps) => {
   const handleBuyerLogin = () => {
     setUserType('BUYER');
-    setUserInput({
-      username: 'buyer1',
-      password: 'hodu0910',
-    });
+    if (setUserInput) {
+      setUserInput({
+        username: 'buyer1',
+        password: 'hodu0910',
+      });
+    }
   };
 
   const handleSellerLogin = () => {
     setUserType('SELLER');
-    setUserInput({
-      username: 'seller1',
-      password: 'hodu0910',
-    });
+    if (setUserInput) {
+      setUserInput({
+        username: 'seller1',
+        password: 'hodu0910',
+      });
+    }
   };
 
   return (
@@ -81,6 +86,3 @@ const TypeChangeBtn = styled.button`
 `;
 
 export default TypeChange;
-function setUserInput(arg0: { username: string; password: string }) {
-  throw new Error('Function not implemented.');
-}

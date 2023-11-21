@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
@@ -22,15 +22,8 @@ const SearchForm = (props: SearchProps) => {
   };
 
   return (
-    <SearchWrap
-      onSubmit={handleInputSubmit}
-      height={isMobile ? '36px' : '46px'}
-    >
-      <input
-        type='text'
-        placeholder={isMobile ? '' : '상품을 검색해보세요!'}
-        onChange={handleInputChange}
-      />
+    <SearchWrap onSubmit={handleInputSubmit} height={isMobile ? '36px' : '46px'}>
+      <input type='text' placeholder={isMobile ? '' : '상품을 검색해보세요!'} onChange={handleInputChange} />
       <button type='button' onClick={handleInputSubmit}>
         <img src={SearchIcon} alt='' />
       </button>

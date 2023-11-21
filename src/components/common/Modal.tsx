@@ -1,4 +1,4 @@
-import { ReactNode, MouseEventHandler } from 'react';
+import React, { ReactNode, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import Button from './Button';

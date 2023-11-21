@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, ChangeEvent, MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -132,9 +133,7 @@ const SignupForm = () => {
     // 아이디 유효성 검사
     const reg = /^[a-zA-Z0-9]{1,20}$/;
     if (!reg.test(e.target.value)) {
-      setIdError(
-        '아이디는 20자 이내의 영어 소문자/대문자/숫자만 설정 가능합니다.',
-      );
+      setIdError('아이디는 20자 이내의 영어 소문자/대문자/숫자만 설정 가능합니다.');
       setIdValid('');
       return;
     } else {
@@ -151,12 +150,9 @@ const SignupForm = () => {
     }));
 
     // 유효성검사
-    const reg =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])(?=.*[A-Z])[A-Za-z\d@$!%*#?&]{8,}$/;
+    const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])(?=.*[A-Z])[A-Za-z\d@$!%*#?&]{8,}$/;
     if (!reg.test(e.target.value)) {
-      setPwError(
-        '비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.',
-      );
+      setPwError('비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
       setPwValid(CheckOff);
     } else {
       setPwError('');
@@ -214,9 +210,7 @@ const SignupForm = () => {
     }
   };
 
-  const handleFirstPhoneNumChange: MouseEventHandler<HTMLButtonElement> = (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleFirstPhoneNumChange: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement>) => {
     setPhoneNum([e.currentTarget.innerText, phoneNum[1], phoneNum[2]]);
     handleDropdownView();
   };
@@ -254,10 +248,7 @@ const SignupForm = () => {
   };
 
   //* API
-
-  const handleCheckIDDuplicate: MouseEventHandler<
-    HTMLButtonElement
-  > = async () => {
+  const handleCheckIDDuplicate: MouseEventHandler<HTMLButtonElement> = async () => {
     if (idError) {
       return;
     }
@@ -285,14 +276,11 @@ const SignupForm = () => {
     }
   };
 
-  const handleRegNumDuplicate: MouseEventHandler<
-    HTMLButtonElement
-  > = async () => {
+  const handleRegNumDuplicate: MouseEventHandler<HTMLButtonElement> = async () => {
     try {
-      const res = await axiosInstance.post(
-        `/accounts/signup/valid/company_registration_number/`,
-        { company_registration_number: userInput.company_registration_number },
-      );
+      const res = await axiosInstance.post(`/accounts/signup/valid/company_registration_number/`, {
+        company_registration_number: userInput.company_registration_number,
+      });
       if (res.status === 202) {
         setRegNumError('');
         setRegNumValid(res.data.Success);
@@ -309,9 +297,7 @@ const SignupForm = () => {
     }
   };
 
-  const handleSubmitUserInput: MouseEventHandler<
-    HTMLButtonElement
-  > = async () => {
+  const handleSubmitUserInput: MouseEventHandler<HTMLButtonElement> = async () => {
     // 가입하기 클릭 시 - 아이디 중복확인 되었는지 체크, 휴대폰번호 중복 체크
 
     if (!idValid) {
@@ -319,10 +305,7 @@ const SignupForm = () => {
       return;
     }
     try {
-      const res = await axiosInstance.post(
-        `/accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`,
-        userInput,
-      );
+      const res = await axiosInstance.post(`/accounts/signup${userType === 'SELLER' ? '_seller' : ''}/`, userInput);
 
       if (res.status === 202) {
         alert('회원가입이 완료되었습니다 :)');
@@ -514,8 +497,7 @@ const SignupForm = () => {
           <img src={checkBoxFiiled} alt='체크박스' />{' '}
         </button>
         <p>
-          호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에 대한
-          내용을 확인하였고 동의합니다.
+          호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에 대한 내용을 확인하였고 동의합니다.
         </p>
       </CheckWrap>
       <Button

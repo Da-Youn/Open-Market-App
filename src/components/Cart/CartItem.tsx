@@ -1,9 +1,9 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
 import { usePutCart } from 'src/hooks/useCart';
-import { usePostOrder } from 'src/hooks/useOrder';
 import { useDeleteCart } from 'src/hooks/useCart';
 import { useGetProduct } from 'src/hooks/useProduct';
 
@@ -11,7 +11,6 @@ import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { media } from 'src/style/mediaQuery';
 import QuantityButton from '../common/QuantityButton';
-import { getStorageItem } from 'src/util/handleStorageItem';
 
 import { QuantityButtonBox } from '../common/QuantityButton';
 import DeleteIcon from '../../assets/icon-delete.svg';
@@ -55,10 +54,8 @@ const CartItem = ({
   const [modalType, setModalType] = useState<string>('');
   const usePutCartMutate = usePutCart(cartItem.cart_item_id);
   const useDeleteCartMutate = useDeleteCart();
-  const usePostOrderMutate = usePostOrder();
 
   useEffect(() => {
-    console.log('아니', cartItem.is_active, itemDetail);
     handleSetActiveItem();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!isProductLoading]);
@@ -185,29 +182,19 @@ const CartItem = ({
     }
   };
 
-  const handlePostOrder = async () => {
-    const username = getStorageItem('username');
-    const orderData = {
-      product_id: cartItem.product_id,
-      quantity: quantity,
-      order_kind: 'cart_one_order',
-      receiver: username || '이름',
-      receiver_phone_number: '01000000000',
-      address: '주소',
-      address_message: '배송 메시지',
-      payment_method: 'CARD',
-      total_price: quantity * itemDetail.price + itemDetail.shipping_fee,
-    };
-
-    try {
-      const response = await usePostOrderMutate.mutateAsync(orderData);
-      if (response) {
-        navigate('/my/order');
-      }
-    } catch (error: any) {
-      // 예외 메시지를 이용해 모달 타입 설정
-      console.error(error);
-    }
+  const handleOrderBtnClick = () => {
+    navigate('/my/order', {
+      state: {
+        data: {
+          order_items: cartItem.product_id,
+          order_quantity: cartItem.quantity,
+          price: itemDetail.price * cartItem.quantity,
+          shipping_fee: itemDetail.shipping_fee,
+          total_price: quantity * itemDetail.price + itemDetail.shipping_fee,
+        },
+        order: 'cart_one_order',
+      },
+    });
   };
 
   return (
@@ -258,7 +245,7 @@ const CartItem = ({
                 fontWeight='400'
                 fontSize='var(--font-sm)'
                 $padding='10px'
-                onClick={handlePostOrder}
+                onClick={handleOrderBtnClick}
               >
                 주문하기
               </Button>
