@@ -2,14 +2,11 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { usePostOrder } from 'src/hooks/useOrder';
 import { useGetCart } from 'src/hooks/useCart.tsx';
 
 import CartItem from './CartItem.tsx';
 import Button from '../common/Button.tsx';
 import { media } from 'src/style/mediaQuery.ts';
-import { getStorageItem } from 'src/util/handleStorageItem.jsx';
-
 import PlusIcon from '../../assets/icon-plus-line.svg';
 import MinusIcon from '../../assets/icon-minus-line.svg';
 import CheckBoxIcon from '../../assets/check-box(circle).svg';
@@ -27,15 +24,15 @@ interface SelectedItem {
 
 const CartForm = () => {
   const navigate = useNavigate();
-  const username = getStorageItem('username');
   const [checkBox, setCheckBox] = useState<string>(CheckBoxIcon);
   const [isAllChecked, setIsAllChecked] = useState<boolean | null>(null);
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({});
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalShipFee, setTotalShipFee] = useState<number>(0);
-
+  const [productQuantities, setProductQuantities] = useState<string[]>([]);
+  const [productPrices, setProductPrices] = useState<number[]>([]);
+  const [productIds, setProductIds] = useState<string[]>([]);
   const { cartList } = useGetCart();
-  const usePostOrderMutate = usePostOrder();
 
   // 상품 전체 선택
   useEffect(() => {
@@ -45,7 +42,9 @@ const CartForm = () => {
   }, [isAllChecked]);
 
   useEffect(() => {
+    const ids = Object.keys(selectedItem);
     const amounts = Object.values(selectedItem);
+
     // 상품을 직접 '모두' 선택하게 되었을 때 전체 선택 체크 활성화
     if (cartList && cartList.length === amounts.length) {
       setCheckBox(CheckBoxFilledIcon);
@@ -53,13 +52,18 @@ const CartForm = () => {
       setCheckBox(CheckBoxIcon);
     }
     // 선택한 상품 총합계금액 계산
+    const quantities = amounts.map((item) => item.quantity);
+    const prices = amounts.map((item) => item.amount);
+
     const sumShipFee = Object.values(selectedItem).reduce((acc, curr) => {
       return acc + curr.shipFee;
     }, 0);
     const sumAmount = Object.values(selectedItem).reduce((acc, curr) => {
       return acc + curr.amount;
     }, 0);
-
+    setProductIds(ids);
+    setProductPrices(prices);
+    setProductQuantities(quantities);
     setTotalShipFee(sumShipFee);
     setTotalAmount(sumAmount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,26 +79,19 @@ const CartForm = () => {
     }
   };
 
-  const handlePostOrder = async () => {
-    const orderData = {
-      order_kind: 'cart_order',
-      receiver: username || '이름',
-      receiver_phone_number: '01000000000',
-      address: '주소',
-      address_message: '배송 메시지',
-      payment_method: 'CARD',
-      total_price: totalAmount + totalShipFee,
-    };
-
-    try {
-      const response = await usePostOrderMutate.mutateAsync(orderData);
-      if (response) {
-        navigate('/my/order');
-      }
-    } catch (error: any) {
-      // 예외 메시지를 이용해 모달 타입 설정
-      console.error(error);
-    }
+  const handleOrderBtnClick = async () => {
+    navigate('/my/order', {
+      state: {
+        data: {
+          order_items: productIds,
+          order_quantity: productQuantities,
+          price: productPrices,
+          shipping_fee: totalShipFee,
+          total_price: totalAmount + totalShipFee,
+        },
+        order: 'cart_order',
+      },
+    });
   };
 
   return (
@@ -154,7 +151,7 @@ const CartForm = () => {
             </p>
           </AmountCalcInfo>
         </TotalAmountBox>
-        <Button onClick={handlePostOrder} width='220px' fontSize='var(--font-lg)'>
+        <Button onClick={handleOrderBtnClick} width='220px' fontSize='var(--font-lg)'>
           주문하기
         </Button>
       </CartFormBox>

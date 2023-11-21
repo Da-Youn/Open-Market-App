@@ -1,73 +1,63 @@
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useGetOrder } from 'src/hooks/useOrder';
 
 import OrderList from './OrderList';
 import OrderForm from './OrderForm';
 import PaymentForm from './PaymentForm';
 
-import { useState } from 'react';
-
 const OrderContainer = () => {
-  const [price, setPrice] = useState<number[]>([]);
-  const [shipFee, setShipFee] = useState<number[]>([]);
-  const { orderData: data, isOrderLoading } = useGetOrder();
-  const orderData = data?.results[0];
-  let orderList, orderQuantity, orderInfo, payment, totalPrice;
+  const location = useLocation();
+  const state = location.state;
+  const data = state.data;
+  const orderType = state.order;
+  const [orderData, setOrderData] = useState(
+    orderType === 'cart_order'
+      ? {
+          order_kind: orderType,
+          receiver: '',
+          receiver_phone_number: '',
+          address: '',
+          address_message: '',
+          payment_method: 'CARD',
+          total_price: data.total_price,
+        }
+      : {
+          product_id: data.order_items,
+          quantity: data.order_quantity,
+          order_kind: orderType,
+          receiver: '',
+          receiver_phone_number: '',
+          address: '',
+          address_message: '',
+          payment_method: 'CARD',
+          total_price: data.total_price,
+        },
+  );
 
-  const formatPhoneNumber = (phoneNumber: string | undefined) => {
-    if (!phoneNumber) {
-      return [];
-    }
+  let orderList, orderQuantity, orderPrice, shipFee, totalPrice;
 
-    let formattedNumber: string[] = [];
-    const regex1 = /(\d{2})(\d{4})(\d{4})/;
-    const regex2 = /(\d{3})(\d{3,4})(\d{4})/;
-    if (phoneNumber.length === 10 && phoneNumber.startsWith('02')) {
-      formattedNumber = phoneNumber.replace(regex1, '$1,$2,$3').split(',');
-    } else if (phoneNumber.length === 10) {
-      formattedNumber = phoneNumber.replace(regex2, '$1,$2,$3').split(',');
-    } else if (phoneNumber.length === 11 && phoneNumber.startsWith('02')) {
-      formattedNumber = phoneNumber.replace(regex1, '$1,$2,$3').split(',');
-    } else if (phoneNumber.length === 11) {
-      formattedNumber = phoneNumber.replace(regex2, '$1,$2,$3').split(',');
-    }
-    return formattedNumber;
-  };
-
-  if (!isOrderLoading) {
-    orderList = orderData?.order_items;
-    orderQuantity = orderData?.order_quantity;
-    totalPrice = orderData?.total_price;
-    orderInfo = {
-      receiver: orderData?.receiver,
-      phoneNumber: formatPhoneNumber(orderData?.receiver_phone_number),
-      address: orderData?.address,
-      addressMessage: orderData?.address_message,
-      totalPrice: orderData?.total_price,
-    };
-    payment = orderData?.payment_method;
+  if (!data) {
+    return null;
   }
+  orderList = data?.order_items.length ? data?.order_items : [data?.order_items];
+  orderQuantity = data?.order_quantity.length ? data?.order_quantity : [data?.order_quantity];
+  shipFee = data?.shipping_fee;
+  totalPrice = data?.total_price;
+  orderPrice = data?.price.length ? data?.price : [data?.price];
 
   return (
     <OrderLayout>
       <h1>주문 / 결제하기</h1>
-      <OrderList
-        orderList={orderList}
-        orderQuantity={orderQuantity}
+      <OrderList orderList={orderList} orderQuantity={orderQuantity} orderPrice={orderPrice} totalPrice={totalPrice} />
+      <OrderForm setOrderData={setOrderData} orderType={orderType} />
+      <PaymentForm
+        orderData={orderData}
+        setOrderData={setOrderData}
         totalPrice={totalPrice}
-        setPrice={setPrice}
-        setShipFee={setShipFee}
+        price={orderPrice}
+        shipFee={shipFee}
       />
-      <OrderForm orderInfo={orderInfo} />
-      {price && shipFee && (
-        <PaymentForm
-          payment={payment}
-          totalPrice={totalPrice}
-          price={price}
-          shipFee={shipFee}
-        />
-      )}
     </OrderLayout>
   );
 };

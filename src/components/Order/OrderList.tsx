@@ -10,18 +10,11 @@ interface OrderItemType {
 export interface OrderListProps {
   orderList: number[] | undefined;
   orderQuantity: number[] | undefined;
+  orderPrice: number[] | undefined;
   totalPrice: number | undefined;
-  setShipFee: React.Dispatch<React.SetStateAction<number[]>>;
-  setPrice: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const OrderList = ({
-  orderList,
-  orderQuantity,
-  totalPrice,
-  setShipFee,
-  setPrice,
-}: OrderListProps) => {
+const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderListProps) => {
   const [productIds, setProductIds] = useState<number[] | undefined>(orderList);
   const [orderItems, setOrderItems] = useState<OrderItemType[]>([]);
 
@@ -35,16 +28,14 @@ const OrderList = ({
   const { productsData, isLoading } = useGetProducts(productIds);
 
   useEffect(() => {
-    if (orderQuantity && productsData.length > 0) {
+    if (orderQuantity && orderPrice && productsData.length > 0) {
       const items = productsData.map((orderItem, index) => ({
         data: orderItem,
         orderQuantity: orderQuantity[index],
+        orderPrice: orderPrice[index],
       }));
-      const shippingFees = items.map((item) => item.data.shipping_fee || 0);
-      const prices = items.map((item) => item.data.price || 0);
+
       setOrderItems(items);
-      setShipFee(shippingFees);
-      setPrice(prices);
     }
   }, [isLoading]);
 
@@ -69,18 +60,11 @@ const OrderList = ({
               <div>
                 <p>{orderItem.data.store_name}</p>
                 <h3>{orderItem.data.product_name}</h3>
-                <p>수량 : 1개</p>
+                <p>수량 : {orderItem.orderQuantity}개</p>
               </div>
-            </div>
-            <div>-</div>
-            <div>
-              {orderItem.data.shipping_fee
-                ? `${orderItem.data.shipping_fee?.toLocaleString()}원`
-                : `무료배송`}
-            </div>
-            <div>
-              <strong>{orderItem.data.price?.toLocaleString()}원</strong>
-            </div>
+              <p>-</p>
+              <p>{orderItem.data.shipping_fee ? `${orderItem.data.shipping_fee?.toLocaleString()}원` : `무료배송`}</p>
+              <strong>{orderItem.orderPrice?.toLocaleString()}원</strong>
           </OrderItem>
         ))}
       </OrderListBox>
