@@ -6,6 +6,7 @@ import { OrderResult } from 'src/hooks/useOrder';
 import { useGetProducts, useGetProduct } from 'src/hooks/useProduct';
 
 import MypageOrderItem from './MypageOrderItem';
+import { formatDateString } from 'src/util/formatDateString';
 
 import RightArrowIcon from 'src/assets/icon-right-arrow.svg';
 
@@ -16,10 +17,12 @@ export interface MypageOrderItemProps {
 const MypageOrderList = ({ order }: MypageOrderItemProps) => {
   const { productsData, isLoading } = useGetProducts(order.order_items);
 
+  if (!productsData && isLoading) return null;
+
   return (
     <MypageOrderListLayout>
       <OrderListInfoBox>
-        <OrderDate>2020. 20. 20</OrderDate>
+        <OrderDate>{formatDateString(order?.created_at)}</OrderDate>
         <Link to=''>
           주문 상세 <img src={RightArrowIcon} alt='화살표 아이콘' />
         </Link>
@@ -30,7 +33,7 @@ const MypageOrderList = ({ order }: MypageOrderItemProps) => {
           <MypageOrderItem
             key={index}
             item={item}
-            quantity={order.order_quantity[index]}
+            quantity={order?.order_quantity[index]}
             deliveryStatus={order?.delivery_status}
           />
         );

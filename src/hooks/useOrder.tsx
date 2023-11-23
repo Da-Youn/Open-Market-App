@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import {
-  axiosInstance,
-  urlInstance,
-  userInstance,
-} from 'src/api/axiosInstance';
+import { axiosInstance, urlInstance, userInstance } from 'src/api/axiosInstance';
 
 interface ApiResponse<T> {
   count: number;
@@ -28,6 +24,7 @@ export interface OrderReq {
 export interface OrderResult {
   delivery_status?: string | undefined;
   buyer: number;
+  created_at?: string;
   order_number: number;
   order_items: number[];
   order_quantity: number[];
@@ -61,10 +58,7 @@ export const usePostOrder = () => {
   const queryClient = useQueryClient();
 
   const createOrder = async (data: OrderReq) => {
-    const res = await userInstance.post<ApiResponse<OrderResult>>(
-      `/order/`,
-      data,
-    );
+    const res = await userInstance.post<ApiResponse<OrderResult>>(`/order/`, data);
     console.log(res);
     return res;
   };
@@ -82,9 +76,7 @@ export const usePostOrder = () => {
 const initialOrderState: OrderRes | undefined = undefined;
 
 export const useGetOrder = () => {
-  const [orderData, setOrderData] = useState<OrderRes | undefined>(
-    initialOrderState,
-  );
+  const [orderData, setOrderData] = useState<OrderRes | undefined>(initialOrderState);
 
   const getProduct = async (): Promise<OrderRes> => {
     const res = await userInstance.get(`/order/`);
