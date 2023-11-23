@@ -23,6 +23,7 @@ const ProductList = ({ data, children }: ProductListProps) => {
   const navigate = useNavigate();
   return (
     <ProductListWrap>
+      {children}
       <ProductWrap>
         {data.map((product) => (
           <ProductBtn
@@ -40,7 +41,7 @@ const ProductList = ({ data, children }: ProductListProps) => {
           </ProductBtn>
         ))}
       </ProductWrap>
-      {children}
+
       {/* {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>} */}
     </ProductListWrap>
   );
@@ -58,7 +59,7 @@ export const ProductWrap = styled.div`
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 380px); /* 3개의 열을 동일한 너비로 설정 */
-  padding-top: 80px;
+  padding-top: 30px;
   justify-content: center;
   justify-items: center;
   align-items: center;

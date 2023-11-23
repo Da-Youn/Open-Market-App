@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-import {
-  axiosInstance,
-  imgInstance,
-  urlInstance,
-  userInstance,
-} from 'src/api/axiosInstance';
+import { axiosInstance, imgInstance, urlInstance, userInstance } from 'src/api/axiosInstance';
 
 export interface ProductReq {
   product_name: string;
@@ -19,9 +14,8 @@ export interface ProductReq {
 }
 
 export interface ProductRes {
-  map(
-    arg0: (product: any) => import('react/jsx-runtime').JSX.Element,
-  ): import('react').ReactNode;
+  length: number;
+  map(arg0: (product: any) => import('react/jsx-runtime').JSX.Element): import('react').ReactNode;
   product_id: number;
   created_at: string;
   updated_at: string;
@@ -38,23 +32,17 @@ export interface ProductRes {
 const initialProductState: Partial<ProductRes> = {};
 
 export const useGetProduct = (product_id: number) => {
-  const [productData, setProductData] = useState<ProductRes>(
-    initialProductState as ProductRes,
-  );
+  const [productData, setProductData] = useState<ProductRes>(initialProductState as ProductRes);
   const getProduct = async (product_id: number): Promise<ProductRes> => {
     const res = await urlInstance.get(`/products/${product_id}/`);
     return res.data;
   };
 
-  const { isLoading } = useQuery(
-    ['product', product_id],
-    () => getProduct(product_id),
-    {
-      onSuccess: (data) => {
-        setProductData(data);
-      },
+  const { isLoading } = useQuery(['product', product_id], () => getProduct(product_id), {
+    onSuccess: (data) => {
+      setProductData(data);
     },
-  );
+  });
 
   return {
     productData,
@@ -68,15 +56,12 @@ export const useGetProducts = (productIds: number[] | undefined) => {
     return res.data;
   };
 
-  const { data: productsData = [], isLoading } = useQuery(
-    ['product', productIds],
-    async () => {
-      if (productIds === undefined) {
-        return [];
-      }
-      return Promise.all(productIds.map((productId) => getProduct(productId)));
-    },
-  );
+  const { data: productsData = [], isLoading } = useQuery(['product', productIds], async () => {
+    if (productIds === undefined) {
+      return [];
+    }
+    return Promise.all(productIds.map((productId) => getProduct(productId)));
+  });
 
   return {
     productsData,
@@ -85,23 +70,17 @@ export const useGetProducts = (productIds: number[] | undefined) => {
 };
 
 export const useGetSearchProducts = (keyword: string | null) => {
-  const [data, setData] = useState<ProductRes>(
-    initialProductState as ProductRes,
-  );
+  const [data, setData] = useState<ProductRes>(initialProductState as ProductRes);
   const getProduct = async (keyword: string | null): Promise<ProductRes> => {
     const res = await urlInstance.get(`/products/?search=${keyword}`);
     return res.data.results;
   };
 
-  const { isLoading } = useQuery(
-    ['product', keyword],
-    () => getProduct(keyword),
-    {
-      onSuccess: (data) => {
-        setData(data);
-      },
+  const { isLoading } = useQuery(['product', keyword], () => getProduct(keyword), {
+    onSuccess: (data) => {
+      setData(data);
     },
-  );
+  });
 
   return {
     data,
@@ -146,10 +125,7 @@ export const usePutProduct = (product_id: number) => {
   const queryClient = useQueryClient();
 
   const editCart = async (data: ProductReq) => {
-    const res = await imgInstance.put<ProductReq>(
-      `/products/${product_id}/`,
-      data,
-    );
+    const res = await imgInstance.put<ProductReq>(`/products/${product_id}/`, data);
     return res.data;
   };
 
