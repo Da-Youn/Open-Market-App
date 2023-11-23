@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LoginForm from 'src/components/Login/LoginForm';
 
 import { LoginWrap, LinkWrap } from './LoginStyle';
-import BrickLogo from '../../assets/logo-brick.png';
+import BrickLogo from '../../assets/logo-brick.svg';
 
 const Login = () => {
   return (

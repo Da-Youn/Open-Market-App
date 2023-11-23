@@ -10,8 +10,8 @@ import MypageDropDown from './MypageDropDown';
 import { getStorageItem } from 'src/util/handleStorageItem';
 
 import UserIcon from '../../assets/icon-user.svg';
-import BrickLogo from '../../assets/logo-brick.png';
-import MobileLogo from '../../assets/logo-brick(mobile).png';
+import BrickLogo from '../../assets/logo-brick.svg';
+import MobileLogo from '../../assets/logo-brick-mobile.svg';
 import SearchIcon from '../../assets/icon-search.svg';
 import SignupIcon from '../../assets/icon-signup.svg';
 import CartIcon from '../../assets/icon-shopping-cart.svg';
@@ -43,11 +43,6 @@ const Header = (props: HeaderProps) => {
     }
   };
 
-  const handleSellerBtnClick = () => {
-    // navigate 함수를 이용하여 페이지 이동
-    navigate('/seller/dashboard');
-  };
-
   return (
     <HeaderLayout id={props.id} $padding={isMobile ? '0 10px' : '0 50px'}>
       <HeaderBox>
@@ -57,31 +52,35 @@ const Header = (props: HeaderProps) => {
               <img
                 src={isMobile ? MobileLogo : BrickLogo}
                 alt='마켓브릭 로고 이미지'
-                width={isMobile ? '50px' : '160px'}
+                width={isMobile ? '40px' : '160px'}
               />
             </Link>
             {currPage.startsWith('/seller') && '판매자 센터'}
           </h1>
-          {!currPage.startsWith('/seller') && <SearchForm />}
         </HeaderSection>
+        {!currPage.startsWith('/seller') && (
+          <HeaderSection className='header-center'>
+            <SearchForm />
+          </HeaderSection>
+        )}
         <HeaderSection className='header-right'>
           {!isLoggedIn ? (
             <>
-              <Link to='/account/login'>
+              <LinkBtn to='/account/login'>
                 <img src={UserIcon} alt='유저 아이콘' />
                 <p>로그인</p>
-              </Link>
-              <Link to='/account/signup'>
+              </LinkBtn>
+              <LinkBtn to='/account/signup'>
                 <img src={SignupIcon} alt='회원가입 아이콘' />
                 <p>회원가입</p>
-              </Link>
+              </LinkBtn>
             </>
           ) : userType === 'BUYER' ? (
             <>
-              <Link to='/my/cart'>
+              <LinkBtn to='/my/cart'>
                 <img src={CartIcon} alt='장바구니 아이콘' />
                 <p>장바구니</p>
-              </Link>
+              </LinkBtn>
               <div>
                 <MyPageBtn onClick={handleBtnClick}>
                   <img src={UserIcon} alt='유저 아이콘' />
@@ -94,10 +93,21 @@ const Header = (props: HeaderProps) => {
             </>
           ) : (
             !currPage.startsWith('/seller') && (
-              <SellerBtn width='168px' fontWeight='400' onClick={handleSellerBtnClick}>
-                <img src={ShoppingBagImg} alt='' />
-                <p>판매자 센터</p>
-              </SellerBtn>
+              <>
+                <SellerBtn to='/seller/dashboard'>
+                  <img src={ShoppingBagImg} alt='' />
+                  <p>판매자 센터</p>
+                </SellerBtn>
+                <div>
+                  <MyPageBtn onClick={handleBtnClick}>
+                    <img src={UserIcon} alt='유저 아이콘' />
+                    <p>
+                      <span>{userName}</span> 님
+                    </p>
+                  </MyPageBtn>
+                  <MypageDropDown isOpened={isOpened} />
+                </div>
+              </>
             )
           )}
         </HeaderSection>
@@ -133,7 +143,7 @@ export const HeaderBox = styled.div`
 
 export const HeaderSection = styled.section`
   display: flex;
-
+  justify-content: center;
   align-items: center;
 
   &.header-left {
@@ -155,39 +165,61 @@ export const HeaderSection = styled.section`
         vertical-align: bottom;
       }
     }
-    ${media.tablet(`
-         width: 200px;
-      `)}
+  }
+
+  &.header-center {
+    flex: 6;
   }
 
   &.header-right {
     gap: 16px;
-    a {
-      text-align: center;
-      padding: 0;
-      color: var(--sub-font-color);
-    }
 
-    a:hover {
-      img {
-        filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg) brightness(97%) contrast(95%);
-      }
-      color: var(--main-color);
+    a + div {
+      position: relative;
     }
-  }
-  a + div {
-    position: relative;
-  }
-  ${media.tablet(`
+    ${media.tablet(`
     a p,
     button p {
       display: none;
     }
       `)}
+  }
+`;
+
+const LinkBtn = styled(Link)`
+  text-align: center;
+  padding: 0;
+  color: var(--sub-font-color);
+
+  &:hover {
+    img {
+      filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg) brightness(97%) contrast(95%);
+    }
+    color: var(--main-color);
+  }
+`;
+
+const SellerBtn = styled(Link)`
+  width: 170px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 10px;
+  p {
+    font-size: var(--font-md);
+  }
+  ${media.tablet(`
+    width: 50px;
+      `)}
 `;
 
 const MyPageBtn = styled.button`
   p {
+    width: 90px;
     margin-top: -2px;
     border: 1px solid var(--border-color);
     border-radius: 15px;
@@ -207,18 +239,6 @@ const MyPageBtn = styled.button`
       color: var(--main-color);
     }
   }
-`;
-
-const SellerBtn = styled(Button)`
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #fff;
-  ${media.tablet(`
-    width: 50px;
-      `)}
 `;
 
 export default Header;

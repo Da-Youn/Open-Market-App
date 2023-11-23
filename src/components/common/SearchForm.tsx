@@ -22,7 +22,7 @@ const SearchForm = (props: SearchProps) => {
   };
 
   return (
-    <SearchWrap onSubmit={handleInputSubmit} height={isMobile ? '36px' : '46px'}>
+    <SearchWrap onSubmit={handleInputSubmit}>
       <input type='text' placeholder={isMobile ? '' : '상품을 검색해보세요!'} onChange={handleInputChange} />
       <button type='button' onClick={handleInputSubmit}>
         <img src={SearchIcon} alt='' />
@@ -33,9 +33,9 @@ const SearchForm = (props: SearchProps) => {
 
 const SearchWrap = styled.form`
   width: 100%;
-  max-width: 400px;
+  max-width: 700px;
   min-width: 200px;
-  height: ${(props: { height: string }) => props.height};
+  height: 46px;
   border: 2px solid var(--main-color);
   border-radius: 50px;
   padding: 0 18px 0 22px;
