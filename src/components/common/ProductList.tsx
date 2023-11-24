@@ -23,7 +23,7 @@ const ProductList = ({ data, children }: ProductListProps) => {
   const navigate = useNavigate();
   return (
     <ProductListWrap>
-      {children}
+   
       <ProductWrap>
         {data.map((product) => (
           <ProductBtn
@@ -41,7 +41,7 @@ const ProductList = ({ data, children }: ProductListProps) => {
           </ProductBtn>
         ))}
       </ProductWrap>
-
+   {children}
       {/* {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>} */}
     </ProductListWrap>
   );

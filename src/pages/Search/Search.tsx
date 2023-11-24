@@ -18,13 +18,16 @@ const Search = (props: SearchProps) => {
   return (
     !isLoading && (
       <SearchWrap>
-        <ProductList data={data}>
-          {data.length === 0 ? (
-            <SearchResult>'{keyword}'에 대한 검색 결과가 존재하지 않습니다.</SearchResult>
-          ) : (
-            <SearchResult>'{keyword}'에 대한 검색 결과입니다.</SearchResult>
-          )}
-        </ProductList>
+        {data.length === 0 ? (
+          <SearchResult>
+            '{keyword}'에 대한 검색 결과가 존재하지 않습니다.
+            <br />
+            다른 키워드로 검색해 보세요.
+          </SearchResult>
+        ) : (
+          <SearchResult>'{keyword}'에 대한 검색 결과입니다.</SearchResult>
+        )}
+        <ProductList data={data} />
       </SearchWrap>
     )
   );
@@ -33,12 +36,16 @@ const Search = (props: SearchProps) => {
 export default Search;
 
 const SearchWrap = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 50px;
   ${media.tablet(`
     padding: 30px 20px;
   `)}
 `;
 const SearchResult = styled.p`
+  line-height: 150%;
   padding: 10px 50px;
   text-align: center;
   background-color: var(--hover-color);
