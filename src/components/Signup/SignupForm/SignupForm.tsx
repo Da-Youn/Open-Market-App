@@ -220,7 +220,7 @@ const SignupuseForm = (props: useSignupFormProps) => {
             </S.AccountInfoWrap>
           )}
         </S.FormBox>
-        <S.CheckWrap>
+        <S.CheckWrap $color={isChecked ? ' var(--main-color)' : 'var(--sub-font-color)'}>
           <button type='button' onClick={handleCheckBtnClick}>
             <img src={checkBoxFiiled} alt='체크박스' />{' '}
           </button>

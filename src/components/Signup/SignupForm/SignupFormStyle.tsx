@@ -33,7 +33,7 @@ export const AccountInfoWrap = styled.div`
 export const CheckWrap = styled.div`
   display: flex;
   gap: 10px;
-  color: var(--sub-font-color);
+  color: ${(props: { $color: string }) => props.$color};
 
   span {
     font-weight: 700;

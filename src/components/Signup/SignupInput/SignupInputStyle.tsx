@@ -32,7 +32,10 @@ export const InputStyle = styled.input`
   height: 54px;
   padding: 0 0 0 16px;
   border-radius: 5px;
-  border: 1px solid var(--border-color);
+  border: 1px solid ${(props: { $border: string }) => props.$border};
+  &:focus {
+    outline: 1.5px solid ${(props: { $outline: string }) => props.$outline};
+  }
 `;
 
 export const PhoneNumInputStyle = styled(InputStyle)`
@@ -46,7 +49,7 @@ export const ErrorMsg = styled.p`
 
 export const ValidMsg = styled.p`
   margin-bottom: 6px;
-  color: var(--main-color);
+  color: var(--valid-color);
 `;
 
 export const CheckIcon = styled.div`
@@ -116,4 +119,7 @@ export const FirstNumDropBtn = styled.button`
   height: 54px;
   border-radius: 5px;
   border: 1px solid var(--border-color);
+  &:focus {
+    outline: 1.5px solid var(--main-color);
+  }
 `;

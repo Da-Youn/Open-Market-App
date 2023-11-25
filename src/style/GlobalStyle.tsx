@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
     --font-color: #333333;
     --sub-font-color: #767676;
     --error-color: #EB5757;
+	--valid-color:#1A8931;
     --white: #ffffff; 
 	--hover-color : #EFEBEA;
 	--font-xl : 36px;

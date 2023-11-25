@@ -98,6 +98,8 @@ const PhoneNumInput = (props: PhoneNumDropDownProps) => {
           maxLength='4'
           name='secondNumber'
           placeholder={placeholder || ''}
+          $border={error && error?.message !== '' ? 'var(--error-color)' : 'var(--border-color)'}
+          $outline={error && error?.message !== '' ? 'var(--error-color)' : 'var(--main-color)'}
         />
         <S.PhoneNumInputStyle
           {...register('lastNumber', { required: true })}
@@ -105,6 +107,8 @@ const PhoneNumInput = (props: PhoneNumDropDownProps) => {
           maxLength='4'
           name='lastNumber'
           placeholder={placeholder || ''}
+          $border={error && error?.message !== '' ? 'var(--error-color)' : 'var(--border-color)'}
+          $outline={error && error?.message !== '' ? 'var(--error-color)' : 'var(--main-color)'}
         />
       </S.InputBox>
       {error && error?.message !== '' && <S.ErrorMsg>{error?.message?.toString()}</S.ErrorMsg>}
