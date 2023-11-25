@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
-import SignupForm from '../../components/Signup/SignupForm';
+import SignupForm from '../../components/Signup/SignupForm/SignupForm';
 
-import { SignupWrap } from './SignupStyle';
+import * as S from './SignupStyle';
 import BrickLogo from '../../assets/logo-brick.svg';
 
 const Signup = () => {
   return (
-    <SignupWrap>
+    <S.SignupWrap>
       <header>
         <h1>
           <Link to='/'>
@@ -18,7 +18,7 @@ const Signup = () => {
       <main>
         <SignupForm />
       </main>
-    </SignupWrap>
+    </S.SignupWrap>
   );
 };
 

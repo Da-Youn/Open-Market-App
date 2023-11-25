@@ -24,7 +24,7 @@ const Input = (props: InputProps) => {
 
 export const InputStyle = styled.input<InputProps>`
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};
-  width: ${(props: { width: string }) => props.width};
+  width: ${(props: { width: string }) => props.width || '100%'};
   height: ${(props: { height: string }) => props.height || '54px'};
   padding: ${(props: { $padding: string }) => props.$padding};
   border-width: ${(props: { $borderWidth: string }) => props.$borderWidth || 'none'};
