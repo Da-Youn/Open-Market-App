@@ -37,6 +37,11 @@ const ProductDetailCard = () => {
   const stock = Number(productData.stock);
 
   const handleAddCart = async () => {
+    if (!token) {
+      setModalType('checkLogin');
+      setModalOpen(true);
+      return;
+    }
     try {
       const response = await usePostCartMutate.mutateAsync({
         product_id: productId,
