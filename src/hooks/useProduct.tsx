@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from 'react-query';
 
 import { axiosInstance, imgInstance, urlInstance, userInstance } from 'src/api/axiosInstance';
 
@@ -50,22 +50,25 @@ export const useGetProduct = (product_id: number) => {
   };
 };
 
-export const useGetProducts = (productIds: number[] | undefined) => {
-  const getProduct = async (productId: number): Promise<ProductRes> => {
-    const res = await urlInstance.get(`/products/${productId}/`);
-    return res.data;
-  };
-
-  const { data: productsData = [], isLoading } = useQuery(['product', productIds], async () => {
-    if (productIds === undefined) {
-      return [];
-    }
-    return Promise.all(productIds.map((productId) => getProduct(productId)));
-  });
+export const useGetProducts = () => {
+  const { data, isLoading, fetchNextPage, isFetchingNextPage, status } = useInfiniteQuery(
+    'products',
+    async ({ pageParam = '/products/' }) => {
+      const res = await urlInstance.get(pageParam);
+      return res.data;
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.next || undefined,
+    },
+  );
 
   return {
-    productsData,
+    data,
     isLoading,
+    fetchNextPage,
+
+    isFetchingNextPage,
+    status,
   };
 };
 

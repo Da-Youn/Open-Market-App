@@ -1,55 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import { media } from 'src/style/mediaQuery';
+import { useGetProducts } from 'src/hooks/useProduct';
+import { useInfiniteScroll } from 'src/hooks/useInfiniteScroll';
+
 import ProductList from '../common/ProductList';
 
-interface Product {
-  product_id: string;
-  image: string;
-  store_name: string;
-  product_name: string;
-  price: number;
-}
-
-interface ProductListData {
-  results: Product[];
-  next: string;
-}
 
 const HomeProductList = () => {
-  const [data, setData] = useState<Product[]>([]);
-  const [nextPage, setNextPage] = useState<string>('');
+  const observeRef = useRef(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { data, isLoading, fetchNextPage, isFetchingNextPage } = useGetProducts();
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('https://openmarket.weniv.co.kr/products/');
-      const data: ProductListData = await response.json();
-      setData(data.results);
-      setNextPage(data.next);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchNextPage = async () => {
-    try {
-      const response = await fetch(nextPage);
-      const data: ProductListData = await response.json();
-      setData((prevData) => [...prevData, ...data.results]);
-      setNextPage(data.next);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  useInfiniteScroll({
+    ref: observeRef,
+    callback: fetchNextPage,
+    options: { threshold: 0.7 },
+  });
   return (
-    <ProductList data={data}>
-      {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>}
+    <ProductList data={data?.pages.flatMap((page) => page.results) || []}>
+      <div ref={observeRef} />
     </ProductList>
   );
 };
