@@ -6,7 +6,7 @@ import { useGetProducts } from 'src/hooks/useProduct';
 import { useInfiniteScroll } from 'src/hooks/useInfiniteScroll';
 
 import ProductList from '../common/ProductList';
-
+import ProductSkeleton from '../common/ProductSkeleton';
 
 const HomeProductList = () => {
   const observeRef = useRef(null);
@@ -18,8 +18,18 @@ const HomeProductList = () => {
     callback: fetchNextPage,
     options: { threshold: 0.7 },
   });
+
+  if (isLoading)
+    return (
+      <>
+        <ProductSkeleton />
+        <ProductSkeleton />
+        <ProductSkeleton />
+      </>
+    );
   return (
     <ProductList data={data?.pages.flatMap((page) => page.results) || []}>
+      {isFetchingNextPage && <ProductSkeleton />}
       <div ref={observeRef} />
     </ProductList>
   );
