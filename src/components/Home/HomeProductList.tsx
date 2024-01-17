@@ -19,16 +19,15 @@ const HomeProductList = () => {
     options: { threshold: 0.7 },
   });
 
-  if (isLoading)
-    return (
-      <>
-        <ProductSkeleton />
-        <ProductSkeleton />
-        <ProductSkeleton />
-      </>
-    );
   return (
     <ProductList data={data?.pages.flatMap((page) => page.results) || []}>
+      {isLoading && (
+        <>
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+        </>
+      )}
       {isFetchingNextPage && <ProductSkeleton />}
       <div ref={observeRef} />
     </ProductList>

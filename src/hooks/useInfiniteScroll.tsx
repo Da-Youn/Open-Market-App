@@ -10,6 +10,10 @@ type UseInfiniteScrollOptions = {
   readonly threshold: number;
 };
 
+/**
+ *  @hooks useInfiniteScroll
+ *  InfiniteScroll Custom Hook with Intersection Observer
+ */
 export const useInfiniteScroll = ({ ref, callback, options = { threshold: 0 } }: UseInfiniteScrollProperties) => {
   const handleInfiniteScroll = (entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
