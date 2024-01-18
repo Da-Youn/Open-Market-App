@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, forwardRef } from 'react';
+import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 
 interface InputProps {
@@ -11,16 +12,28 @@ interface InputProps {
   $borderWidth?: string;
   $bdRadius?: string;
   $mgBottom?: string;
-  $isError?: string | boolean;
+  $isError?: FieldError;
   $isActive?: boolean;
   placeholder?: string;
+  defaultValue?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = (props: InputProps) => {
-  return <InputStyle type={props.type ? props.type : 'text'} value={props.value} {...props} />;
-};
+const Input = forwardRef(({ type, placeholder, defaultValue, $isError, $borderWidth, ...rest }: InputProps, ref) => {
+  return (
+    <InputStyle
+      type={type}
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      ref={ref}
+      $borderWidth={$borderWidth}
+      $isError={$isError}
+      autoComplete='current-password'
+      {...rest}
+    />
+  );
+});
 
 export const InputStyle = styled.input<InputProps>`
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};

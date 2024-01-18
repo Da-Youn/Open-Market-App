@@ -1,4 +1,5 @@
 import React from 'react';
+import { UseFormSetValue } from 'react-hook-form';
 import styled from 'styled-components';
 
 interface UserInput {
@@ -9,28 +10,24 @@ interface UserInput {
 interface TypeChangeProps {
   userType: string;
   setUserType: React.Dispatch<React.SetStateAction<string>>;
-  setUserInput?: React.Dispatch<React.SetStateAction<UserInput>>;
+  setValue?: UseFormSetValue<UserInput>;
   page: string;
 }
 
-const TypeChange = ({ userType, setUserType, setUserInput, page }: TypeChangeProps) => {
+const TypeChange = ({ userType, setUserType, setValue, page }: TypeChangeProps) => {
   const handleBuyerLogin = () => {
     setUserType('BUYER');
-    if (setUserInput) {
-      setUserInput({
-        username: 'buyer1',
-        password: 'hodu0910',
-      });
+    if (setValue) {
+      setValue('username', 'buyer1');
+      setValue('password', 'hodu0910');
     }
   };
 
   const handleSellerLogin = () => {
     setUserType('SELLER');
-    if (setUserInput) {
-      setUserInput({
-        username: 'seller1',
-        password: 'hodu0910',
-      });
+    if (setValue) {
+      setValue('username', 'seller1');
+      setValue('password', 'hodu0910');
     }
   };
 

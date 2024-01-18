@@ -1,4 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -19,93 +20,64 @@ interface UserInput {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [idError, setIdError] = useState<boolean>(false);
-  const [pwError, setPwError] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<UserInput>();
+
   const [loginError, setLoginError] = useState<string>('');
   const [autoLogin, setAutoLogin] = useState(false);
-  const [userInput, setUserInput] = useState<UserInput>({
-    username: 'buyer1',
-    password: 'hodu0910',
-  });
+
   const [userType, setUserType] = useState<string>('BUYER');
 
   const handleAutoLogin = () => {
-    if (autoLogin === true) {
-      setAutoLogin(false);
-    } else {
-      setAutoLogin(true);
-    }
+    setAutoLogin(!autoLogin);
   };
 
-  const handleIDInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserInput((prevUserInput) => ({
-      ...prevUserInput,
-      username: e.target.value.trim(),
-    }));
-  };
-
-  const handlePWInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserInput((prevUserInput) => ({
-      ...prevUserInput,
-      password: e.target.value.trim(),
-    }));
-  };
-
-  const handleLoginCheck = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIdError(userInput.username ? false : true);
-    setPwError(userInput.password ? false : true);
-
-    if (userInput.username && userInput.password) handleLoginSubmit();
-  };
-
-  async function handleLoginSubmit() {
+  const handleLoginSubmit = async (data: UserInput) => {
     try {
       const res = await axiosInstance.post(`/accounts/login/`, {
-        ...userInput,
+        ...data,
         login_type: userType,
       });
 
       if (res.status >= 200 && res.status < 300) {
-        if (autoLogin) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user_type', res.data.user_type);
-          localStorage.setItem('username', userInput.username);
-        } else {
-          sessionStorage.setItem('token', res.data.token);
-          sessionStorage.setItem('user_type', res.data.user_type);
-          sessionStorage.setItem('username', userInput.username);
-        }
-        alert(`${userInput.username}님, 반갑습니다.`);
+        const storage = autoLogin ? localStorage : sessionStorage;
+        storage.setItem('token', res.data.token);
+        storage.setItem('user_type', res.data.user_type);
+        storage.setItem('username', data.username);
+        alert(`${data.username}님, 반갑습니다.`);
         navigate('/');
       }
     } catch (error) {
       const axiosError = error as AxiosError<Record<string, any>>;
+
       setLoginError(axiosError.response?.data?.FAIL_Message);
     }
-  }
-
+  };
   return (
     <>
-      <TypeChange userType={userType} setUserType={setUserType} setUserInput={setUserInput} page='login' />
-      <FormWrap onSubmit={handleLoginCheck}>
+      <TypeChange userType={userType} setUserType={setUserType} setValue={setValue} page='login' />
+      <FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
         <Input
           type='text'
           placeholder='아이디'
-          value={userInput.username}
-          onChange={handleIDInput}
-          $isError={idError}
+          {...register('username', { required: true })}
+          defaultValue={userType === 'BUYER' ? 'buyer1' : ''}
+          $isError={errors.username}
           $borderWidth='0 0 1px 0'
         />
         <Input
           type='password'
           placeholder='비밀번호'
-          value={userInput.password}
-          onChange={handlePWInput}
-          $isError={pwError}
+          defaultValue={userType === 'BUYER' ? 'hodu0910' : ''}
+          {...register('password', { required: true })}
+          $isError={errors.password}
           $borderWidth='0 0 1px 0'
         />
-        <LoginError idError={idError} pwError={pwError} loginError={loginError} />
+        <LoginError idError={errors.username} pwError={errors.password} loginError={loginError} />
         <AutoLogin>
           <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} /> <p>자동 로그인</p>
         </AutoLogin>
@@ -121,6 +93,7 @@ const LoginForm = () => {
 const AutoLogin = styled.label`
   display: flex;
   align-items: center;
+  margin-top: 10px;
   input {
     appearance: none;
     width: 20px;
