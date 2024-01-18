@@ -23,7 +23,6 @@ const ProductList = ({ data, children }: ProductListProps) => {
   const navigate = useNavigate();
   return (
     <ProductListWrap>
-   
       <ProductWrap>
         {data.map((product) => (
           <ProductBtn
@@ -41,7 +40,7 @@ const ProductList = ({ data, children }: ProductListProps) => {
           </ProductBtn>
         ))}
       </ProductWrap>
-   {children}
+      {children}
       {/* {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>} */}
     </ProductListWrap>
   );
@@ -94,6 +93,7 @@ export const ProductBtn = styled.button`
   margin-bottom: 8px;
   text-align: left;
   img {
+    background-color: #ededed;
     width: 380px;
     height: 380px;
     object-fit: cover;
