@@ -7,12 +7,12 @@ const GlobalStyle = createGlobalStyle`
 	${Font}
  :root{
 	//ddad87
-	--main-color: #000 ;
-	--point-color:#e6b388;
+	--main-color: #423636 ;
+	--point-color:#D19F9F;
 	--sub-color:#F2F2F2;
 	--border-color:#C4C4C4;
 	--sub-border-color:#E0E0E0;
-    --font-color: #333333;
+    --font-color: #333333; 
     --sub-font-color: #767676;
     --error-color: #EB5757;
 	--valid-color:#1A8931;

@@ -16,6 +16,7 @@ interface ButtonProps {
   $border?: string;
   $bdRadius?: string;
   disabled?: boolean;
+  $boxShadow?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
@@ -36,20 +37,16 @@ const ButtonStyle = styled.button<ButtonProps>`
   margin-top: ${(props: { $mgTop: string }) => props.$mgTop || '0px'};
   padding: ${(props: { $padding: string }) => props.$padding || '19px 0'};
   color: ${(props: { color: string }) => props.color || 'var(--white)'};
-  font-size: ${(props: { fontSize: string }) =>
-    props.fontSize || 'var(--font-md)'};
+  font-size: ${(props: { fontSize: string }) => props.fontSize || 'var(--font-md)'};
   font-weight: ${(props: { fontWeight: string }) => props.fontWeight || '700'};
-  background-color: ${(props: { $bgColor: string }) =>
-    props.$bgColor || 'var(--main-color)'};
+  background-color: ${(props: { $bgColor: string }) => props.$bgColor || 'var(--main-color)'};
   border: ${(props: { $border: string }) => props.$border || 'none'};
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || '5px'};
-
+  box-shadow: ${(props: { $boxShadow: string }) => props.$boxShadow || 'none'};
   &:disabled {
     cursor: default;
-    background-color: ${(props: { $disBgColor: string }) =>
-      props.$disBgColor || 'var(--border-color)'};
-    color: ${(props: { $disColor: string }) =>
-      props.$disColor || 'var(--white)'};
+    background-color: ${(props: { $disBgColor: string }) => props.$disBgColor || 'var(--border-color)'};
+    color: ${(props: { $disColor: string }) => props.$disColor || 'var(--white)'};
     border: ${(props: { $disBorder: string }) => props.$disBorder || 'none'};
   }
 `;

@@ -18,6 +18,7 @@ export const BannerSection = styled.section`
   align-items: center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${Img});
   background-position: 0 50%;
+  background-size: contain;
 
   img {
     width: 100%;
@@ -65,5 +66,6 @@ export const LinkWrap = styled.div`
     font-size: var(--font-md);
     color: var(--font-color);
     font-weight: 700;
+    text-decoration: underline;
   }
 `;

@@ -67,10 +67,10 @@ const TypeChangeBtn = styled.button`
   &.type-btn {
     width: 100%;
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 20px 0;
     color: var(--white);
-    background-color: var(--main-color);
+    background-color: var(--point-color);
   }
 
   &.disable {

@@ -68,8 +68,18 @@ export const QuantityButtonBox = styled.div`
   }
   button:first-child {
     border-right: 1px solid var(--border-color);
+    border-radius: 5px 0 0 5px;
+  }
+  button:first-child:hover,
+  p + button:hover {
+    transition: 0.3s;
+    background-color: var(--main-color);
+    img {
+      filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(103deg) brightness(104%) contrast(105%);
+    }
   }
   p + button {
     border-left: 1px solid var(--border-color);
+    border-radius: 0 5px 5px 0;
   }
 `;

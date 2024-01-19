@@ -92,7 +92,7 @@ const LoginForm = () => {
           <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} /> <p>자동 로그인</p>
         </AutoLogin>
         <label className='input-error hidden'></label>
-        <Button type='submit' $mgTop='20px' $bdRadius='5px'>
+        <Button type='submit' $mgTop='20px' $bdRadius='5px' $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.2)'>
           로그인
         </Button>
       </S.FormWrap>
