@@ -1,15 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { Font } from './Font';
 
 const GlobalStyle = createGlobalStyle`
-	${reset}
 
-    @font-face {
-    font-family: 'SpoqaHanSansNeo-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
  :root{
 	--main-color: #A66460 ;
@@ -28,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
 	--font-sm : 16px;
 	--font-xs : 14px
   }
+
+  // Reset
+  ${reset}
+  ${Font}
 
   .a11y-hidden {
     clip: rect(1px, 1px, 1px, 1px);
@@ -55,7 +53,7 @@ const GlobalStyle = createGlobalStyle`
 		border: 0;
 		font-size: 16px;
 		vertical-align: baseline;
-        font-family: 'SpoqaHanSansNeo-Regular';
+        font-family: 'SpoqaHanSansNeo';
 	}
 
 	ol, ul{
