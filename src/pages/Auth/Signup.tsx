@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom';
 
 import SignupForm from '../../components/Signup/SignupForm/SignupForm';
 
-import * as S from './SignupStyle';
+import * as S from './AuthStyle';
 import BrickLogo from '../../assets/logo-brick.svg';
 import FullLogo from '../../assets/logo-white-full.svg';
 const Signup = () => {
   return (
-    <S.SignupWrap>
+    <S.AuthWrap>
       <S.BannerSection>
         <img src={FullLogo} alt='로고' />
-        <p>우리들의 오픈 마켓, 마켓 브릭 : )</p>
+        <p>우리들의 오픈 마켓, 마켓 브릭</p>
       </S.BannerSection>
-      <S.SignupSection>
+      <S.AuthSection>
         <header>
           <h1>
             <Link to='/'>
@@ -23,8 +23,8 @@ const Signup = () => {
         <main>
           <SignupForm />
         </main>
-      </S.SignupSection>
-    </S.SignupWrap>
+      </S.AuthSection>
+    </S.AuthWrap>
   );
 };
 

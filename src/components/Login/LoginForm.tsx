@@ -119,6 +119,7 @@ const AutoLogin = styled.label`
       background-position: 50%;
       background-repeat: no-repeat;
       border: 1.5px solid var(--main-color);
+      transition: 0.3s;
     }
   }
 `;

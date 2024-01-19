@@ -17,7 +17,7 @@ export const FormBox = styled.div`
   background-color: var(--white);
   gap: 40px;
   label {
-    color: var(--sub-font-color);
+    color: var(--main-color);
   }
 `;
 

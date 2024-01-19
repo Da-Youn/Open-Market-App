@@ -37,6 +37,7 @@ const Input = forwardRef(({ type, placeholder, defaultValue, $isError, $borderWi
 });
 
 export const InputStyle = styled.input<InputProps>`
+  transition: 0.3s;
   margin-top: 8px;
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};
   width: ${(props: { width: string }) => props.width || '100%'};
