@@ -1,15 +1,15 @@
 import Top from '../../components/common/Top';
 import Banner from '../../components/Home/Banner';
 import HomeProductList from '../../components/Home/HomeProductList';
-import { HomeLayout } from './HomeStyle';
+import * as S from './HomeStyle';
 
 const Home = () => {
   return (
-    <HomeLayout>
+    <S.HomeLayout>
       <Banner />
       <HomeProductList />
       <Top />
-    </HomeLayout>
+    </S.HomeLayout>
   );
 };
 

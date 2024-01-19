@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 
 import LoginForm from 'src/components/Login/LoginForm';
 
-import { LoginWrap, LinkWrap } from './LoginStyle';
+import * as S from './LoginStyle';
 import BrickLogo from '../../assets/logo-brick.svg';
 
 const Login = () => {
   return (
-    <LoginWrap>
+    <S.LoginWrap>
       <header>
         <h1>
           <Link to='/'>
@@ -17,13 +17,13 @@ const Login = () => {
       </header>
       <main>
         <LoginForm />
-        <LinkWrap>
+        <S.LinkWrap>
           <Link to='/account/signup'>회원가입</Link>
           <p>|</p>
           <a>비밀번호 찾기</a>
-        </LinkWrap>
+        </S.LinkWrap>
       </main>
-    </LoginWrap>
+    </S.LoginWrap>
   );
 };
 export default Login;

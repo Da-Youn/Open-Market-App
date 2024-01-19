@@ -9,7 +9,7 @@ import { axiosInstance } from 'src/api/axiosInstance';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import LoginError from './LoginError';
-import { FormWrap } from '../common/Form';
+import * as S from './LoginFormStyle';
 import TypeChange from '../common/TypeChange';
 import CheckIcon from 'src/assets/icon-check.svg';
 
@@ -60,7 +60,7 @@ const LoginForm = () => {
   return (
     <>
       <TypeChange userType={userType} setUserType={setUserType} setValue={setValue} page='login' />
-      <FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
+      <S.FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
         <Input
           type='text'
           placeholder='아이디'
@@ -85,7 +85,7 @@ const LoginForm = () => {
         <Button type='submit' $mgTop='20px' $bdRadius='5px'>
           로그인
         </Button>
-      </FormWrap>
+      </S.FormWrap>
     </>
   );
 };

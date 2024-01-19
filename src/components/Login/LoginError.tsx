@@ -1,5 +1,5 @@
 import { FieldError } from 'react-hook-form';
-import { ErrorMsg } from '../common/Form';
+import * as S from './LoginFormStyle';
 
 interface LoginErrorProps {
   idError: FieldError | undefined;
@@ -11,9 +11,9 @@ const LoginError = (props: LoginErrorProps) => {
   return (
     <>
       {(props.idError || props.pwError || props.loginError) && (
-        <ErrorMsg>
+        <S.ErrorMsg>
           {props.idError || props.pwError ? '아이디 또는 비밀번호를 입력해 주세요.' : props.loginError}
-        </ErrorMsg>
+        </S.ErrorMsg>
       )}
     </>
   );
