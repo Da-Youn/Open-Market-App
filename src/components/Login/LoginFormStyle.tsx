@@ -5,10 +5,12 @@ const FormWrap = styled.form`
   padding: 34px 35px 36px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
   border-radius: 10px;
-  margin: -15px 0 30px;
+  margin: -15px 0 50px;
   border: 1px solid var(--border-color);
   background-color: var(--white);
+  font-weight: 500;
 `;
 
 const ErrorMsg = styled.p`

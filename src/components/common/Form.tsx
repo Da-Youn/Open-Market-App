@@ -9,6 +9,10 @@ const FormWrap = styled.form`
   margin: -15px 0 30px;
   border: 1px solid var(--border-color);
   background-color: var(--white);
+  label {
+    font-size: var(--font-md);
+    font-weight: 500;
+  }
 `;
 
 const ErrorMsg = styled.p`

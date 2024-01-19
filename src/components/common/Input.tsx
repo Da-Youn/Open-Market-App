@@ -3,6 +3,7 @@ import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 
 interface InputProps {
+  id?: string;
   type?: string;
   value?: string;
   maxWidth?: string;
@@ -18,6 +19,7 @@ interface InputProps {
   defaultValue?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  ref: React.RefObject<HTMLInputElement>;
 }
 
 const Input = forwardRef(({ type, placeholder, defaultValue, $isError, $borderWidth, ...rest }: InputProps, ref) => {
@@ -26,7 +28,6 @@ const Input = forwardRef(({ type, placeholder, defaultValue, $isError, $borderWi
       type={type}
       placeholder={placeholder}
       defaultValue={defaultValue}
-      ref={ref}
       $borderWidth={$borderWidth}
       $isError={$isError}
       autoComplete='current-password'
@@ -36,9 +37,10 @@ const Input = forwardRef(({ type, placeholder, defaultValue, $isError, $borderWi
 });
 
 export const InputStyle = styled.input<InputProps>`
+  margin-top: 8px;
   max-width: ${(props: { maxWidth: string }) => props.maxWidth || '480px'};
   width: ${(props: { width: string }) => props.width || '100%'};
-  height: ${(props: { height: string }) => props.height || '54px'};
+  height: ${(props: { height: string }) => props.height || '48px'};
   padding: ${(props: { $padding: string }) => props.$padding};
   border-width: ${(props: { $borderWidth: string }) => props.$borderWidth || 'none'};
   border-style: solid;

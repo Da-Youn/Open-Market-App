@@ -18,7 +18,6 @@ export interface ProductListProps {
   data: Product[] | ProductRes;
   children?: ReactNode;
 }
-
 const ProductList = ({ data, children }: ProductListProps) => {
   const navigate = useNavigate();
   return (
@@ -36,7 +35,10 @@ const ProductList = ({ data, children }: ProductListProps) => {
             <img src={product.image} alt={product.product_name} />
             <p className='store-name'>{product.store_name}</p>
             <p className='product-name'>{product.product_name}</p>
-            <p className='price'>{product.price.toLocaleString()}원</p>
+            <p className='price'>
+              {product.price.toLocaleString()}
+              <span>원</span>
+            </p>
           </ProductBtn>
         ))}
       </ProductWrap>
@@ -72,11 +74,17 @@ export const ProductWrap = styled.div`
   & .product-name {
     font-size: var(--font-md);
     margin-bottom: 10px;
+    border-bottom: 1px solid #ededed;
   }
 
   & .price {
     font-size: var(--font-lg);
     font-weight: 700;
+    span {
+      margin-left: 4px;
+      font-weight: 400;
+      font-size: var(--font-md);
+    }
   }
 
   ${media.desktop(`
