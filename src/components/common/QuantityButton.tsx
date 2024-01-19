@@ -73,7 +73,7 @@ export const QuantityButtonBox = styled.div`
   button:first-child:hover,
   p + button:hover {
     transition: 0.3s;
-    background-color: var(--main-color);
+    background-color: var(--point-color);
     img {
       filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(103deg) brightness(104%) contrast(105%);
     }
