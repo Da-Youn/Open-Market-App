@@ -4,26 +4,15 @@ export interface SkeletonProps {}
 
 const ProductSkeleton = (props: SkeletonProps) => {
   return (
-    <SkeletonWrap>
+    <>
       <SkeletonProduct>
         <SkeletonProductImg></SkeletonProductImg>
         <SkeletonProductStoreName></SkeletonProductStoreName>
         <SkeletonProductName></SkeletonProductName>
+        <SkeletonProductLine></SkeletonProductLine>
         <SkeletonProductPrice></SkeletonProductPrice>
       </SkeletonProduct>
-      <SkeletonProduct>
-        <SkeletonProductImg></SkeletonProductImg>
-        <SkeletonProductStoreName></SkeletonProductStoreName>
-        <SkeletonProductName></SkeletonProductName>
-        <SkeletonProductPrice></SkeletonProductPrice>
-      </SkeletonProduct>
-      <SkeletonProduct>
-        <SkeletonProductImg></SkeletonProductImg>
-        <SkeletonProductStoreName></SkeletonProductStoreName>
-        <SkeletonProductName></SkeletonProductName>
-        <SkeletonProductPrice></SkeletonProductPrice>
-      </SkeletonProduct>
-    </SkeletonWrap>
+    </>
   );
 };
 
@@ -34,7 +23,7 @@ const loading = keyframes`
     background-color: #ededed;
   }
   50% {
-    background-color: #e2e2e2;
+    background-color: #cdcdcd;
   }
   100% {
     background-color: #ededed;
@@ -47,41 +36,27 @@ const Skeleton = styled.div`
   animation: ${loading} 2s infinite ease-in-out;
 `;
 
-const SkeletonWrap = styled.div`
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 380px);
-  padding-top: 30px;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  gap: 70px;
-
-  ${media.desktop(`
-    grid-template-columns: repeat(2, 320px);
-    gap: 50px;
-      `)}
-  ${media.mobile(`
-    grid-template-columns: 1fr;
-    gap: 30px;
-      `)}
-`;
 const SkeletonProduct = styled.div`
+  width: 100%;
   margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
 `;
+
+const SkeletonProductImgBox = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  margin-bottom: 16px;
+`;
+
 const SkeletonProductImg = styled(Skeleton)`
-  width: 380px;
-  height: 380px;
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
   border-radius: 10px;
   margin-bottom: 16px;
-  ${media.desktop(`
-    width: 320px;
-    height: 320px;
-      `)}
-  ${media.mobile(`
-    width: 320px;
-    height: 320px;
-      `)}
 `;
 
 const SkeletonProductStoreName = styled(Skeleton)`
@@ -96,9 +71,13 @@ const SkeletonProductName = styled(Skeleton)`
   height: 18px;
   margin-bottom: 10px;
 `;
+const SkeletonProductLine = styled.div`
+  margin: 10px 0;
+  border-bottom: 1px solid #ededed;
+`;
 const SkeletonProductPrice = styled(Skeleton)`
   border-radius: 6px;
   width: 120px;
-  height: 24px;
+  height: 30px;
   font-weight: 700;
 `;

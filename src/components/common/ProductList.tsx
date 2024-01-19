@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ProductRes } from 'src/hooks/useProduct';
+import ProductSkeleton from './ProductSkeleton';
 
 import { media } from 'src/style/mediaQuery';
 
@@ -17,12 +18,22 @@ interface Product {
 export interface ProductListProps {
   data: Product[] | ProductRes;
   children?: ReactNode;
+  isFetchingNextPage: boolean;
+  isLoading: boolean;
 }
-const ProductList = ({ data, children }: ProductListProps) => {
+const ProductList = ({ data, children, isFetchingNextPage, isLoading }: ProductListProps) => {
   const navigate = useNavigate();
   return (
     <ProductListWrap>
       <ProductWrap>
+        {isLoading && (
+          <>
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </>
+        )}
         {data.map((product) => (
           <ProductBtn
             key={product.product_id}
@@ -32,7 +43,9 @@ const ProductList = ({ data, children }: ProductListProps) => {
               })
             }
           >
-            <img src={product.image} alt={product.product_name} />
+            <ProductImg>
+              <img src={product.image} alt={product.product_name} />
+            </ProductImg>
             <p className='store-name'>{product.store_name}</p>
             <p className='product-name'>{product.product_name}</p>
             <p className='price'>
@@ -41,6 +54,14 @@ const ProductList = ({ data, children }: ProductListProps) => {
             </p>
           </ProductBtn>
         ))}
+        {isFetchingNextPage && (
+          <>
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </>
+        )}
       </ProductWrap>
       {children}
       {/* {nextPage && <NextBtn onClick={fetchNextPage}>More</NextBtn>} */}
@@ -51,20 +72,43 @@ const ProductList = ({ data, children }: ProductListProps) => {
 export default ProductList;
 
 export const ProductListWrap = styled.section`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 30px;
+`;
+export const ProductImg = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  margin-bottom: 16px;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.3s;
+    background-color: #ededed;
+    object-fit: cover;
+    object-position: 50% 0;
+    border-radius: 10px;
+  }
 `;
 
 export const ProductWrap = styled.div`
+  max-width: 1600px;
+  width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 380px); /* 3개의 열을 동일한 너비로 설정 */
-  padding-top: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  padding-top: 40px;
   justify-content: center;
   justify-items: center;
   align-items: center;
-  gap: 70px;
+  gap: 40px;
 
   & .store-name {
     color: #767676;
@@ -74,7 +118,9 @@ export const ProductWrap = styled.div`
   & .product-name {
     font-size: var(--font-md);
     margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ededed;
+    font-weight: 500;
   }
 
   & .price {
@@ -86,36 +132,17 @@ export const ProductWrap = styled.div`
       font-size: var(--font-md);
     }
   }
-
-  ${media.desktop(`
-    grid-template-columns: repeat(2, 320px);
-    gap: 50px;
-      `)}
-  ${media.mobile(`
-    grid-template-columns: 1fr;
-    gap: 30px;
-      `)}
 `;
 
 export const ProductBtn = styled.button`
+  width: 100%;
+
   margin-bottom: 8px;
   text-align: left;
-  img {
-    background-color: #ededed;
-    width: 380px;
-    height: 380px;
-    object-fit: cover;
-    object-position: 0 0;
-    margin-bottom: 16px;
-    border: 1px solid #c4c4c4;
-    border-radius: 10px;
-    ${media.desktop(`
-    width: 320px;
-    height: 320px;
-      `)}
-    ${media.mobile(`
-    width: 320px;
-    height: 320px;
-      `)}
+
+  &:hover {
+    img {
+      transform: scale(1.03);
+    }
   }
 `;
