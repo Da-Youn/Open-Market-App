@@ -3,6 +3,7 @@ import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 
 interface InputProps {
+  id?: string;
   type?: string;
   value?: string;
   maxWidth?: string;

@@ -20,17 +20,21 @@ interface UserInput {
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [userType, setUserType] = useState<string>('BUYER');
   const {
     register,
     handleSubmit,
-    setValue,
+    watch,
     formState: { errors },
-  } = useForm<UserInput>();
-
+    setValue,
+  } = useForm({
+    defaultValues: {
+      username: userType === 'BUYER' ? 'buyer1' : '',
+      password: userType === 'BUYER' ? 'hodu0910' : '',
+    },
+  });
   const [loginError, setLoginError] = useState<string>('');
   const [autoLogin, setAutoLogin] = useState(false);
-
-  const [userType, setUserType] = useState<string>('BUYER');
 
   const handleAutoLogin = () => {
     setAutoLogin(!autoLogin);
@@ -57,26 +61,37 @@ const LoginForm = () => {
       setLoginError(axiosError.response?.data?.FAIL_Message);
     }
   };
+  console.log(watch('username'));
   return (
     <>
       <TypeChange userType={userType} setUserType={setUserType} setValue={setValue} page='login' />
       <FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
-        <Input
-          type='text'
-          placeholder='아이디'
-          {...register('username', { required: true })}
-          defaultValue={userType === 'BUYER' ? 'buyer1' : ''}
-          $isError={errors.username}
-          $borderWidth='0 0 1px 0'
-        />
-        <Input
-          type='password'
-          placeholder='비밀번호'
-          defaultValue={userType === 'BUYER' ? 'hodu0910' : ''}
-          {...register('password', { required: true })}
-          $isError={errors.password}
-          $borderWidth='0 0 1px 0'
-        />
+        <label htmlFor='userId'>
+          아이디
+          <Input
+            id='userId'
+            type='text'
+            placeholder='아이디 입력하기'
+            {...register('username', { required: true })}
+            value={watch('username')}
+            $isError={errors.username}
+            $borderWidth='0 0 1px 0'
+          />
+        </label>
+
+        <label htmlFor='password'>
+          비밀번호
+          <Input
+            id='password'
+            type='password'
+            placeholder='비밀번호 입력하기'
+            value={watch('password')}
+            {...register('password', { required: true })}
+            $isError={errors.password}
+            $borderWidth='0 0 1px 0'
+          />
+        </label>
+
         <LoginError idError={errors.username} pwError={errors.password} loginError={loginError} />
         <AutoLogin>
           <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} /> <p>자동 로그인</p>
