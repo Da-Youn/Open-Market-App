@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 
-const Top = () => {
+export default function TOP() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   return (
     <TopWrap>
-      <a href='#top'>↑</a>
+      <button onClick={scrollToTop}>↑</button>
     </TopWrap>
   );
-};
-
-export default Top;
+}
 
 const TopWrap = styled.article`
   width: 60px;
@@ -21,7 +25,7 @@ const TopWrap = styled.article`
   position: fixed;
   bottom: 50px;
   right: 50px;
-  a {
+  button {
     color: #fff;
     font-weight: 700;
     font-size: var(--font-lg);
