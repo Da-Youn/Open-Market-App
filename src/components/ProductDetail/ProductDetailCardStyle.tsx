@@ -100,8 +100,8 @@ export const QuantitySelection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  gap: 16px;
-  padding: 20px 0;
+  gap: 1px;
+  padding: 30px 0;
   margin: 20px 0 46px;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
@@ -160,7 +160,7 @@ export const TotalAmount = styled.div`
   }
 
   p:first-child {
-    color: var(--border-color);
+    color: var(--sub-font-color);
   }
 
   p:first-child::after {
@@ -180,4 +180,7 @@ export const TotalAmount = styled.div`
 export const SubmitButtonWrap = styled.div`
   display: flex;
   gap: 14px;
+  button:active {
+    scale: 98%;
+  }
 `;
