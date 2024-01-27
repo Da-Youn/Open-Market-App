@@ -14,6 +14,7 @@ export interface ProductReq {
 }
 
 export interface ProductRes {
+  product_info: string;
   length: number;
   map(arg0: (product: any) => import('react/jsx-runtime').JSX.Element): import('react').ReactNode;
   product_id: number;

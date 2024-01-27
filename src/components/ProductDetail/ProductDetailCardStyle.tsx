@@ -5,7 +5,7 @@ export const ProductCardWrap = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;
+  gap: 60px;
 `;
 export const ImgSection = styled.div`
   max-width: 600px;
@@ -45,6 +45,7 @@ export const ProductInfo = styled.div`
 
 export const ProductName = styled.p`
   margin: 16px 0 20px;
+  font-weight: 500;
 `;
 
 export const ProductForm = styled.form`
@@ -54,15 +55,59 @@ export const ProductForm = styled.form`
   }
 `;
 
-export const ProductQuantitySelection = styled.div`
+export const ShippingInfo = styled.div`
+  width: 100%;
+  padding: 20px;
+  background-color: var(--hover-color);
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  div,
+  h4 {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-xs);
+  }
+  h4 {
+    min-width: 100px;
+    font-weight: 500;
+    gap: 6px;
+  }
+  div {
+    gap: 12px;
+    p {
+      font-size: var(--font-xs);
+    }
+    img {
+      width: 20px;
+    }
+    span::after {
+      content: '';
+      display: inline-block;
+      height: 12px;
+      width: 1px;
+      background-color: #000;
+      margin: -1px 6px;
+    }
+    strong {
+      font-weight: 700;
+    }
+  }
+`;
+
+export const QuantitySelection = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: baseline;
-  gap: 10px;
-  padding: 30px 0;
+  gap: 16px;
+  padding: 20px 0;
   margin: 20px 0 46px;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-
+  h3 {
+    font-weight: 500;
+  }
   div {
     width: 150px;
     height: 50px;
@@ -98,7 +143,7 @@ export const ProductQuantitySelection = styled.div`
   }
 `;
 
-export const ProductTotalAmount = styled.div`
+export const TotalAmount = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
