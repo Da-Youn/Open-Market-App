@@ -75,7 +75,7 @@ export const ShippingInfo = styled.div`
     gap: 6px;
   }
   div {
-    gap: 12px;
+    gap: 10px;
     p {
       font-size: var(--font-xs);
     }
@@ -100,7 +100,7 @@ export const QuantitySelection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  gap: 1px;
+  gap: 16px;
   padding: 30px 0;
   margin: 20px 0 46px;
   border-top: 1px solid var(--border-color);
@@ -149,6 +149,8 @@ export const TotalAmount = styled.div`
   align-items: center;
   font-size: 18px;
   margin-bottom: 30px;
+  gap: 12px;
+  flex-wrap: wrap;
   h3,
   span {
     font-weight: 700;
