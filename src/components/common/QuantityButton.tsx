@@ -55,6 +55,7 @@ export const QuantityButtonBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.2s;
     img {
       width: 20px;
       height: 20px;
@@ -68,8 +69,17 @@ export const QuantityButtonBox = styled.div`
   }
   button:first-child {
     border-right: 1px solid var(--border-color);
+    border-radius: 5px 0 0 5px;
+  }
+  button:first-child:active,
+  p + button:active {
+    background-color: var(--point-color);
+    img {
+      filter: invert(95%) sepia(100%) saturate(0%) hue-rotate(103deg) brightness(104%) contrast(105%);
+    }
   }
   p + button {
     border-left: 1px solid var(--border-color);
+    border-radius: 0 5px 5px 0;
   }
 `;

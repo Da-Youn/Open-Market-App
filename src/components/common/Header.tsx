@@ -193,9 +193,9 @@ const LinkBtn = styled(Link)`
 
   &:hover {
     img {
-      filter: invert(44%) sepia(12%) saturate(1416%) hue-rotate(315deg) brightness(97%) contrast(95%);
+      filter: invert(98%) sepia(86%) saturate(960%) hue-rotate(292deg) brightness(81%) contrast(103%);
     }
-    color: var(--main-color);
+    color: var(--point-color);
   }
 `;
 

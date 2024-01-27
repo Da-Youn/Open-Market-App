@@ -20,15 +20,11 @@ const HomeProductList = () => {
   });
 
   return (
-    <ProductList data={data?.pages.flatMap((page) => page.results) || []}>
-      {isLoading && (
-        <>
-          <ProductSkeleton />
-          <ProductSkeleton />
-          <ProductSkeleton />
-        </>
-      )}
-      {isFetchingNextPage && <ProductSkeleton />}
+    <ProductList
+      data={data?.pages.flatMap((page) => page.results) || []}
+      isLoading={isLoading}
+      isFetchingNextPage={isFetchingNextPage}
+    >
       <div ref={observeRef} />
     </ProductList>
   );

@@ -20,7 +20,7 @@ const EventBanner = () => {
   };
 
   return (
-    <BannerWrap className='event-banner'>
+    <BannerWrap id='top' className='event-banner'>
       <Slider {...settings}>
         {images.map(
           (

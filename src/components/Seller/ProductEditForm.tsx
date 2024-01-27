@@ -4,14 +4,7 @@ import { usePutProduct, ProductReq } from 'src/hooks/useProduct';
 
 import Button from 'src/components/common/Button';
 
-import {
-  ProductFormWrap,
-  ProductFormBox,
-  ProductInfoBox,
-  RadioInput,
-  ProductDescBox,
-  ProductBtnBox,
-} from './ProductFormStyle';
+import * as S from './ProductFormStyle';
 
 const ProductEditForm = () => {
   const data = useLocation().state;
@@ -27,9 +20,7 @@ const ProductEditForm = () => {
     product_info: data.product_info,
   });
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
@@ -51,11 +42,11 @@ const ProductEditForm = () => {
   };
 
   return (
-    <ProductFormWrap>
+    <S.ProductFormWrap>
       <h3 className='a11y-hidden'>상품 등록 폼</h3>
-      <ProductFormBox>
+      <S.ProductFormBox>
         <div>
-          <ProductInfoBox>
+          <S.ProductInfoBox>
             <label htmlFor='product-name'>
               <p>상품명</p>
               <input
@@ -82,7 +73,7 @@ const ProductEditForm = () => {
 
             <div>
               <p>배송방법</p>
-              <RadioInput>
+              <S.RadioInput>
                 <input
                   type='radio'
                   name='shipping_method'
@@ -101,7 +92,7 @@ const ProductEditForm = () => {
                   checked={data && inputValues.shipping_method === 'DELIVERY'}
                 />
                 <label htmlFor='shipping-method2'>직접배송(화물배달)</label>
-              </RadioInput>
+              </S.RadioInput>
             </div>
 
             <label htmlFor='shipping-fee'>
@@ -130,9 +121,9 @@ const ProductEditForm = () => {
                 <span>개</span>
               </div>
             </label>
-          </ProductInfoBox>
+          </S.ProductInfoBox>
         </div>
-        <ProductDescBox>
+        <S.ProductDescBox>
           <label htmlFor='product-info'>
             <p>상품 상세 정보</p>
             <textarea
@@ -142,21 +133,17 @@ const ProductEditForm = () => {
               value={data && inputValues.product_info}
             />
           </label>
-        </ProductDescBox>
-        <ProductBtnBox>
-          <Button
-            color='var(--sub-font-color)'
-            $bgColor='var(--white)'
-            $border='1px solid var(--sub-font-color)'
-          >
+        </S.ProductDescBox>
+        <S.ProductBtnBox>
+          <Button color='var(--sub-font-color)' $bgColor='var(--white)' $border='1px solid var(--sub-font-color)'>
             취소
           </Button>
           <Button onClick={handleSaveBtnClick} width='200px'>
             저장하기
           </Button>
-        </ProductBtnBox>
-      </ProductFormBox>
-    </ProductFormWrap>
+        </S.ProductBtnBox>
+      </S.ProductFormBox>
+    </S.ProductFormWrap>
   );
 };
 

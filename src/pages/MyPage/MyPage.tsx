@@ -1,48 +1,22 @@
-import styled from 'styled-components';
-
-import { media } from 'src/style/mediaQuery';
 import MyPageMenuBar from 'src/components/MyPage/MyPageMenuBar';
 import MyPageOrder from 'src/components/MyPage/MyPageOrder/MyPageOrder';
+
+import * as S from './MyPageStyle';
 
 export interface MyPageProps {}
 
 const MyPage = (props: MyPageProps) => {
   return (
-    <MypageLayout>
-      <MyPageHeader>
+    <S.MypageLayout>
+      <S.MyPageHeader>
         <h2>마이페이지</h2>
-      </MyPageHeader>
-      <MyPageBox>
+      </S.MyPageHeader>
+      <S.MyPageBox>
         <MyPageMenuBar />
         <MyPageOrder />
-      </MyPageBox>
-    </MypageLayout>
+      </S.MyPageBox>
+    </S.MypageLayout>
   );
 };
-
-const MypageLayout = styled.main`
-  max-width: 1280px;
-  margin: auto;
-  padding: 40px;
-  h2 {
-    font-size: var(--font-xl);
-    font-weight: 700;
-  }
-`;
-
-const MyPageHeader = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 38px;
-`;
-
-const MyPageBox = styled.div`
-  display: flex;
-  gap: 50px;
-  ${media.tablet(`
-    flex-direction: column;
-      `)}
-`;
 
 export default MyPage;

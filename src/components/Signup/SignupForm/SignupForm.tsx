@@ -222,7 +222,7 @@ const SignupuseForm = (props: useSignupFormProps) => {
         </S.FormBox>
         <S.CheckWrap $color={isChecked ? ' var(--main-color)' : 'var(--sub-font-color)'}>
           <button type='button' onClick={handleCheckBtnClick}>
-            <img src={checkBoxFiiled} alt='체크박스' />{' '}
+            <img src={checkBoxFiiled} alt='체크박스' />
           </button>
           <p>
             호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에 대한 내용을 확인하였고 동의합니다.
@@ -230,9 +230,9 @@ const SignupuseForm = (props: useSignupFormProps) => {
         </S.CheckWrap>
         <Button
           type='submit'
-          $maxWidth='480px'
           $mgTop='34px'
           $bdRadius='5px'
+          $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.2)'
           disabled={isChecked && isValid ? false : true}
         >
           가입하기

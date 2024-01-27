@@ -11,3 +11,4 @@ declare module '*.png' {
   export default value;
 }
 declare module 'styled-components';
+declare module '*.ttf';

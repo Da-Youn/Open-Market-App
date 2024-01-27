@@ -1,22 +1,18 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { Font } from './Font';
 
 const GlobalStyle = createGlobalStyle`
 	${reset}
-
-    @font-face {
-    font-family: 'SpoqaHanSansNeo-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
+	${Font}
  :root{
-	--main-color: #A66460 ;
+	//ddad87
+	--main-color: #423636 ;
+	--point-color:#D19F9F;
 	--sub-color:#F2F2F2;
 	--border-color:#C4C4C4;
 	--sub-border-color:#E0E0E0;
-    --font-color: #333333;
+    --font-color: #333333; 
     --sub-font-color: #767676;
     --error-color: #EB5757;
 	--valid-color:#1A8931;
@@ -55,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
 		border: 0;
 		font-size: 16px;
 		vertical-align: baseline;
-        font-family: 'SpoqaHanSansNeo-Regular';
+        font-family: 'SpoqaHanSansNeo';
 	}
 
 	ol, ul{

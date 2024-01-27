@@ -8,15 +8,7 @@ import Button from 'src/components/common/Button';
 
 import ImgUploadIcon from 'src/assets/icon-img.svg';
 
-import {
-  ProductFormWrap,
-  ProductFormBox,
-  ProductImgBox,
-  ProductInfoBox,
-  RadioInput,
-  ProductDescBox,
-  ProductBtnBox,
-} from './ProductFormStyle';
+import * as S from './ProductFormStyle';
 
 type ProductImageProps = {
   display: string;
@@ -39,9 +31,7 @@ const ProductAddForm = () => {
     product_info: '',
   });
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
@@ -88,18 +78,14 @@ const ProductAddForm = () => {
   };
 
   return (
-    <ProductFormWrap>
+    <S.ProductFormWrap>
       <h3 className='a11y-hidden'>상품 등록 폼</h3>
-      <ProductFormBox>
+      <S.ProductFormBox>
         <div>
-          <ProductImgBox htmlFor='image'>
+          <S.ProductImgBox htmlFor='image'>
             <p>상품 이미지</p>
             <div>
-              <ProductImage
-                src={image}
-                alt='상품 이미지'
-                display={image ? 'block' : 'none'}
-              />
+              <ProductImage src={image} alt='상품 이미지' display={image ? 'block' : 'none'} />
               <button type='button' onClick={handleImageUpload}>
                 <img src={ImgUploadIcon} alt='이미지 업로드 버튼' />
                 <input
@@ -112,33 +98,23 @@ const ProductAddForm = () => {
                 />
               </button>
             </div>
-          </ProductImgBox>
-          <ProductInfoBox>
+          </S.ProductImgBox>
+          <S.ProductInfoBox>
             <label>
               <p>상품명</p>
-              <input
-                type='text'
-                id='product-name'
-                name='product_name'
-                onChange={handleInputChange}
-              />
+              <input type='text' id='product-name' name='product_name' onChange={handleInputChange} />
             </label>
             <label htmlFor='price'>
               <p>판매가</p>
               <div>
-                <input
-                  type='number'
-                  id='price'
-                  name='price'
-                  onChange={handleInputChange}
-                />
+                <input type='number' id='price' name='price' onChange={handleInputChange} />
                 <span>원</span>
               </div>
             </label>
 
             <div>
               <p>배송방법</p>
-              <RadioInput>
+              <S.RadioInput>
                 <input
                   type='radio'
                   name='shipping_method'
@@ -155,59 +131,41 @@ const ProductAddForm = () => {
                   onChange={handleInputChange}
                 />
                 <label htmlFor='shipping-method2'>직접배송(화물배달)</label>
-              </RadioInput>
+              </S.RadioInput>
             </div>
 
             <label htmlFor='shipping-fee'>
               <p>기본 배송비</p>
               <div>
-                <input
-                  type='number'
-                  id='shipping-fee'
-                  name='shipping_fee'
-                  onChange={handleInputChange}
-                />
+                <input type='number' id='shipping-fee' name='shipping_fee' onChange={handleInputChange} />
                 <span>원</span>
               </div>
             </label>
             <label htmlFor='stock'>
               <p>재고</p>
               <div>
-                <input
-                  type='number'
-                  id='stock'
-                  name='stock'
-                  onChange={handleInputChange}
-                />
+                <input type='number' id='stock' name='stock' onChange={handleInputChange} />
                 <span>개</span>
               </div>
             </label>
-          </ProductInfoBox>
+          </S.ProductInfoBox>
         </div>
-        <ProductDescBox>
+        <S.ProductDescBox>
           <label htmlFor='product-info'>
             <p>상품 상세 정보</p>
-            <textarea
-              id='product-info'
-              name='product_info'
-              onChange={handleInputChange}
-            />
+            <textarea id='product-info' name='product_info' onChange={handleInputChange} />
           </label>
-        </ProductDescBox>
-        <ProductBtnBox>
-          <Button
-            color='var(--sub-font-color)'
-            $bgColor='var(--white)'
-            $border='1px solid var(--sub-font-color)'
-          >
+        </S.ProductDescBox>
+        <S.ProductBtnBox>
+          <Button color='var(--sub-font-color)' $bgColor='var(--white)' $border='1px solid var(--sub-font-color)'>
             취소
           </Button>
           <Button onClick={handleSaveBtnClick} width='200px'>
             저장하기
           </Button>
-        </ProductBtnBox>
-      </ProductFormBox>
-    </ProductFormWrap>
+        </S.ProductBtnBox>
+      </S.ProductFormBox>
+    </S.ProductFormWrap>
   );
 };
 

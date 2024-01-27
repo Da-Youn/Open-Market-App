@@ -9,7 +9,7 @@ import { axiosInstance } from 'src/api/axiosInstance';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import LoginError from './LoginError';
-import { FormWrap } from '../common/Form';
+import * as S from './LoginFormStyle';
 import TypeChange from '../common/TypeChange';
 import CheckIcon from 'src/assets/icon-check.svg';
 
@@ -61,11 +61,11 @@ const LoginForm = () => {
       setLoginError(axiosError.response?.data?.FAIL_Message);
     }
   };
-  console.log(watch('username'));
+
   return (
     <>
       <TypeChange userType={userType} setUserType={setUserType} setValue={setValue} page='login' />
-      <FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
+      <S.FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
         <label htmlFor='userId'>
           아이디
           <Input
@@ -97,10 +97,10 @@ const LoginForm = () => {
           <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} /> <p>자동 로그인</p>
         </AutoLogin>
         <label className='input-error hidden'></label>
-        <Button type='submit' $mgTop='20px' $bdRadius='5px'>
+        <Button type='submit' $mgTop='20px' $bdRadius='5px' $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.2)'>
           로그인
         </Button>
-      </FormWrap>
+      </S.FormWrap>
     </>
   );
 };
@@ -124,6 +124,7 @@ const AutoLogin = styled.label`
       background-position: 50%;
       background-repeat: no-repeat;
       border: 1.5px solid var(--main-color);
+      transition: 0.3s;
     }
   }
 `;

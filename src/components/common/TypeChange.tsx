@@ -55,30 +55,28 @@ const TypeChange = ({ userType, setUserType, setValue, page }: TypeChangeProps) 
 const TypeChangeWrap = styled.div`
   display: flex;
   background-color: var(--primary);
+  gap: 16px;
   width: 100%;
+  margin-bottom: 36px;
 `;
 
 const TypeChangeBtn = styled.button`
   font-size: var(--font-md);
   z-index: 100;
-
+  transition: 0.3s;
   &.type-btn {
     width: 100%;
-    height: 70px;
-    border-top: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    border-radius: 10px 10px 0 0;
-    padding: 20px 0 38px;
-    font-weight: 700;
-    color: var(--main-color);
-    background-color: var(--white);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 20px 0;
+    color: var(--white);
+    background-color: var(--point-color);
   }
 
   &.disable {
-    background-color: var(--sub-color);
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
     color: var(--font-color);
-    border-bottom: 1px solid var(--border-color);
   }
 `;
 

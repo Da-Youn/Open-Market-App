@@ -9,17 +9,9 @@ import Button from '../common/Button';
 import QuantityButton from '../common/QuantityButton';
 import { getStorageItem } from 'src/util/handleStorageItem';
 
-import {
-  ProductCardWrap,
-  ImgSection,
-  InfoFormSection,
-  ProductInfo,
-  ProductName,
-  ProductForm,
-  ProductQuantitySelection,
-  ProductTotalAmount,
-  SubmitButtonWrap,
-} from './ProductDetailCardStyle';
+import * as S from './ProductDetailCardStyle';
+import ShippingIcon from '../../assets/icon-shipping.svg';
+import CoinIcon from '../../assets/icon-coin.svg';
 
 const ProductDetailCard = () => {
   const navigate = useNavigate();
@@ -97,37 +89,53 @@ const ProductDetailCard = () => {
   return (
     productData &&
     !isProductLoading && (
-      <ProductCardWrap>
+      <S.ProductCardWrap>
         <h1 className='a11y-hidden'>상품 상세 정보</h1>
-        <ImgSection>
+        <S.ImgSection>
           <img aria-label='상품 이미지' src={productData.image} alt={`${productData.product_name} 이미지`} />
-        </ImgSection>
-        <InfoFormSection>
-          <ProductInfo>
+        </S.ImgSection>
+        <S.InfoFormSection>
+          <S.ProductInfo>
             <h2 className='a11y-hidden'>상품 정보</h2>
             <p aria-label='스토어 이름'>{productData.store_name}</p>
-            <ProductName aria-label='상품 이름'>
+            <S.ProductName aria-label='상품 이름'>
               <strong>{productData.product_name}</strong>
-            </ProductName>
-            <p aria-label='상품 가격'>
-              <strong>{productData.price?.toLocaleString()}</strong>원
-            </p>
-          </ProductInfo>
+            </S.ProductName>
+            <p aria-label='상품 가격'></p>
+          </S.ProductInfo>
 
-          <ProductForm>
+          <S.ProductForm>
             <h2 className='a11y-hidden'>구매하기</h2>
-            <p>
-              택배배송 /
-              {productData.shipping_fee?.toLocaleString()
-                ? `${productData.shipping_fee?.toLocaleString()}원`
-                : '무료배송'}
-            </p>
-            <ProductQuantitySelection>
-              <h3 className='a11y-hidden'>수량 선택</h3>
+            <S.ShippingInfo>
+              <h3 className='a11y-hidden'>배송 정보</h3>
+              <div>
+                <h4>
+                  <img src={ShippingIcon} alt='배송 아이콘' />
+                  배송 기간
+                </h4>
+                <p>
+                  <strong>3일 이내</strong> 판매자 발송 예정
+                </p>
+              </div>
+              <div>
+                <h4>
+                  <img src={CoinIcon} alt='동전 아이콘' />
+                  배송비
+                </h4>
+                <p>
+                  택배 배송<span></span>
+                  {productData.shipping_fee?.toLocaleString()
+                    ? `${productData.shipping_fee?.toLocaleString()}원`
+                    : '무료배송'}
+                </p>
+              </div>
+            </S.ShippingInfo>
+
+            <S.QuantitySelection>
+              <h3>수량 선택</h3>
               <QuantityButton stock={stock} quantity={quantity} setQuantity={setQuantity} />
-              <p>현재 재고 : {stock > 0 ? `${stock}개` : '0개(품절)'}</p>
-            </ProductQuantitySelection>
-            <ProductTotalAmount>
+            </S.QuantitySelection>
+            <S.TotalAmount>
               <h3>총 상품 금액</h3>
               <div>
                 <p>
@@ -137,10 +145,10 @@ const ProductDetailCard = () => {
                   <span>{(quantity * productData.price)?.toLocaleString()}</span>원
                 </p>
               </div>
-            </ProductTotalAmount>
-            <SubmitButtonWrap>
+            </S.TotalAmount>
+            <S.SubmitButtonWrap>
               <Button width='416px' fontWeight='400' disabled={stock > 0 ? false : true} onClick={handleOrderBtnClick}>
-                바로 구매
+                바로 구매하기
               </Button>
               <Button
                 onClick={handleAddCart}
@@ -151,12 +159,12 @@ const ProductDetailCard = () => {
               >
                 장바구니
               </Button>
-            </SubmitButtonWrap>
-          </ProductForm>
-        </InfoFormSection>
+            </S.SubmitButtonWrap>
+          </S.ProductForm>
+        </S.InfoFormSection>
 
         {modalOpen && <Modal type={modalType} setModalOpen={setModalOpen} acceptBtnClick={handleAcceptBtn} />}
-      </ProductCardWrap>
+      </S.ProductCardWrap>
     )
   );
 };

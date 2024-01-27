@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import Cart from '../pages/Cart/Cart';
 import Home from '../pages/Home/Home';
-import Login from '../pages/Login/Login';
+import Login from '../pages/Auth/Login';
 import Order from '../pages/Order/Order';
 import Search from '../pages/Search/Search';
-import Signup from '../pages/Signup/Signup';
+import Signup from '../pages/Auth/Signup';
 import MyPage from 'src/pages/MyPage/MyPage';
 import SellerDashBoard from 'src/pages/Seller/SellerDashBoard';
 import ProductForm from 'src/pages/Seller/ProductForm';
