@@ -43,19 +43,11 @@ const SkeletonProduct = styled.div`
   flex-direction: column;
 `;
 
-const SkeletonProductImgBox = styled.div`
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  position: relative;
-  margin-bottom: 16px;
-`;
-
 const SkeletonProductImg = styled(Skeleton)`
   width: 100%;
   height: 0;
   padding-top: 100%;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-bottom: 16px;
 `;
 
