@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useGetProducts, ProductRes } from 'src/hooks/useProduct';
+import { useGetProductList, ProductRes } from 'src/hooks/useProduct';
 
 import { media } from 'src/style/mediaQuery';
 
@@ -29,11 +29,11 @@ const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderLi
     }
   }, [orderList, orderQuantity]);
 
-  const { productsData, isLoading } = useGetProducts(productIds);
+  const { data, isLoading } = useGetProductList(productIds);
 
   useEffect(() => {
-    if (orderQuantity && orderPrice && productsData.length > 0) {
-      const items = productsData.map((orderItem, index) => ({
+    if (orderQuantity && orderPrice && data?.length > 0) {
+      const items = data?.map((orderItem, index) => ({
         data: orderItem,
         orderQuantity: orderQuantity[index],
         orderPrice: orderPrice[index],
@@ -58,7 +58,7 @@ const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderLi
       <OrderListBox>
         <h2 className='a11y-hidden'>주문 내역</h2>
         {orderItems.map((orderItem, i) => (
-          <OrderItem key={orderItem.data.product_id}>
+          <OrderItem key={orderItem.data?.product_id}>
             <OrderItemInfo>
               <img src={orderItem.data.image} alt='상품 이미지' />
               <div>

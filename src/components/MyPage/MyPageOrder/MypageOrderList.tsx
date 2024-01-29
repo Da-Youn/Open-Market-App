@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { media } from 'src/style/mediaQuery';
 import { OrderResult } from 'src/hooks/useOrder';
-import { useGetProducts, useGetProduct } from 'src/hooks/useProduct';
+import { useGetProductList, useGetProduct } from 'src/hooks/useProduct';
 
 import MypageOrderItem from './MypageOrderItem';
 import { formatDateString } from 'src/util/formatDateString';
@@ -15,9 +15,9 @@ export interface MypageOrderItemProps {
 }
 
 const MypageOrderList = ({ order }: MypageOrderItemProps) => {
-  const { productsData, isLoading } = useGetProducts(order.order_items);
+  const { data, isLoading } = useGetProductList(order.order_items);
 
-  if (!productsData && isLoading) return null;
+  if (!data && isLoading) return null;
 
   return (
     <MypageOrderListLayout>
@@ -28,7 +28,7 @@ const MypageOrderList = ({ order }: MypageOrderItemProps) => {
         </Link>
       </OrderListInfoBox>
 
-      {productsData.map((item, index) => {
+      {data.map((item, index) => {
         return (
           <MypageOrderItem
             key={index}

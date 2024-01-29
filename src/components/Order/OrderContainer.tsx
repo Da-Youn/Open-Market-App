@@ -40,11 +40,11 @@ const OrderContainer = () => {
   if (!data) {
     return null;
   }
-  orderList = data?.order_items.length ? data?.order_items : [data?.order_items];
-  orderQuantity = data?.order_quantity.length ? data?.order_quantity : [data?.order_quantity];
+  orderList = data.order_items?.length ? data?.order_items : [data?.order_items];
+  orderQuantity = data.order_quantity?.length ? data?.order_quantity : [data?.order_quantity];
   shipFee = data?.shipping_fee;
   totalPrice = data?.total_price;
-  orderPrice = data?.price.length ? data?.price : [data?.price];
+  orderPrice = data.price?.length ? data?.price : [data?.price];
 
   return (
     <OrderLayout>
