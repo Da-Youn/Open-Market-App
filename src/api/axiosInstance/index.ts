@@ -1,5 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { AUTH_TOKEN, BASE_URL } from './constants';
+import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+
+import { BASE_URL } from './constants';
 
 interface ApiConfig extends AxiosRequestConfig {
   headers?: {
@@ -8,11 +9,20 @@ interface ApiConfig extends AxiosRequestConfig {
   };
 }
 
+const onRequest = (config: InternalAxiosRequestConfig) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `JWT ${token}`;
+  }
+  return config;
+};
+
 const commonConfig: ApiConfig = {
   baseURL: BASE_URL,
 };
 
-// 기본 axios 인스턴스
+// 기본  인스턴스
 const axiosInstance: AxiosInstance = axios.create({
   ...commonConfig,
   headers: {
@@ -20,22 +30,22 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-// user token 값을 사용하는 인스턴스
+// 인증 요청 인스턴스
 const userInstance: AxiosInstance = axios.create({
   ...commonConfig,
   headers: {
-    Authorization: `JWT ${AUTH_TOKEN}`,
     'Content-Type': 'application/json',
   },
 });
+userInstance.interceptors.request.use(onRequest);
 
 const imgInstance: AxiosInstance = axios.create({
   ...commonConfig,
   headers: {
-    Authorization: `JWT ${AUTH_TOKEN}`,
     'Content-Type': 'multipart/form-data',
   },
 });
+imgInstance.interceptors.request.use(onRequest);
 
 // url값만 사용하는 인스턴스
 const urlInstance: AxiosInstance = axios.create(commonConfig);
