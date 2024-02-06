@@ -8,7 +8,7 @@ const FormWrap = styled.form`
   border-radius: 10px;
   margin: -15px 0 30px;
   border: 1px solid var(--border-color);
-  background-color: var(--white);
+  background-color: var(--background-color);
   label {
     font-size: var(--font-md);
     font-weight: 500;
@@ -24,7 +24,7 @@ const ErrorMsg = styled.p`
 const ValidMsg = styled.p`
   margin-top: 10px;
   margin-bottom: 6px;
-  color: var(--main-color);
+  color: var(--point-color);
 `;
 
 export { FormWrap, ErrorMsg, ValidMsg };

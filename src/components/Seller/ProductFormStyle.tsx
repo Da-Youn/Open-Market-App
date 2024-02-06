@@ -25,7 +25,7 @@ const ProductFormBox = styled.form`
   }
 
   input:focus {
-    border: 1.5px solid var(--main-color);
+    border: 1.5px solid var(--point-color);
   }
 `;
 const ProductImgBox = styled.label`
@@ -114,7 +114,7 @@ const ProductInfoBox = styled.div`
   input[type='number']:focus + span {
     border-width: 1.5px 1.5px 1.5px 0;
     border-style: solid;
-    border-color: var(--main-color);
+    border-color: var(--point-color);
   }
 `;
 
@@ -142,7 +142,7 @@ const RadioInput = styled.div`
     border: 1px solid var(--border-color);
   }
   input:checked + label {
-    background-color: var(--main-color);
+    background-color: var(--point-color);
     color: var(--white);
   }
 `;
@@ -158,8 +158,8 @@ const ProductDescBox = styled.div`
     padding: 15px;
     border-radius: 5px;
     outline-width: 1.5px;
-    outline-color: var(--main-color);
-    background: var(--sub-color);
+    outline-color: var(--point-color);
+    background: var(--sub-background-color);
     border: 1px solid var(--border-color);
   }
   textarea:focus {
@@ -184,12 +184,4 @@ const ProductBtnBox = styled.div`
   `)}
 `;
 
-export {
-  ProductFormWrap,
-  ProductFormBox,
-  ProductImgBox,
-  ProductInfoBox,
-  RadioInput,
-  ProductDescBox,
-  ProductBtnBox,
-};
+export { ProductFormWrap, ProductFormBox, ProductImgBox, ProductInfoBox, RadioInput, ProductDescBox, ProductBtnBox };

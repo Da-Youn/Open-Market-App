@@ -65,7 +65,7 @@ const Footer = () => {
 const FooterWrap = styled.footer`
   width: 100%;
 
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   margin-top: 100px;
   display: flex;
   flex-direction: column;

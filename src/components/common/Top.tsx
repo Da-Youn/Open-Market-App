@@ -17,7 +17,7 @@ export default function TOP() {
 const TopWrap = styled.article`
   width: 60px;
   height: 60px;
-  background-color: var(--main-color);
+  background-color: var(--point-color);
   display: flex;
   justify-content: center;
   align-items: center;

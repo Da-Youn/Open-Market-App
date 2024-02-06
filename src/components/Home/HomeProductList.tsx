@@ -35,15 +35,15 @@ export default HomeProductList;
 export const NextBtn = styled.button`
   width: 500px;
   height: 70px;
-  border: 3px solid var(--main-color);
+  border: 3px solid var(--point-color);
   font-size: var(--font-lg);
-  color: var(--main-color);
+  color: var(--point-color);
   border-radius: 20px;
   text-align: center;
   margin: 100px auto 0;
 
   &:hover {
-    background-color: var(--main-color);
+    background-color: var(--point-color);
     color: #fff;
   }
   ${media.tablet(`

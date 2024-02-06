@@ -69,15 +69,15 @@ const MyPageMenuBarLayout = styled.section`
     font-weight: 400;
     color: var(--white);
     border-radius: 50%;
-    background-color: var(--main-color);
+    background-color: var(--point-color);
   }
 
   li:first-child button {
-    background: var(--main-color);
+    background: var(--point-color);
     color: var(--white);
     span {
       background: var(--white);
-      color: var(--main-color);
+      color: var(--point-color);
     }
   }
 

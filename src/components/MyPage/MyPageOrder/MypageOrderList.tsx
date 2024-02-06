@@ -43,7 +43,7 @@ const MypageOrderList = ({ order }: MypageOrderItemProps) => {
 };
 
 const MypageOrderListLayout = styled.ul`
-  background-color: var(--white);
+  background-color: var(--background-color);
   width: 100%;
   border-radius: 10px;
   padding: 20px;

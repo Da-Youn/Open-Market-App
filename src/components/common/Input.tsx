@@ -46,12 +46,12 @@ export const InputStyle = styled.input<InputProps>`
   border-width: ${(props: { $borderWidth: string }) => props.$borderWidth || 'none'};
   border-style: solid;
   border-color: ${(props: { $isError: string; $isActive: string }) =>
-    props.$isError ? 'var(--error-color)' : props.$isActive ? 'var(--main-color)' : 'var(--border-color)'};
+    props.$isError ? 'var(--error-color)' : props.$isActive ? 'var(--point-color)' : 'var(--border-color)'};
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || 'none'};
   margin-bottom: ${(props: { $mgBottom: string }) => props.$mgBottom || '10px'};
 
   &:focus {
-    border-color: var(--main-color);
+    border-color: var(--point-color);
   }
 
   &::placeholder {

@@ -14,10 +14,10 @@ export const FormBox = styled.div`
   border-radius: 10px;
   margin: -15px 0 30px;
   border: 1px solid var(--border-color);
-  background-color: var(--white);
+  background-color: var(--background-color);
   gap: 40px;
   label {
-    color: var(--main-color);
+    color: var(--primary-color);
   }
 `;
 

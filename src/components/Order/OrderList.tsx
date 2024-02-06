@@ -49,6 +49,7 @@ const OrderList = ({ orderList, orderQuantity, orderPrice, totalPrice }: OrderLi
 
   return (
     <OrderListLayout>
+      <h2>주문 내용</h2>
       <OrderListCol role='columnheader'>
         <span>상품정보</span>
         <span>할인</span>
@@ -107,7 +108,7 @@ const OrderListCol = styled.div`
   align-items: center;
   margin-bottom: 16px;
   border-radius: 10px;
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   text-align: center;
   span {
     flex: 1;

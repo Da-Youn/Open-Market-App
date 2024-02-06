@@ -58,7 +58,7 @@ const SellerMenuBarLayout = styled.section`
     transform: translate(-50%, 0);
     height: 1px;
     width: 220px;
-    background-color: var(--sub-color);
+    background-color: var(--sub-background-color);
   }
 
   button {
@@ -70,7 +70,7 @@ const SellerMenuBarLayout = styled.section`
     justify-content: space-between;
     text-align: left;
     border-radius: 5px;
-    border: 1.5px solid var(--main-color);
+    border: 1.5px solid var(--point-color);
     box-shadow: 0px 1px 2px 0px rgba(118, 118, 118, 0.25);
   }
 
@@ -84,15 +84,15 @@ const SellerMenuBarLayout = styled.section`
     font-weight: 400;
     color: var(--white);
     border-radius: 50%;
-    background-color: var(--main-color);
+    background-color: var(--point-color);
   }
 
   li:first-child button {
-    background: var(--main-color);
+    background: var(--point-color);
     color: var(--white);
     span {
       background: var(--white);
-      color: var(--main-color);
+      color: var(--point-color);
     }
   }
 

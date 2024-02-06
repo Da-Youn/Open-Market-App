@@ -11,7 +11,6 @@ import Button from '../common/Button';
 import LoginError from './LoginError';
 import * as S from './LoginFormStyle';
 import TypeChange from '../common/TypeChange';
-import CheckIcon from 'src/assets/icon-check.svg';
 
 interface UserInput {
   username: string;
@@ -63,9 +62,9 @@ const LoginForm = () => {
   };
 
   return (
-    <>
+    <S.LoginFormWrap>
       <TypeChange userType={userType} setUserType={setUserType} setValue={setValue} page='login' />
-      <S.FormWrap onSubmit={handleSubmit(handleLoginSubmit)}>
+      <S.FormBox onSubmit={handleSubmit(handleLoginSubmit)}>
         <label htmlFor='userId'>
           아이디
           <Input
@@ -93,40 +92,17 @@ const LoginForm = () => {
         </label>
 
         <LoginError idError={errors.username} pwError={errors.password} loginError={loginError} />
-        <AutoLogin>
-          <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} /> <p>자동 로그인</p>
-        </AutoLogin>
-        <label className='input-error hidden'></label>
+        <S.AutoLogin>
+          <input type='checkbox' checked={autoLogin} onChange={handleAutoLogin} />
+          <p>자동 로그인</p>
+        </S.AutoLogin>
+
         <Button type='submit' $mgTop='20px' $bdRadius='5px' $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.2)'>
           로그인
         </Button>
-      </S.FormWrap>
-    </>
+      </S.FormBox>
+    </S.LoginFormWrap>
   );
 };
-
-const AutoLogin = styled.label`
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-  input {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 1.5px solid var(--main-color);
-    margin-right: 6px;
-    border-radius: 0.35rem;
-    cursor: pointer;
-    &:checked {
-      border-color: transparent;
-      background-image: url(${CheckIcon});
-      background-size: 80% 80%;
-      background-position: 50%;
-      background-repeat: no-repeat;
-      border: 1.5px solid var(--main-color);
-      transition: 0.3s;
-    }
-  }
-`;
 
 export default LoginForm;

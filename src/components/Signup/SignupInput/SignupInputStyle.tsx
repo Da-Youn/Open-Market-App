@@ -6,7 +6,8 @@ export const SignupInputWrap = styled.div`
   flex-direction: column;
   gap: 10px;
   label {
-    color: var(--sub-font-color);
+    color: var(--font-color);
+    font-weight: 500;
   }
 `;
 
@@ -34,6 +35,7 @@ export const InputStyle = styled.input`
   border-radius: 5px;
   border: 1px solid ${(props: { $border: string }) => props.$border};
   &:focus {
+    border: 1px solid transparent;
     outline: 1.5px solid ${(props: { $outline: string }) => props.$outline};
   }
 `;
@@ -70,7 +72,7 @@ export const FirstNumWrap = styled.div`
     position: absolute;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    background-color: var(--white);
+    background-color: var(--background-color);
     overflow-y: scroll;
     width: 100%;
     left: 0;
@@ -82,14 +84,14 @@ export const FirstNumWrap = styled.div`
         padding: 5px 0;
       }
       button:hover {
-        background-color: var(--main-color);
+        background-color: var(--point-color);
         color: var(--white);
       }
     }
   }
 
   ul::-webkit-scrollbar {
-    background-color: var(--sub-color);
+    background-color: var(--sub-background-color);
     width: 18px;
   }
   ul::-webkit-scrollbar-thumb {
@@ -120,6 +122,6 @@ export const FirstNumDropBtn = styled.button`
   border-radius: 5px;
   border: 1px solid var(--border-color);
   &:focus {
-    outline: 1.5px solid var(--main-color);
+    outline: 1.5px solid var(--point-color);
   }
 `;

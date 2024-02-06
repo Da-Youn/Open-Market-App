@@ -211,7 +211,7 @@ const TotalPaymentBox = styled.div`
 `;
 const TotalPaymentInfo = styled.div`
   border-radius: 10px;
-  border: 2px solid var(--main-color);
+  border: 2px solid var(--point-color);
   ul {
     padding: 34px 30px 25px;
   }
@@ -240,7 +240,7 @@ const TotalPaymentSubmit = styled.div`
   width: 100%;
   padding: 30px 30px 34px;
   border-radius: 0 0 10px 10px;
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   display: flex;
   flex-direction: column;
   align-items: center;

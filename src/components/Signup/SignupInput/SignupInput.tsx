@@ -30,7 +30,7 @@ const SignupInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           name={name}
           placeholder={placeholder || ''}
           $border={error && error?.message !== '' ? 'var(--error-color)' : 'var(--border-color)'}
-          $outline={error && error?.message !== '' ? 'var(--error-color)' : 'var(--main-color)'}
+          $outline={error && error?.message !== '' ? 'var(--error-color)' : 'var(--point-color)'}
         />
         {name === 'password' && (
           <S.CheckIcon>

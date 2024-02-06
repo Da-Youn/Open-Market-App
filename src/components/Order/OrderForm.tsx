@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, ChangeEvent } from 'react';
+import DaumPostcode, { Address } from 'react-daum-postcode';
 import styled from 'styled-components';
 
 import Button from '../common/Button';
@@ -47,6 +48,10 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
       ...prevOrderData,
       [name]: value,
     }));
+  };
+
+  const handleComplete = (data: Address) => {
+    console.log(data);
   };
 
   return (
@@ -117,6 +122,9 @@ const OrderForm = ({ setOrderData, orderType }: OrderFormProps) => {
               >
                 우편번호 조회
               </Button>
+              <div>
+                <DaumPostcode onComplete={handleComplete} />
+              </div>
             </div>
             <div className='deliveryAddress'>
               {address.map((add, index) => (

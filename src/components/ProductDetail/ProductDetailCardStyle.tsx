@@ -147,7 +147,7 @@ export const TotalAmount = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
+  var(--font-md);
   margin-bottom: 30px;
   gap: 12px;
   flex-wrap: wrap;
@@ -172,7 +172,7 @@ export const TotalAmount = styled.div`
 
   p:nth-child(2),
   span {
-    color: var(--main-color);
+    color: var(--point-color);
     span {
       font-size: var(--font-xl);
     }

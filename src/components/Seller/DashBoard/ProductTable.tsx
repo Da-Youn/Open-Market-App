@@ -39,7 +39,7 @@ const ProductTableLayout = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   border: 1px solid var(--border-color);
   position: relative;
 `;

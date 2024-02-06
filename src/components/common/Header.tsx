@@ -207,7 +207,7 @@ const SellerBtn = styled(Link)`
   justify-content: center;
   gap: 8px;
   color: #fff;
-  background-color: var(--main-color);
+  background-color: var(--point-color);
   border-radius: 10px;
   p {
     font-size: var(--font-md);
@@ -236,7 +236,7 @@ const MyPageBtn = styled.button`
     }
     &,
     span {
-      color: var(--main-color);
+      color: var(--point-color);
     }
   }
 `;

@@ -191,7 +191,7 @@ const CartListCol = styled.section`
   gap: 10px;
   margin-bottom: 35px;
   border-radius: 10px;
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   text-align: center;
 
   button {
@@ -214,7 +214,7 @@ const TotalAmountBox = styled.div`
   width: 100%;
   height: 150px;
   margin: 80px 0 40px;
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   border-radius: 10px;
   display: flex;
   align-items: center;

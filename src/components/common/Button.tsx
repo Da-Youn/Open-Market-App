@@ -39,7 +39,7 @@ const ButtonStyle = styled.button<ButtonProps>`
   color: ${(props: { color: string }) => props.color || 'var(--white)'};
   font-size: ${(props: { fontSize: string }) => props.fontSize || 'var(--font-md)'};
   font-weight: ${(props: { fontWeight: string }) => props.fontWeight || '700'};
-  background-color: ${(props: { $bgColor: string }) => props.$bgColor || 'var(--main-color)'};
+  background-color: ${(props: { $bgColor: string }) => props.$bgColor || 'var(--point-color)'};
   border: ${(props: { $border: string }) => props.$border || 'none'};
   border-radius: ${(props: { $bdRadius: string }) => props.$bdRadius || '5px'};
   box-shadow: ${(props: { $boxShadow: string }) => props.$boxShadow || 'none'};
@@ -48,6 +48,9 @@ const ButtonStyle = styled.button<ButtonProps>`
     background-color: ${(props: { $disBgColor: string }) => props.$disBgColor || 'var(--border-color)'};
     color: ${(props: { $disColor: string }) => props.$disColor || 'var(--white)'};
     border: ${(props: { $disBorder: string }) => props.$disBorder || 'none'};
+  }
+  &:hover {
+    filter: brightness(95%);
   }
 `;
 

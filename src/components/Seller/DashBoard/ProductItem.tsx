@@ -29,9 +29,7 @@ const ProductItem = ({ itemDetail }: ProductItemProps) => {
 
   const handleAcceptBtnClick = async () => {
     try {
-      const response = await useDeleteProductMutate.mutateAsync(
-        itemDetail.product_id,
-      );
+      const response = await useDeleteProductMutate.mutateAsync(itemDetail.product_id);
 
       if (response) {
         alert('상품이 삭제되었습니다.');
@@ -62,11 +60,7 @@ const ProductItem = ({ itemDetail }: ProductItemProps) => {
         <DeleteBtn onClick={handleDeleteBtnClick}>삭제</DeleteBtn>
       </td>
       {modalOpen && modalType === 'deleteProduct' && (
-        <Modal
-          type={modalType}
-          setModalOpen={setModalOpen}
-          acceptBtnClick={handleAcceptBtnClick}
-        />
+        <Modal type={modalType} setModalOpen={setModalOpen} acceptBtnClick={handleAcceptBtnClick} />
       )}
     </ProductItemLayout>
   );
@@ -146,7 +140,7 @@ const ProductItemLayout = styled.tr`
 
 const EditBtn = styled.button`
   color: #fff;
-  background-color: var(--main-color);
+  background-color: var(--point-color);
 `;
 const DeleteBtn = styled.button`
   color: var(--sub-font-color);

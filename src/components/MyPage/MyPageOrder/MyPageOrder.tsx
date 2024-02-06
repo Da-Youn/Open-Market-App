@@ -17,12 +17,7 @@ const MyPageOrder = (props: MyPageOrderTableProps) => {
       <MyPageOrderBox>
         {orderData.results.map((order: OrderResult) => {
           if (order.order_items.length > 0) {
-            return (
-              <MypageOrderList
-                key={order.order_number}
-                order={order}
-              ></MypageOrderList>
-            );
+            return <MypageOrderList key={order.order_number} order={order}></MypageOrderList>;
           }
         })}
       </MyPageOrderBox>
@@ -35,7 +30,7 @@ const MyPageOrderLayout = styled.section`
   padding: 10px;
   border-radius: 10px;
 
-  background-color: var(--sub-color);
+  background-color: var(--sub-background-color);
   &::-webkit-scrollbar {
     display: none;
   }

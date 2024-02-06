@@ -36,7 +36,7 @@ const SearchWrap = styled.form`
   max-width: 700px;
   min-width: 200px;
   height: 46px;
-  border: 2px solid var(--main-color);
+  border: 2px solid var(--point-color);
   border-radius: 50px;
   padding: 0 18px 0 22px;
   color: var(--sub-font-color);

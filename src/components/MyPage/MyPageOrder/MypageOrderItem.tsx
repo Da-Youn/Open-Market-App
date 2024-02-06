@@ -9,11 +9,7 @@ export interface MypageOrderItemProps {
   deliveryStatus: string | undefined;
 }
 
-const MypageOrderItem = ({
-  item,
-  quantity,
-  deliveryStatus,
-}: MypageOrderItemProps) => {
+const MypageOrderItem = ({ item, quantity, deliveryStatus }: MypageOrderItemProps) => {
   return (
     <MypageOrderItemLayout>
       <ItemDeliveryStatus>구매 확정</ItemDeliveryStatus>
@@ -102,11 +98,11 @@ const ItemButtonBox = styled.div`
     height: 35px;
   }
   button:first-child {
-    color: var(--main-color);
+    color: var(--point-color);
     background-color: var(--hover-color);
   }
   button:last-child {
-    background-color: var(--sub-color);
+    background-color: var(--sub-background-color);
   }
 `;
 
